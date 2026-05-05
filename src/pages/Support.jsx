@@ -1,0 +1,140 @@
+import React from 'react';
+
+const DRIVERS_LIST = [
+  { 
+    id: 1, name: "H58 Receipt Printer", image: "/h58bt.png", 
+    desc: "Windows Driver, Linux Driver and SDK Kit", 
+    links: [
+      { label: "Windows Driver", url: "https://www.atpos.in/wp-content/uploads/2023/03/Atpos-H58-Driver-IE-Tool-for-CSP.zip" },
+      { label: "Tools & SDK Kit", url: "https://www.atpos.in/wp-content/uploads/2021/04/Linux-SDK-ToolsManuals.zip" }
+    ] 
+  },
+  { 
+    id: 2, name: "MD80 Label | HL450 Receipt Printer", image: "/hl450.png", 
+    desc: "Windows Driver, Linux Driver and SDK Kit", 
+    links: [
+      { label: "Windows Driver", url: "https://www.atpos.in/wp-content/uploads/2025/03/Atpos-MD80-Drivers.zip" },
+      { label: "Tools & SDK Kit", url: "https://www.atpos.in/wp-content/uploads/2021/04/Linux-SDK-ToolsManuals.zip" }
+    ] 
+  },
+  { 
+    id: 3, name: "M80 Receipt Printer", image: "/m10.jpg", 
+    desc: "Windows Driver, Linux Driver and SDK Kit", 
+    links: [
+      { label: "Windows Driver", url: "https://www.atpos.in/wp-content/uploads/2024/11/ATPOS-PrintDriver-AT345-Series.zip" },
+      { label: "Tools & SDK Kit", url: "https://www.atpos.in/wp-content/uploads/2024/11/Atpos-AT345-series-ReceiptPrinterFiles.zip" }
+    ] 
+  },
+  { 
+    id: 4, name: "HL300 / HL58 Receipt Printer", image: "/hl300.jpg", 
+    desc: "Windows Driver, Linux Driver and SDK Kit", 
+    links: [
+      { label: "Windows Driver", url: "https://www.atpos.in/wp-content/uploads/2021/01/AtPOS-80-Series.zip" },
+      { label: "Tools & SDK Kit", url: "https://www.atpos.in/wp-content/uploads/2021/04/Linux-SDK-ToolsManuals.zip" }
+    ] 
+  },
+  { 
+    id: 5, name: "AT-490B Label Receipt Printer", image: "/at490b.jpg", 
+    desc: "Windows Driver, Linux Driver and SDK Kit", 
+    links: [
+      { label: "Windows Driver", url: "https://www.atpos.in/wp-content/uploads/2024/12/490B-4barcode.driver.2024.07.26.1.zip" },
+      { label: "Tools & SDK Kit", url: "https://www.atpos.in/wp-content/uploads/2021/04/Linux-SDK-ToolsManuals.zip" }
+    ] 
+  },
+  { 
+    id: 6, name: "HQ450L Label Printer", image: "/hq450l.jpg", 
+    desc: "Windows Driver, Windows Diabel Software", 
+    links: [
+      { label: "Windows Driver", url: "https://www.atpos.in/wp-content/uploads/2024/12/Atpos-Label-Printer-E58-HQ450L-Driver-Setup.zip" },
+      { label: "Software", url: "https://apps.microsoft.com/detail/9pmtsg6f98jc?hl=en-US&gl=US" }
+    ] 
+  },
+  { 
+    id: 7, name: "AT-301/302/402 Receipt Printer", image: "/at302.jpg", 
+    desc: "Windows Driver, MAC OS, Linux Driver and Tool Kit", 
+    links: [
+      { label: "Windows Driver", url: "https://firebasestorage.googleapis.com/v0/b/volcora-products.appspot.com/o/V-WRP-A1%20%7C%20V-WLRP-A1%20Series%20Printer%2FDrivers%2FWindows%20Driver.zip?alt=media&token=f7726e70-9537-4d68-ae9e-039625acb2b8" },
+      { label: "SDK, Tools & MAC OS", url: "https://www.atpos.in/wp-content/uploads/2024/11/Atpos-AT345-series-ReceiptPrinterFiles.zip" }
+    ] 
+  },
+  { 
+    id: 8, name: "AT-502/507 Receipt Printer", image: "/at502.jpg", 
+    desc: "Windows Driver, MAC OS, Linux Driver and Tool Kit", 
+    links: [
+      { label: "Windows Driver", url: "https://firebasestorage.googleapis.com/v0/b/volcora-products.appspot.com/o/V-WRP-A1%20%7C%20V-WLRP-A1%20Series%20Printer%2FDrivers%2FWindows%20Driver.zip?alt=media&token=f7726e70-9537-4d68-ae9e-039625acb2b8" },
+      { label: "SDK, Tools & MAC OS", url: "https://www.atpos.in/wp-content/uploads/2024/11/Atpos-AT345-series-ReceiptPrinterFiles.zip" }
+    ] 
+  },
+  { 
+    id: 9, name: "AT-506/406 Receipt Printer", image: "/at506.jpg", 
+    desc: "Windows Driver, MAC OS, Linux Driver and Tool Kit", 
+    links: [
+      { label: "Windows Driver", url: "https://firebasestorage.googleapis.com/v0/b/volcora-products.appspot.com/o/V-WRP-A1%20%7C%20V-WLRP-A1%20Series%20Printer%2FDrivers%2FWindows%20Driver.zip?alt=media&token=f7726e70-9537-4d68-ae9e-039625acb2b8" },
+      { label: "SDK, Tools & MAC OS", url: "https://www.atpos.in/wp-content/uploads/2024/11/Atpos-AT345-series-ReceiptPrinterFiles.zip" }
+    ] 
+  },
+  { 
+    id: 10, name: "E58 Label Printer", image: "/e58.jpg", 
+    desc: "Windows Driver & EM Label Software", 
+    links: [
+      { label: "Windows Driver & Software", url: "https://www.atpos.in/wp-content/uploads/2024/12/Atpos-Label-Printer-E58-HQ450L-Driver-Setup.zip" },
+      { label: "Android App", url: "https://drive.google.com/file/d/1iFn-nXUETwI_poZsiAQQ75w98ywE3fFZ/view?usp=sharing" }
+    ] 
+  },
+  { 
+    id: 11, name: "AT-602 Label Printer", image: "/at602.jpg", 
+    desc: "Windows Driver & EM Label Software", 
+    links: [
+      { label: "Windows Driver & Software", url: "https://www.atpos.in/wp-content/uploads/2024/02/Atpos-AT-602-Windows-Driver-for-Label-and-Receipt-Printing-2023.zip" }
+    ] 
+  },
+  { 
+    id: 12, name: "Atpos TT426B Label Printer", image: "/tt426b.jpg", 
+    desc: "Windows Driver & EM Label Software", 
+    links: [
+      { label: "Windows Driver", url: "https://drive.google.com/file/d/1gfOiLKf3pIsCFBz8EBmJ56irB9rCIhMJ/view?usp=sharing" },
+      { label: "4Barcode Version", url: "https://d94r2itylgwnp.cloudfront.net/Drivers/2024/2024.3/4BARCODE_2024.3.exe" }
+    ] 
+  },
+];
+
+const Support = () => {
+  return (
+    <div className="w-full bg-white font-sans antialiased text-slate-900">
+      <div className="py-8 text-center border-b border-gray-100">
+        <h1 className="text-2xl font-bold uppercase tracking-[0.2em] text-slate-800">Drivers</h1>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-20 gap-x-12">
+          {DRIVERS_LIST.map((item) => (
+            <div key={item.id} className="flex flex-col items-center text-center">
+              <div className="h-52 w-full flex items-center justify-center mb-6">
+                <img src={item.image} alt={item.name} className="max-h-full object-contain" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-[14px] font-bold text-slate-900 leading-tight">Drivers For {item.name}</h3>
+                <p className="text-[10px] text-gray-500 uppercase font-medium">Download {item.desc}</p>
+                <div className="pt-4 flex flex-col items-center gap-2">
+                  {item.links.map((link, idx) => (
+                    <a 
+                      key={idx}
+                      href={link.url}
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="bg-[#0073B7] text-white text-[10px] font-bold py-2 px-6 rounded-md uppercase tracking-wider hover:bg-black transition-all flex items-center gap-2 no-underline"
+                    >
+                      {link.label} <span className="text-[12px]">›</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Support;
