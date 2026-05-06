@@ -14,7 +14,7 @@ const Navbar = () => {
         
         {/* Logo */}
         <Link to="/" className="flex items-center cursor-pointer">
-          <img src="/logo.png" alt="Logo" className="h-12 md:h-16 w-auto object-contain" />
+          <img src="src/assets/logoo.png" alt="Logo" className="h-6 md:h-12 w-auto object-contain" />
         </Link>
 
         {/* Navigation Links */}
