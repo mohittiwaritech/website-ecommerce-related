@@ -4,11 +4,11 @@ const Categories = () => {
   const categoryData = [
     // '/assets/' se shuru karein kyunki images ab public folder mein hain
     { id: 1, name: 'RECEIPT PRINTER', image: '/assets/Thermal.jpg'},
-    { id: 2, name: 'LABEL PRINTER', image: '/assets/Thermal.jpg' },
+    { id: 2, name: 'LABEL PRINTER', image: '/assets/barcode.webp' },
     { id: 3, name: 'BARCODE SCANNER', image: '/assets/scanner.jpg' },
     { id: 4, name: 'MOBILE PRINTER', image: '/assets/Receipt Printer.jpg' },
     { id: 5, name: 'RECEIPT PAPER ROLL', image: '/assets/receipt-paper.jpg' },
-    { id: 6, name: 'POS SYSTEM', image: '/assets/receipt-paper.jpg' },
+    { id: 6, name: 'POS SYSTEM', image: '/assets/POS SYSTEM.avif' },
     { id: 7, name: 'CASH BOX & ACCESSORIES', image: '/assets/cashbox.jpg' },  
   ];
 
