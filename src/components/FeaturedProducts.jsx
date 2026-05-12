@@ -8,7 +8,7 @@ const FeaturedProducts = () => {
       name: 'Atpos MD80 80mm 3-Inch Mobile Label Receipt Printer (Dual Mode) | USB+BT',
       oldPrice: '₹4,950.00',
       price: '₹4,899.00',
-      image: 'src/assets/md80.webp', // Public folder mein image daal dena
+      image: '/assets/md80.webp', // Sabse pehle '/' lagaya aur src hata diya
       buttonText: 'ADD TO BASKET'
     },
     {
@@ -17,7 +17,7 @@ const FeaturedProducts = () => {
       name: 'Atpos M80 80mm Portable Bluetooth Thermal Printer | Wireless Printing | 3 Inch',
       oldPrice: '₹4,400.00',
       price: '₹3,869.00',
-      image: 'src/assets/m80.JPG',
+      image: '/assets/m80.jpg', // Extension small 'jpg' rakha hai as per standard
       buttonText: 'ADD TO BASKET'
     },
     {
@@ -26,7 +26,7 @@ const FeaturedProducts = () => {
       name: 'Atpos HQ450L 4 Inch (108mm) Thermal Barcode Shipping Label Sticker Printer | USB+Bluetooth Interface',
       oldPrice: '₹8,990.00',
       price: '₹7,290.00',
-      image: 'src/assets/450.webp',
+      image: '/assets/450.webp',
       buttonText: 'ADD TO BASKET'
     },
     {
@@ -35,7 +35,8 @@ const FeaturedProducts = () => {
       name: 'Atpos AT-402 80mm 3 Inch Thermal Receipt Printer (Bluetooth + USB ) | Auto Cutter',
       oldPrice: '₹6,500.00',
       price: '₹5,199.00',
-      image: 'src/assets/receipt printer 402.JPG',
+      // Space wala issue: Check karein folder mein file ka naam exact yahi ho
+      image: '/assets/receipt printer 402.jpg', 
       buttonText: 'SELECT OPTIONS'
     }
   ];

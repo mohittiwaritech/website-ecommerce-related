@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Ye zaroori hai
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
@@ -14,7 +14,13 @@ const Navbar = () => {
         
         {/* Logo */}
         <Link to="/" className="flex items-center cursor-pointer">
-          <img src="src/assets/logoo.png" alt="Logo" className="h-6 md:h-12 w-auto object-contain" />
+          {/* PATH FIXED: 'src/assets/logoo.png' ko badal kar '/assets/logoo.png' kiya gaya hai */}
+          <img 
+            src="/assets/logoo.png" 
+            alt="Logo" 
+            className="h-6 md:h-12 w-auto object-contain" 
+            onError={(e) => { e.target.src = "https://via.placeholder.com/150x50?text=Logo"; }}
+          />
         </Link>
 
         {/* Navigation Links */}
@@ -36,8 +42,6 @@ const Navbar = () => {
           </Link>
         </div>
       </div>
-
-      
     </header>
   );
 };

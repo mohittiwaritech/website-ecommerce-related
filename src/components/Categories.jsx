@@ -2,14 +2,14 @@ import React from 'react';
 
 const Categories = () => {
   const categoryData = [
-    { id: 1, name: 'RECEIPT PRINTER', image: 'src/assets/Thermal.jpg'},
-    { id: 2, name: 'LABEL PRINTER', image: 'src/assets/Thermal.jpg' },
-    { id: 3, name: 'BARCODE SCANNER', image: 'src/assets/scanner.jpg' },
-    { id: 4, name: 'MOBILE PRINTER', image: '/src/assets/Receipt Printer.jpg' },
-    { id: 5, name: 'RECEIPT PAPER ROLL', image: '/src/assets/receipt-paper.jpg' },
-    { id: 6, name: 'LABEL STICKER ROLL', image: '/src/assets/labelrolll.jpg' },
-    { id: 7, name: 'CASH BOX & ACCESSORIES', image: '/src/assets/cashbox.jpg' },
-    { id: 8, name: 'BARCODE RIBBON', image: 'src/assets/Ribbon.jpg' },
+    // '/assets/' se shuru karein kyunki images ab public folder mein hain
+    { id: 1, name: 'RECEIPT PRINTER', image: '/assets/Thermal.jpg'},
+    { id: 2, name: 'LABEL PRINTER', image: '/assets/Thermal.jpg' },
+    { id: 3, name: 'BARCODE SCANNER', image: '/assets/scanner.jpg' },
+    { id: 4, name: 'MOBILE PRINTER', image: '/assets/Receipt Printer.jpg' },
+    { id: 5, name: 'RECEIPT PAPER ROLL', image: '/assets/receipt-paper.jpg' },
+    { id: 6, name: 'POS SYSTEM', image: '/assets/receipt-paper.jpg' },
+    { id: 7, name: 'CASH BOX & ACCESSORIES', image: '/assets/cashbox.jpg' },  
   ];
 
   return (
@@ -34,6 +34,7 @@ const Categories = () => {
                   src={cat.image} 
                   alt={cat.name} 
                   className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
+                  // Agar image path galat ho toh placeholder dikhega
                   onError={(e) => { e.target.src = "https://via.placeholder.com/200?text=Category"; }}
                 />
               </div>

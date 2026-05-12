@@ -6,21 +6,24 @@ const HeroSlider = () => {
   const slides = [
     {
       id: 1,
-      image: "src/assets/h58001.png", 
+      // PATH FIXED: 'src/assets' ki jagah direct '/assets'
+      image: "/assets/h58001.png", 
       title: 'Fast, tough & easy to use receipt printer.',
       description: 'Small thermal printers packed with features to enable consistent, high-quality 2-inch wide receipt printing.',
       bgColor: 'bg-[#EAEAEA]'
     },
     {
       id: 2,
-      image: "src/assets/500sm-min.png",
+      // PATH FIXED: Extension agar .png hai toh code mein bhi wahi rakhein
+      image: "/assets/500sm-min.png",
       title: 'High Speed Barcode Label Printer.',
       description: 'Reliable and durable label printing solutions for your business needs.',
       bgColor: 'bg-[#F5F5F5]'
     },
     {
       id: 3,
-      image: "src/assets/atpos-at-506-photoroom.png", // Aap yahan teesri image ka naam badal sakte hain
+      // PATH FIXED: Case sensitivity ka dhyan rakhte hue exact naam likhein
+      image: "/assets/atpos-at-506-Photoroom.png", 
       title: 'Wireless Mobile Bluetooth Printer',
       description: 'Print receipts on the go with our portable and long-lasting battery-powered printers.',
       bgColor: 'bg-[#F0F4F8]'
@@ -61,6 +64,7 @@ const HeroSlider = () => {
             src={slides[currentSlide].image} 
             alt="Printer" 
             className="max-w-xs md:max-w-sm drop-shadow-2xl object-contain"
+            // Agar image load nahi hui toh placeholder dikhega
             onError={(e) => { e.target.src = "https://via.placeholder.com/400x300?text=BillingZone+Printer"; }}
           />
         </div>
