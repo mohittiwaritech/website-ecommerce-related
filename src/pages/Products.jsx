@@ -21,7 +21,7 @@ const allProducts = [
 ];
 
 const categoriesList = ['Label Printer', 'Mobile Printer', 'POS System', 'Printers', 'Receipt Printer'];
-
+  
 function Products() {
   const [products, setProducts] = useState(allProducts);
   const [searchQuery, setSearchQuery] = useState('');
