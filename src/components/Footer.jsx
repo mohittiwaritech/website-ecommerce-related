@@ -35,10 +35,8 @@ const Footer = () => {
               Services
             </h4>
             <ul className="text-[13px] space-y-3">
-              <li><a href="#" className="hover:text-blue-400 hover:translate-x-1 transition-all inline-block">About Company</a></li>
-              <li><a href="#" className="hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Terms & Conditions</a></li>
-              <li><a href="#" className="hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Warranty Policy</a></li>
+              <li><a href="#" className="hover:text-blue-400 hover:translate-x-1 transition-all inline-block">SOFTWARE</a></li>
+              <li><a href="#" className="hover:text-blue-400 hover:translate-x-1 transition-all inline-block">HARDWARE</a></li>
             </ul>
           </div>
 
@@ -49,9 +47,6 @@ const Footer = () => {
             </h4>
             <ul className="text-[13px] space-y-3">
               <li><a href="#" className="hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Printer Drivers & Manuals</a></li>
-              <li><a href="#" className="hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Submit Technical Ticket</a></li>
-              <li><a href="#" className="hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Remote Setup Assistance</a></li>
-              <li><a href="#" className="hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Order Tracking</a></li>
             </ul>
           </div>
 

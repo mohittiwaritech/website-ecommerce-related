@@ -2,7 +2,7 @@ import React from 'react';
 
 const DRIVERS_LIST = [
   { 
-    id: 1, name: "H58 Receipt Printer", image: "/assets/h58bt.png", 
+    id: 1, name: "H58 Receipt Printer", image: "/assets/51JGHxjz28L._SL1200_.jpg", 
     desc: "Windows Driver, Linux Driver and SDK Kit", 
     links: [
       { label: "Windows Driver", url: "https://www.atpos.in/wp-content/uploads/2023/03/Atpos-H58-Driver-IE-Tool-for-CSP.zip" },
@@ -10,7 +10,7 @@ const DRIVERS_LIST = [
     ] 
   },
   { 
-    id: 2, name: "MD80 Label | HL450 Receipt Printer", image: "/assets/hl450.png", 
+    id: 2, name: "MD80 Label | HL450 Receipt Printer", image: "/assets/HL450.jpg", 
     desc: "Windows Driver, Linux Driver and SDK Kit", 
     links: [
       { label: "Windows Driver", url: "https://www.atpos.in/wp-content/uploads/2025/03/Atpos-MD80-Drivers.zip" },
@@ -26,21 +26,14 @@ const DRIVERS_LIST = [
     ] 
   },
   { 
-    id: 4, name: "HL300 / HL58 Receipt Printer", image: "/assets/Receipt Printer.jpg", 
+    id: 4, name: "HL300 / HL58 Receipt Printer", image: "/assets/Atpos-HL300s.jpg", 
     desc: "Windows Driver, Linux Driver and SDK Kit", 
     links: [
       { label: "Windows Driver", url: "https://www.atpos.in/wp-content/uploads/2021/01/AtPOS-80-Series.zip" },
       { label: "Tools & SDK Kit", url: "https://www.atpos.in/wp-content/uploads/2021/04/Linux-SDK-ToolsManuals.zip" }
     ] 
   },
-  { 
-    id: 5, name: "AT-490B Label Receipt Printer", image: "/assets/at490b.jpg", 
-    desc: "Windows Driver, Linux Driver and SDK Kit", 
-    links: [
-      { label: "Windows Driver", url: "https://www.atpos.in/wp-content/uploads/2024/12/490B-4barcode.driver.2024.07.26.1.zip" },
-      { label: "Tools & SDK Kit", url: "https://www.atpos.in/wp-content/uploads/2021/04/Linux-SDK-ToolsManuals.zip" }
-    ] 
-  },
+  
   { 
     id: 6, name: "HQ450L Label Printer", image: "/assets/450.webp", 
     desc: "Windows Driver, Windows Diabel Software", 
@@ -50,31 +43,17 @@ const DRIVERS_LIST = [
     ] 
   },
   { 
-    id: 7, name: "AT-301/302/402 Receipt Printer", image: "/assets/Receipt Printer.jpg", 
+    id: 7, name: "AT-301/302/402 Receipt Printer", image: "/assets/302.jpg", 
     desc: "Windows Driver, MAC OS, Linux Driver and Tool Kit", 
     links: [
       { label: "Windows Driver", url: "https://firebasestorage.googleapis.com/v0/b/volcora-products.appspot.com/o/V-WRP-A1%20%7C%20V-WLRP-A1%20Series%20Printer%2FDrivers%2FWindows%20Driver.zip?alt=media&token=f7726e70-9537-4d68-ae9e-039625acb2b8" },
       { label: "SDK, Tools & MAC OS", url: "https://www.atpos.in/wp-content/uploads/2024/11/Atpos-AT345-series-ReceiptPrinterFiles.zip" }
     ] 
   },
+  
+  
   { 
-    id: 8, name: "AT-502/507 Receipt Printer", image: "/assets/atpos-at-506-Photoroom.png", 
-    desc: "Windows Driver, MAC OS, Linux Driver and Tool Kit", 
-    links: [
-      { label: "Windows Driver", url: "https://firebasestorage.googleapis.com/v0/b/volcora-products.appspot.com/o/V-WRP-A1%20%7C%20V-WLRP-A1%20Series%20Printer%2FDrivers%2FWindows%20Driver.zip?alt=media&token=f7726e70-9537-4d68-ae9e-039625acb2b8" },
-      { label: "SDK, Tools & MAC OS", url: "https://www.atpos.in/wp-content/uploads/2024/11/Atpos-AT345-series-ReceiptPrinterFiles.zip" }
-    ] 
-  },
-  { 
-    id: 9, name: "AT-506/406 Receipt Printer", image: "/assets/atpos-at-506-Photoroom.png", 
-    desc: "Windows Driver, MAC OS, Linux Driver and Tool Kit", 
-    links: [
-      { label: "Windows Driver", url: "https://firebasestorage.googleapis.com/v0/b/volcora-products.appspot.com/o/V-WRP-A1%20%7C%20V-WLRP-A1%20Series%20Printer%2FDrivers%2FWindows%20Driver.zip?alt=media&token=f7726e70-9537-4d68-ae9e-039625acb2b8" },
-      { label: "SDK, Tools & MAC OS", url: "https://www.atpos.in/wp-content/uploads/2024/11/Atpos-AT345-series-ReceiptPrinterFiles.zip" }
-    ] 
-  },
-  { 
-    id: 10, name: "E58 Label Printer", image: "/assets/h58001.png", 
+    id: 10, name: "E58 Label Printer", image: "/assets/e58bt.webp", 
     desc: "Windows Driver & EM Label Software", 
     links: [
       { label: "Windows Driver & Software", url: "https://www.atpos.in/wp-content/uploads/2024/12/Atpos-Label-Printer-E58-HQ450L-Driver-Setup.zip" },
@@ -82,20 +61,13 @@ const DRIVERS_LIST = [
     ] 
   },
   { 
-    id: 11, name: "AT-602 Label Printer", image: "/assets/h58001.png", 
+    id: 11, name: "AT-602 Label Printer", image: "/assets/500sm-min.png", 
     desc: "Windows Driver & EM Label Software", 
     links: [
       { label: "Windows Driver & Software", url: "https://www.atpos.in/wp-content/uploads/2024/02/Atpos-AT-602-Windows-Driver-for-Label-and-Receipt-Printing-2023.zip" }
     ] 
   },
-  { 
-    id: 12, name: "Atpos TT426B Label Printer", image: "/assets/labelrolll.jpg", 
-    desc: "Windows Driver & EM Label Software", 
-    links: [
-      { label: "Windows Driver", url: "https://drive.google.com/file/d/1gfOiLKf3pIsCFBz8EBmJ56irB9rCIhMJ/view?usp=sharing" },
-      { label: "4Barcode Version", url: "https://d94r2itylgwnp.cloudfront.net/Drivers/2024/2024.3/4BARCODE_2024.3.exe" }
-    ] 
-  },
+  
 ];
 
 const Support = () => {
