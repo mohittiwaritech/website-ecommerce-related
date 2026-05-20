@@ -23,7 +23,7 @@ const Footer = () => {
               </p>
               <p className="flex items-center gap-3">
                 <span className="text-blue-500">✉️</span>
-                info@billingzone.in
+                sales@slantco.com
               </p>
               <p className="pt-2 text-gray-400">Mon - Sat : 10:00 AM - 07:00 PM</p>
             </div>

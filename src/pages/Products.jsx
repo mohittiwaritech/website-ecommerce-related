@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // PRODUCTS DATA
 const allProducts = [
@@ -97,18 +100,37 @@ const allProducts = [
   {
     id: '7',
     category: 'Receipt Printer',
-    interface: 'USB + Bluetooth',
+    interface: 'USB',
     tag: '80MM 3 INCH RECEIPT PRINTER',
     title:
-      'Atpos HL-300 80mm 3 Inch Thermal Receipt Printer | Auto Cutter',
+      'Atpos HL-300 80mm 3 Inch Thermal USB Receipt Printer | Auto Cutter',
     rating: 5,
+    
     price: 3990,
-    priceRange: '₹3,990.00 – ₹4,490.00',
+    priceRange: '₹3,990.00  ',
     image: '/assets/Atpos-HL300s.jpg',
     hoverImage: '/assets/HL3000.jpg',
     inStock: true,
-    btnType: 'SELECT OPTIONS',
+    btnType: 'ADD TO BASKET',
   },
+
+
+{
+    id: '20',
+    category: 'Receipt Printer',
+    interface: 'USB + Bluetooth',
+    tag: '80MM 3 INCH RECEIPT PRINTER',
+    title:
+      'Atpos HL-300 80mm 3 Inch Thermal (Usb + Bluetooth)  Receipt Printer | Auto Cutter',
+    rating: 5,
+    price: 3990,
+    priceRange: '₹4,490.00',
+    image: '/assets/Atpos-HL300s.jpg',
+    hoverImage: '/assets/HL3000.jpg',
+    inStock: true,
+    btnType: 'ADD TO BASKET',
+  },
+
 
   {
     id: '8',
@@ -119,12 +141,14 @@ const allProducts = [
       'Atpos AT-402 80mm 3 Inch Thermal Receipt Printer | Auto Cutter',
     rating: 5,
     price: 5199,
-    priceRange: '₹5,199.00 – ₹5,699.00',
+    priceRange: '₹5,199.00 ',
     image: '/assets/402.jpg',
     hoverImage: '/assets/receipt printer 402.jpg',
     inStock: true,
-    btnType: 'SELECT OPTIONS',
+    btnType: 'ADD TO BASKET',
   },
+
+
 
   {
     id: '9',
@@ -315,6 +339,49 @@ function Products() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedInterface, setSelectedInterface] = useState('');
   const [maxPrice, setMaxPrice] = useState(50000);
+  const { addToCart } = useCart();
+
+  const showSuccessToast = () => {
+
+  toast.success(
+
+    <div className="flex items-center gap-3">
+
+      <div className="text-3xl text-white">
+        ✓
+      </div>
+
+      <div>
+
+        <h4 className="font-bold text-sm uppercase">
+          PRODUCT ADDED
+        </h4>
+
+        <p className="text-xs">
+          Item successfully added to cart
+        </p>
+
+      </div>
+
+    </div>,
+
+    {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+
+      style: {
+        background: '#16a34a',
+        color: '#fff',
+        borderRadius: '10px',
+        padding: '12px',
+        minHeight: '70px',
+      }
+    }
+  );
+};
+  
 
   // PAGINATION
   const [currentPage, setCurrentPage] = useState(1);
@@ -595,17 +662,25 @@ function Products() {
                   </div>
 
                   {/* BUTTON */}
-                  <button
-                    className={`text-[11px] font-bold px-3 py-2 text-white w-full uppercase transition-colors rounded-sm ${
-                      product.inStock
-                        ? 'bg-[#0088cc] hover:bg-[#006699]'
-                        : 'bg-gray-400 cursor-not-allowed'
-                    }`}
-                  >
-                    {product.inStock
-                      ? product.btnType
-                      : 'Out of Stock'}
-                  </button>
+<button
+  onClick={() => {
+
+    addToCart(product);
+
+    showSuccessToast();
+
+  }}
+  disabled={!product.inStock}
+  className={`text-[11px] font-bold px-3 py-2 text-white w-full uppercase transition-colors rounded-sm ${
+    product.inStock
+      ? 'bg-[#0088cc] hover:bg-[#006699]'
+      : 'bg-gray-400 cursor-not-allowed'
+  }`}
+>
+  {product.inStock
+    ? product.btnType
+    : 'Out of Stock'}
+</button>
                 </div>
               </div>
             ))}

@@ -1,10 +1,11 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import './index.css';
+import { CartProvider } from './context/CartContext'; // Context import kiya
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App /> {/* Yahan Navbar nahi hona chahiye, sirf App hona chahiye */}
-  </React.StrictMode>,
-)
+  <CartProvider>
+    <App />
+  </CartProvider>
+);
