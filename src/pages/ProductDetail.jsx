@@ -8,7 +8,7 @@ const ProductDetails = () => {
   const navigate = useNavigate();
 
   // CART
-  const { addToCart } = useCart();
+  const { addToCart, loadingItemIds } = useCart();
 
   // PARAMS
   const { id } = useParams();
@@ -24,9 +24,6 @@ const ProductDetails = () => {
   );
 
   const [quantity, setQuantity] = useState(1);
-
-  // SUCCESS TOAST
-  const [added, setAdded] = useState(false);
 
   // EFFECT
   useEffect(() => {
@@ -63,35 +60,6 @@ const ProductDetails = () => {
   return (
 
     <div className="bg-white min-h-screen">
-
-      {/* SUCCESS TOAST */}
-      {added && (
-
-        <div className="fixed top-24 right-6 bg-green-600 text-white px-6 py-4 rounded-xl shadow-2xl z-[9999] animate-bounce flex items-center gap-3">
-
-          <span className="text-2xl">
-            ✓
-          </span>
-
-          <div>
-
-            <p className="font-bold text-sm uppercase tracking-wider">
-
-              Product Added
-
-            </p>
-
-            <p className="text-xs opacity-90">
-
-              Item successfully added to cart
-
-            </p>
-
-          </div>
-
-        </div>
-
-      )}
 
       <div className="max-w-7xl mx-auto px-4 py-10">
 
@@ -250,65 +218,72 @@ const ProductDetails = () => {
 
               {/* QUANTITY */}
               <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden h-14 bg-gray-50">
+                {(() => {
+                  const isItemLoading = loadingItemIds.includes(String(product.id));
+                  return (
+                    <>
+                      <button
+                        onClick={() =>
+                          setQuantity((q) =>
+                            Math.max(1, q - 1)
+                          )
+                        }
+                        disabled={isItemLoading || quantity <= 1}
+                        className="px-5 hover:bg-gray-200 font-bold transition-colors disabled:opacity-40"
+                      >
+                        -
+                      </button>
 
-                <button
-                  onClick={() =>
-                    setQuantity((q) =>
-                      Math.max(1, q - 1)
-                    )
-                  }
-                  className="px-5 hover:bg-gray-200 font-bold transition-colors"
-                >
-                  -
-                </button>
+                      <span className="w-12 text-center font-bold text-lg select-none">
+                        {quantity}
+                      </span>
 
-                <span className="w-12 text-center font-bold text-lg">
-                  {quantity}
-                </span>
-
-                <button
-                  onClick={() =>
-                    setQuantity((q) => q + 1)
-                  }
-                  className="px-5 hover:bg-gray-200 font-bold transition-colors"
-                >
-                  +
-                </button>
-
+                      <button
+                        onClick={() =>
+                          setQuantity((q) => q + 1)
+                        }
+                        disabled={isItemLoading}
+                        className="px-5 hover:bg-gray-200 font-bold transition-colors disabled:opacity-40"
+                      >
+                        +
+                      </button>
+                    </>
+                  );
+                })()}
               </div>
 
               {/* ADD TO CART BUTTON */}
-              <button
-                onClick={() => {
-
-                  // ADD PRODUCT
-                  addToCart({
-  ...product,
-
-  image: product.mainImage,
-
-  quantity,
-});
-
-                  // SHOW SUCCESS
-                  setAdded(true);
-
-                  // REDIRECT
-                  setTimeout(() => {
-
-                    setAdded(false);
-
-                    navigate('/cart');
-
-                  }, 1500);
-
-                }}
-                className="bg-[#0088cc] hover:bg-[#006699] text-white px-12 py-4 rounded-xl font-bold uppercase tracking-widest transition-all duration-300 shadow-xl flex-1 hover:scale-105"
-              >
-
-                🛒 Add To Basket
-
-              </button>
+              {(() => {
+                const isItemLoading = loadingItemIds.includes(String(product.id));
+                return (
+                  <button
+                    onClick={async () => {
+                      try {
+                        await addToCart({
+                          ...product,
+                          image: product.mainImage,
+                          quantity,
+                        });
+                      } catch (error) {
+                        console.error("Error adding to cart:", error);
+                      }
+                    }}
+                    disabled={isItemLoading}
+                    className={`bg-[#0088cc] hover:bg-[#006699] text-white px-12 py-4 rounded-xl font-bold uppercase tracking-widest transition-all duration-300 shadow-xl flex-1 flex items-center justify-center gap-2.5 hover:scale-105 ${
+                      isItemLoading ? 'opacity-85 cursor-wait hover:scale-100' : ''
+                    }`}
+                  >
+                    {isItemLoading ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span>Adding to Basket...</span>
+                      </>
+                    ) : (
+                      <>🛒 Add To Basket</>
+                    )}
+                  </button>
+                );
+              })()}
 
             </div>
 

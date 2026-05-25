@@ -339,7 +339,7 @@ function Products() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedInterface, setSelectedInterface] = useState('');
   const [maxPrice, setMaxPrice] = useState(50000);
-  const { addToCart } = useCart();
+  const { addToCart, loadingItemIds } = useCart();
 
   const showSuccessToast = () => {
 
@@ -662,25 +662,31 @@ function Products() {
                   </div>
 
                   {/* BUTTON */}
-<button
-  onClick={() => {
-
-    addToCart(product);
-
-    showSuccessToast();
-
-  }}
-  disabled={!product.inStock}
-  className={`text-[11px] font-bold px-3 py-2 text-white w-full uppercase transition-colors rounded-sm ${
-    product.inStock
-      ? 'bg-[#0088cc] hover:bg-[#006699]'
-      : 'bg-gray-400 cursor-not-allowed'
-  }`}
->
-  {product.inStock
-    ? product.btnType
-    : 'Out of Stock'}
-</button>
+                  {(() => {
+                    const isItemLoading = loadingItemIds.includes(String(product.id));
+                    return (
+                      <button
+                        onClick={() => addToCart(product)}
+                        disabled={!product.inStock || isItemLoading}
+                        className={`text-[11px] font-bold px-3 py-2 text-white w-full uppercase transition-all rounded-sm flex items-center justify-center gap-1.5 min-h-[34px] ${
+                          product.inStock
+                            ? 'bg-[#0088cc] hover:bg-[#006699]'
+                            : 'bg-gray-400 cursor-not-allowed'
+                        } ${isItemLoading ? 'opacity-85 cursor-wait' : ''}`}
+                      >
+                        {isItemLoading ? (
+                          <>
+                            <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                            <span>Adding...</span>
+                          </>
+                        ) : product.inStock ? (
+                          product.btnType
+                        ) : (
+                          'Out of Stock'
+                        )}
+                      </button>
+                    );
+                  })()}
                 </div>
               </div>
             ))}

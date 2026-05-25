@@ -8,8 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { CheckCircle } from 'lucide-react';
 
 const FeaturedProducts = () => {
-
-  const { addToCart } = useCart();
+  const { addToCart, loadingItemIds } = useCart();
 
   const products = [
     {
@@ -61,58 +60,14 @@ const FeaturedProducts = () => {
     }
   ];
 
-  // ADD TO CART + TOAST
-  const handleAddToCart = (product) => {
-
-    addToCart(product);
-
-    toast.success(
-
-      <div className="flex items-center gap-3">
-
-        {/* ICON */}
-        <div>
-
-          <CheckCircle
-            size={34}
-            className="text-white"
-          />
-
-        </div>
-
-        {/* TEXT */}
-        <div>
-
-          <h4 className="font-bold text-sm uppercase tracking-wide">
-            PRODUCT ADDED
-          </h4>
-
-          <p className="text-xs opacity-90">
-            Item successfully added to cart
-          </p>
-
-        </div>
-
-      </div>,
-
-      {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeButton: false,
-        pauseOnHover: true,
-        draggable: true,
-
-        style: {
-          background: '#16a34a',
-          color: '#ffffff',
-          borderRadius: '12px',
-          minHeight: '75px',
-          padding: '12px 14px',
-          boxShadow: '0 10px 25px rgba(0,0,0,0.15)',
-        }
-      }
-    );
+  // ADD TO CART WITH ASYNC
+  const handleAddToCart = async (product) => {
+    try {
+      await addToCart(product);
+      // Drawer slides out automatically on success to provide modern visual confirmation.
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
   };
 
   return (
@@ -192,14 +147,27 @@ const FeaturedProducts = () => {
               </div>
 
               {/* ADD TO CART BUTTON */}
-              <button
-                onClick={() =>
-                  handleAddToCart(product)
-                }
-                className="mt-auto w-full bg-[#0073B7] hover:bg-[#005f91] text-white font-bold py-3 px-4 rounded-md text-xs uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg"
-              >
-                {product.buttonText}
-              </button>
+              {(() => {
+                const isItemLoading = loadingItemIds.includes(String(product.id));
+                return (
+                  <button
+                    onClick={() => handleAddToCart(product)}
+                    disabled={isItemLoading}
+                    className={`mt-auto w-full bg-[#0073B7] hover:bg-[#005f91] text-white font-bold py-3 px-4 rounded-md text-xs uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-1.5 min-h-[42px] ${
+                      isItemLoading ? 'opacity-85 cursor-wait' : ''
+                    }`}
+                  >
+                    {isItemLoading ? (
+                      <>
+                        <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span>Adding...</span>
+                      </>
+                    ) : (
+                      product.buttonText
+                    )}
+                  </button>
+                );
+              })()}
 
             </div>
 

@@ -8,7 +8,8 @@ const Cart = () => {
     cart,
     updateQuantity,
     removeFromCart,
-    clearCart
+    clearCart,
+    loadingItemIds
   } = useCart();
 
   // TOTAL
@@ -113,14 +114,27 @@ const Cart = () => {
         </h1>
 
         {/* REMOVE ALL */}
-        <button
-          onClick={clearCart}
-          className="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded font-bold text-sm"
-        >
-
-          REMOVE ALL
-
-        </button>
+        {(() => {
+          const isClearing = loadingItemIds.includes('clear');
+          return (
+            <button
+              onClick={clearCart}
+              disabled={isClearing}
+              className={`bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded font-bold text-sm flex items-center gap-1.5 transition-all ${
+                isClearing ? 'opacity-80 cursor-wait' : ''
+              }`}
+            >
+              {isClearing ? (
+                <>
+                  <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>CLEARING...</span>
+                </>
+              ) : (
+                'REMOVE ALL'
+              )}
+            </button>
+          );
+        })()}
 
       </div>
 
@@ -165,123 +179,83 @@ const Cart = () => {
 
             <tbody>
 
-              {cart.map((item) => (
+              {cart.map((item) => {
+                const isItemLoading = loadingItemIds.includes(String(item.id));
+                return (
+                  <tr
+                    key={item.id}
+                    className={`border-b align-middle transition-opacity duration-300 ${
+                      isItemLoading ? 'opacity-50 pointer-events-none' : ''
+                    }`}
+                  >
+                    {/* PRODUCT */}
+                    <td className="py-4">
+                      <div className="flex items-center gap-4">
+                        {/* REMOVE */}
+                        <button
+                          onClick={() => removeFromCart(item.id)}
+                          disabled={isItemLoading}
+                          className="text-gray-400 hover:text-red-500 text-2xl disabled:opacity-40 disabled:cursor-not-allowed"
+                        >
+                          ×
+                        </button>
 
-                <tr
-                  key={item.id}
-                  className="border-b align-middle"
-                >
+                        {/* IMAGE */}
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="w-16 h-16 object-contain border rounded-md p-1 bg-white"
+                        />
 
-                  {/* PRODUCT */}
-                  <td className="py-4">
-
-                    <div className="flex items-center gap-4">
-
-                      {/* REMOVE */}
-                      <button
-                        onClick={() =>
-                          removeFromCart(item.id)
-                        }
-                        className="text-gray-400 hover:text-red-500 text-2xl"
-                      >
-                        ×
-                      </button>
-
-                      {/* IMAGE */}
-                      <img
-                        src={
-                          item.image ||
-                          item.hoverImage
-                        }
-                        alt={
-                          item.title ||
-                          item.name
-                        }
-                        className="w-16 h-16 object-contain border"
-                      />
-
-                      {/* TITLE */}
-                      <div>
-
-                        <p className="text-blue-600 text-sm leading-6 max-w-[250px]">
-
-                          {item.title ||
-                            item.name}
-
-                        </p>
-
+                        {/* TITLE */}
+                        <div>
+                          <p className="text-blue-600 text-sm leading-6 max-w-[250px]">
+                            {item.title}
+                          </p>
+                        </div>
                       </div>
+                    </td>
 
-                    </div>
+                    {/* PRICE */}
+                    <td className="py-4 font-semibold text-gray-700">
+                      ₹{item.price.toLocaleString('en-IN')}.00
+                    </td>
 
-                  </td>
+                    {/* QUANTITY */}
+                    <td className="py-4">
+                      <div className="flex items-center justify-center border w-24 mx-auto rounded bg-slate-50 overflow-hidden">
+                        {/* MINUS */}
+                        <button
+                          onClick={() => updateQuantity(item.id, -1)}
+                          disabled={isItemLoading || item.quantity <= 1}
+                          className="px-3 py-1 hover:bg-gray-200 text-slate-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                        >
+                          -
+                        </button>
 
-                  {/* PRICE */}
-                  <td className="py-4 font-semibold text-gray-700">
+                        {/* COUNT */}
+                        <span className="px-3 select-none font-bold text-slate-800 text-sm">
+                          {item.quantity}
+                        </span>
 
-                    ₹
-                    {item.price.toLocaleString(
-                      'en-IN'
-                    )}
+                        {/* PLUS */}
+                        <button
+                          onClick={() => updateQuantity(item.id, 1)}
+                          disabled={isItemLoading}
+                          className="px-3 py-1 hover:bg-gray-200 text-slate-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </td>
 
-                  </td>
-
-                  {/* QUANTITY */}
-                  <td className="py-4">
-
-                    <div className="flex items-center justify-center border w-24 mx-auto rounded">
-
-                      {/* MINUS */}
-                      <button
-                        onClick={() =>
-                          updateQuantity(
-                            item.id,
-                            -1
-                          )
-                        }
-                        className="px-3 py-1 hover:bg-gray-100"
-                      >
-                        -
-                      </button>
-
-                      {/* COUNT */}
-                      <span className="px-3">
-
-                        {item.quantity}
-
-                      </span>
-
-                      {/* PLUS */}
-                      <button
-                        onClick={() =>
-                          updateQuantity(
-                            item.id,
-                            1
-                          )
-                        }
-                        className="px-3 py-1 hover:bg-gray-100"
-                      >
-                        +
-                      </button>
-
-                    </div>
-
-                  </td>
-
-                  {/* SUBTOTAL */}
-                  <td className="py-4 text-right font-bold text-gray-800">
-
-                    ₹
-                    {(
-                      item.price *
-                      item.quantity
-                    ).toLocaleString('en-IN')}
-
-                  </td>
-
-                </tr>
-
-              ))}
+                    {/* SUBTOTAL */}
+                    <td className="py-4 text-right font-bold text-gray-800">
+                      ₹{(item.price * item.quantity).toLocaleString('en-IN')}.00
+                    </td>
+                  </tr>
+                );
+              })}
 
             </tbody>
 

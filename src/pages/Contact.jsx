@@ -12,7 +12,7 @@ const Contact = () => {
           <div className="space-y-4">
             <p><strong>📍 Address:</strong> C-56/22 Sector 62, Noida, UP 201309</p>
             <p><strong>📞 Phone:</strong> +91 9289024863</p>
-            <p><strong>✉️ Email:</strong> info@billingzone.in</p>
+            <p><strong>✉️ Email:</strong>sales@slantco.com</p>
           </div>
         </div>
         {/* Simple Form */}
