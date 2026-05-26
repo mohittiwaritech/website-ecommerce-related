@@ -1,6 +1,26 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { db } from '../firebase';
+import { collection, addDoc } from 'firebase/firestore';
+
+const TextField = ({ label, name, value, onChange, onBlur, error, type = "text" }) => (
+  <div>
+    <label className="block mb-1 text-sm font-medium">{label} *</label>
+    <input
+      type={type}
+      name={name}
+      value={value}
+      onChange={onChange}
+      onBlur={onBlur}
+      className={`w-full border p-2 text-sm rounded-lg focus:outline-none focus:border-[#006699] transition-all ${
+        error ? 'border-red-500 bg-red-50' : 'border-gray-300'
+      }`}
+    />
+    {error && <p className="text-red-500 text-xs mt-1 animate-pulse">{error}</p>}
+  </div>
+);
 
 const Checkout = () => {
 
@@ -40,6 +60,40 @@ const Checkout = () => {
   // ERRORS
   const [errors, setErrors] = useState({});
 
+  // SUBMISSION STATE
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('Online Payment');
+
+  const validateField = (name, value) => {
+    let errorMsg = '';
+    if (!value) {
+      const fieldNames = {
+        firstName: 'First Name',
+        lastName: 'Last Name',
+        address: 'Address',
+        city: 'City',
+        state: 'State',
+        zip: 'ZIP Code',
+        phone: 'Phone Number',
+        email: 'Email Address'
+      };
+      errorMsg = `${fieldNames[name] || name} is required`;
+    }
+    setErrors(prev => ({ ...prev, [name]: errorMsg }));
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      validateField(name, value);
+    }
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    validateField(name, value);
+  };
   // VALIDATION
   const validateForm = () => {
 
@@ -119,297 +173,92 @@ const Checkout = () => {
 
             {/* FIRST + LAST NAME */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-              {/* FIRST NAME */}
-              <div>
-
-                <label className="block mb-1 text-sm font-medium">
-
-                  First Name *
-
-                </label>
-
-                <input
-                  type="text"
-                  value={formData.firstName}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      firstName: e.target.value
-                    })
-                  }
-                  className="w-full border border-gray-300 p-2 text-sm rounded-lg focus:outline-none focus:border-[#006699]"
-                />
-
-                {errors.firstName && (
-
-                  <p className="text-red-500 text-xs mt-1">
-
-                    {errors.firstName}
-
-                  </p>
-
-                )}
-
-              </div>
-
-              {/* LAST NAME */}
-              <div>
-
-                <label className="block mb-1 text-sm font-medium">
-
-                  Last Name *
-
-                </label>
-
-                <input
-                  type="text"
-                  value={formData.lastName}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      lastName: e.target.value
-                    })
-                  }
-                  className="w-full border border-gray-300 p-2 text-sm rounded-lg focus:outline-none focus:border-[#006699]"
-                />
-
-                {errors.lastName && (
-
-                  <p className="text-red-500 text-xs mt-1">
-
-                    {errors.lastName}
-
-                  </p>
-
-                )}
-
-              </div>
-
-            </div>
-
-            {/* ADDRESS */}
-            <div>
-
-              <label className="block mb-1 text-sm font-medium">
-
-                Street Address *
-
-              </label>
-
-              <input
-                type="text"
-                value={formData.address}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    address: e.target.value
-                  })
-                }
-                className="w-full border border-gray-300 p-2 text-sm rounded-lg focus:outline-none focus:border-[#006699]"
+              <TextField
+                label="First Name"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.firstName}
               />
-
-              {errors.address && (
-
-                <p className="text-red-500 text-xs mt-1">
-
-                  {errors.address}
-
-                </p>
-
-              )}
-
-            </div>
-
-            {/* CITY */}
-            <div>
-
-              <label className="block mb-1 text-sm font-medium">
-
-                Town / City *
-
-              </label>
-
-              <input
-                type="text"
-                value={formData.city}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    city: e.target.value
-                  })
-                }
-                className="w-full border border-gray-300 p-2 text-sm rounded-lg focus:outline-none focus:border-[#006699]"
+              <TextField
+                label="Last Name"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.lastName}
               />
-
-              {errors.city && (
-
-                <p className="text-red-500 text-xs mt-1">
-
-                  {errors.city}
-
-                </p>
-
-              )}
-
             </div>
+
+            <TextField
+              label="Street Address"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors.address}
+            />
+
+            <TextField
+              label="Town / City"
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors.city}
+            />
 
             {/* STATE */}
             <div>
-
-              <label className="block mb-1 text-sm font-medium">
-
-                State *
-
-              </label>
-
+              <label className="block mb-1 text-sm font-medium">State *</label>
               <select
+                name="state"
                 value={formData.state}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    state: e.target.value
-                  })
-                }
-                className="w-full border border-gray-300 p-2 text-sm rounded-lg focus:outline-none focus:border-[#006699]"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className={`w-full border p-2 text-sm rounded-lg focus:outline-none focus:border-[#006699] transition-all ${
+                  errors.state ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                }`}
               >
-
-                <option value="">
-                  Select State
-                </option>
-
-                <option>
-                  Uttar Pradesh
-                </option>
-
-                <option>
-                  Delhi
-                </option>
-
-                <option>
-                  Haryana
-                </option>
-
-                <option>
-                  Maharashtra
-                </option>
-
-                <option>
-                  Telangana
-                </option>
-
+                <option value="">Select State</option>
+                <option>Uttar Pradesh</option>
+                <option>Delhi</option>
+                <option>Haryana</option>
+                <option>Maharashtra</option>
+                <option>Telangana</option>
               </select>
-
-              {errors.state && (
-
-                <p className="text-red-500 text-xs mt-1">
-
-                  {errors.state}
-
-                </p>
-
-              )}
-
+              {errors.state && <p className="text-red-500 text-xs mt-1 animate-pulse">{errors.state}</p>}
             </div>
 
-            {/* ZIP */}
-            <div>
+            <TextField
+              label="ZIP Code"
+              name="zip"
+              value={formData.zip}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors.zip}
+            />
 
-              <label className="block mb-1 text-sm font-medium">
+            <TextField
+              label="Phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors.phone}
+            />
 
-                ZIP Code *
+            <TextField
+              label="Email Address"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors.email}
+            />
 
-              </label>
-
-              <input
-                type="text"
-                value={formData.zip}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    zip: e.target.value
-                  })
-                }
-                className="w-full border border-gray-300 p-2 text-sm rounded-lg focus:outline-none focus:border-[#006699]"
-              />
-
-              {errors.zip && (
-
-                <p className="text-red-500 text-xs mt-1">
-
-                  {errors.zip}
-
-                </p>
-
-              )}
-
-            </div>
-
-            {/* PHONE */}
-            <div>
-
-              <label className="block mb-1 text-sm font-medium">
-
-                Phone *
-
-              </label>
-
-              <input
-                type="text"
-                value={formData.phone}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    phone: e.target.value
-                  })
-                }
-                className="w-full border border-gray-300 p-2 text-sm rounded-lg focus:outline-none focus:border-[#006699]"
-              />
-
-              {errors.phone && (
-
-                <p className="text-red-500 text-xs mt-1">
-
-                  {errors.phone}
-
-                </p>
-
-              )}
-
-            </div>
-
-            {/* EMAIL */}
-            <div>
-
-              <label className="block mb-1 text-sm font-medium">
-
-                Email Address *
-
-              </label>
-
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    email: e.target.value
-                  })
-                }
-                className="w-full border border-gray-300 p-2 text-sm rounded-lg focus:outline-none focus:border-[#006699]"
-              />
-
-              {errors.email && (
-
-                <p className="text-red-500 text-xs mt-1">
-
-                  {errors.email}
-
-                </p>
-
-              )}
-
-            </div>
 
           </div>
 
@@ -554,7 +403,9 @@ const Checkout = () => {
               <input
                 type="radio"
                 name="payment"
-                defaultChecked
+                value="Online Payment"
+                checked={paymentMethod === 'Online Payment'}
+                onChange={(e) => setPaymentMethod(e.target.value)}
                 className="mt-1 accent-[#006699]"
               />
 
@@ -581,6 +432,9 @@ const Checkout = () => {
               <input
                 type="radio"
                 name="payment"
+                value="Cash on Delivery"
+                checked={paymentMethod === 'Cash on Delivery'}
+                onChange={(e) => setPaymentMethod(e.target.value)}
                 className="mt-1 accent-[#006699]"
               />
 
@@ -615,32 +469,57 @@ const Checkout = () => {
 
           {/* PLACE ORDER */}
           <button
-            onClick={() => {
+            onClick={async () => {
+              if (isSubmitting) return;
 
               if (validateForm()) {
+                setIsSubmitting(true);
+                try {
+                  const orderData = {
+                    customerDetails: formData,
+                    items: cart.map((item) => ({
+                      id: item.id,
+                      title: item.title,
+                      price: item.price,
+                      quantity: item.quantity,
+                      image: item.image || ''
+                    })),
+                    subtotal,
+                    gst,
+                    total: subtotal,
+                    paymentMethod,
+                    createdAt: new Date().toISOString(),
+                    status: 'Pending'
+                  };
 
-                // CLEAR CART
-                clearCart();
+                  // Save order to Firestore
+                  await addDoc(collection(db, "orders"), orderData);
 
-                // REDIRECT
-                navigate(
-                  '/order-complete'
-                );
+                  // CLEAR CART
+                  await clearCart();
 
+                  toast.success('Order placed successfully!');
+
+                  // REDIRECT
+                  navigate('/order-complete');
+                } catch (error) {
+                  console.error("Error saving order: ", error);
+                  toast.error('Something went wrong. Please try again.');
+                } finally {
+                  setIsSubmitting(false);
+                }
               } else {
-
-                alert(
-                  'Please fill all required details'
-                );
-
+                toast.error('Please fill all required details');
               }
-
             }}
-            className="w-full bg-[#006699] hover:bg-[#004d73] text-white py-3 font-bold text-sm tracking-wider rounded-lg transition-all"
+            disabled={isSubmitting}
+            className={`w-full text-white py-3 font-bold text-sm tracking-wider rounded-lg transition-all ${
+              isSubmitting 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-[#006699] hover:bg-[#004d73]'
+            }`}
           >
-
-            PLACE ORDER
-
+            {isSubmitting ? 'PROCESSING...' : 'PLACE ORDER'}
           </button>
 
         </div>

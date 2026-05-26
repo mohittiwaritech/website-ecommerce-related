@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { productsData } from '../data/productsData';
+import { getProductById } from '../services/dbService';
 import { useCart } from '../context/CartContext';
 
 const ProductDetails = () => {
-
   const navigate = useNavigate();
 
   // CART
@@ -13,47 +12,57 @@ const ProductDetails = () => {
   // PARAMS
   const { id } = useParams();
 
-  // PRODUCT FIND
-  const product = productsData.find(
-    (item) => item.id === id
-  );
-
   // STATES
-  const [mainImage, setMainImage] = useState(
-    product?.mainImage || ''
-  );
-
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [mainImage, setMainImage] = useState('');
   const [quantity, setQuantity] = useState(1);
 
   // EFFECT
   useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        const data = await getProductById(id);
+        if (data) {
+          setProduct(data);
+          setMainImage(data.mainImage || '');
+        } else {
+          setProduct(null);
+        }
+      } catch (error) {
+        console.error("Error loading product:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+    window.scrollTo(0, 0);
+  }, [id]);
 
-    if (product) {
-
-      setMainImage(product.mainImage);
-
-      window.scrollTo(0, 0);
-
-    }
-
-  }, [id, product]);
+  // LOADING STATE
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-[70vh] bg-white">
+        <div className="w-10 h-10 border-4 border-[#0088cc] border-t-transparent rounded-full animate-spin"></div>
+        <p className="mt-4 text-slate-500 text-sm font-semibold tracking-wider uppercase animate-pulse">
+          Loading Details...
+        </p>
+      </div>
+    );
+  }
 
   // PRODUCT NOT FOUND
   if (!product)
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-gray-50">
-
-        <h2 className="text-2xl font-bold mb-4">
-          Product Not Found
-        </h2>
-
+        <h2 className="text-2xl font-bold mb-4">Product Not Found</h2>
         <Link
           to="/products"
           className="bg-[#0088cc] text-white px-6 py-2 rounded-lg"
         >
           Back to Products
         </Link>
-
       </div>
     );
 
