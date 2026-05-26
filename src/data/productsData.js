@@ -143,7 +143,7 @@ export const productsData = [
 
     videoUrl:
       'https://www.youtube.com/embed/GicTjIXYeDg',
-      
+
 
     specs: {
 
@@ -206,7 +206,7 @@ export const productsData = [
 
       '/assets/atpos-touch-pos-dimensions-.webp',
 
-      
+
     ],
 
     shortDesc: [
@@ -272,7 +272,7 @@ export const productsData = [
     mainImage:
       '/assets/500sm-min.png',
 
-    thumbnails: [      
+    thumbnails: [
 
       '/assets/500sm-min.png',
 
@@ -350,7 +350,7 @@ export const productsData = [
 
     thumbnails: [
 
-      
+
       '/assets/barcode.webp',
 
       '/assets/e58bt.webp',
@@ -438,7 +438,7 @@ export const productsData = [
 
       '/assets/F5-516x516.jpg',
 
-      
+
 
       '/assets/F8-516x516.jpg',
     ],
@@ -481,1086 +481,1154 @@ export const productsData = [
 
     inStock: true,
 
-    
+
   },
 
   // =====================================
-// HL300 AUTO CUTTER
-// =====================================
+  // HL300 AUTO CUTTER
+  // =====================================
 
-{
-  id: '7',
+  {
+    id: '7',
 
-  brand: 'ATPOS',
+    brand: 'ATPOS',
 
-  sku: 'HL300-AUTO',
+    sku: 'HL300-AUTO',
 
-  category: 'Receipt Printer',
+    category: 'Receipt Printer',
 
-  title:
-    'Atpos HL-300 80mm 3 Inch Thermal Receipt Printer Auto Cutter',
+    title:
+      'Atpos HL-300 80mm 3 Inch Thermal Receipt Printer Auto Cutter',
 
-  rating: 5,
+    rating: 5,
 
-  price: 3990,
+    price: 3990,
 
-  oldPrice: 4490,
+    oldPrice: 4490,
 
-  mainImage:
-    '/assets/HL3000.jpg',
+    mainImage:
+      '/assets/HL3000.jpg',
 
-  thumbnails: [
+    thumbnails: [
 
-    '/assets/HL3000.jpg',
+      '/assets/HL3000.jpg',
 
-    '/assets/Atpos-HL300s.jpg',
+      '/assets/Atpos-HL300s.jpg',
 
-    '/assets/hl300-back-005.jpg',
+      '/assets/hl300-back-005.jpg',
 
-    '/assets/Atpos-HL300-2024-Version-front-usb-with-pc.jpg',
+      '/assets/Atpos-HL300-2024-Version-front-usb-with-pc.jpg',
 
-    
-  ],
 
-  shortDesc: [
+    ],
 
-    '80mm Auto Cutter Printer',
+    shortDesc: [
 
-    'Fast Thermal Printing',
+      '80mm Auto Cutter Printer',
 
-    'USB + LAN Support',
+      'Fast Thermal Printing',
 
-    'Restaurant Billing Compatible',
-  ],
+      'USB + LAN Support',
 
-  longDescription:
-    'Professional thermal receipt printer with auto cutter support for restaurants and retail stores.',
+      'Restaurant Billing Compatible',
+    ],
 
-  videoUrl:
-    'https://www.youtube.com/embed/GicTjIXYeDg',
+    longDescription:
+      'Professional thermal receipt printer with auto cutter support for restaurants and retail stores.',
 
-  specs: {
+    videoUrl:
+      'https://www.youtube.com/embed/GicTjIXYeDg',
 
-    Printing:
-      '80mm Thermal',
+    specs: {
 
-    Cutter:
-      'Auto Cutter',
+      Printing:
+        '80mm Thermal',
 
-    Speed:
-      '220mm/s',
+      Cutter:
+        'Auto Cutter',
 
-    Connectivity:
-      'USB / LAN',
+      Speed:
+        '220mm/s',
+
+      Connectivity:
+        'USB / LAN',
+    },
+
+    warranty:
+      '1 Year Warranty',
+
+    inStock: true,
   },
 
-  warranty:
-    '1 Year Warranty',
+  // =====================================
+  // ATPOS AT-402
+  // =====================================
 
-  inStock: true,
-},
+  {
+    id: '8',
 
-// =====================================
-// ATPOS AT-402
-// =====================================
+    brand: 'ATPOS',
 
-{
-  id: '8',
+    sku: 'AT402-80MM',
 
-  brand: 'ATPOS',
+    category: 'Receipt Printer',
 
-  sku: 'AT402-80MM',
+    title:
+      'Atpos AT-402 80mm 3 Inch Thermal Receipt Printer Auto Cutter',
 
-  category: 'Receipt Printer',
+    rating: 5,
 
-  title:
-    'Atpos AT-402 80mm 3 Inch Thermal Receipt Printer Auto Cutter',
+    price: 5199,
 
-  rating: 5,
+    oldPrice: 5699,
 
-  price: 5199,
+    mainImage:
+      '/assets/402.jpg',
 
-  oldPrice: 5699,
+    thumbnails: [
 
-  mainImage:
-    '/assets/402.jpg',
+      '/assets/402.jpg',
 
-  thumbnails: [
+      '/assets/71Wc3QqnXCL._SL1500_.jpg',
 
-    '/assets/402.jpg',
+      '/assets/71Suk3-XlWL._SL1280_.jpg',
 
-    '/assets/71Wc3QqnXCL._SL1500_.jpg',
+      '/assets/61Nt3sPsTHL._SL1280_.jpg',
 
-    '/assets/71Suk3-XlWL._SL1280_.jpg',
+      '/assets/61n7qIfVQoL._SL1280_.jpg',
 
-    '/assets/61Nt3sPsTHL._SL1280_.jpg',
+      '/assets/71ypJaETuTL._SL1280_.jpg',
+    ],
 
-    '/assets/61n7qIfVQoL._SL1280_.jpg',
+    shortDesc: [
 
-    '/assets/71ypJaETuTL._SL1280_.jpg',
-  ],
+      'Bluetooth connectivity enables mobile printing capability.',
 
-  shortDesc: [
+      '260mm/s (10 Inch/Sec) High Speed 80mm Direct Thermal Printer.',
 
-    'Bluetooth connectivity enables mobile printing capability.',
+      'Rich interface: Bluetooth + USB, Cash Drawer Integration.',
 
-    '260mm/s (10 Inch/Sec) High Speed 80mm Direct Thermal Printer.',
+      'Supports Windows, Linux, Android, and iOS system printing.',
+      'Auto Paper Cutter, 150 Kms Head Life, 1 Year Warranty.',
+    ],
 
-    'Rich interface: Bluetooth + USB, Cash Drawer Integration.',
+    longDescription:
+      'Professional 80mm thermal receipt printer for restaurants and supermarket billing.',
 
-    'Supports Windows, Linux, Android, and iOS system printing.',
-    'Auto Paper Cutter, 150 Kms Head Life, 1 Year Warranty.',
-  ],
+    videoUrl:
+      'https://www.youtube.com/embed/GicTjIXYeDg',
 
-  longDescription:
-    'Professional 80mm thermal receipt printer for restaurants and supermarket billing.',
+    specs: {
 
-  videoUrl:
-    'https://www.youtube.com/embed/GicTjIXYeDg',
+      Paper:
+        '80mm',
 
-  specs: {
+      Speed:
+        '220mm/s',
 
-    Paper:
-      '80mm',
+      Cutter:
+        'Auto Cutter',
 
-    Speed:
-      '220mm/s',
+      Connectivity:
+        'USB+BLUETOOTH',
+    },
 
-    Cutter:
-      'Auto Cutter',
+    warranty:
+      '1 Year Warranty',
 
-    Connectivity:
-      'USB+BLUETOOTH',
+    inStock: true,
   },
 
-  warranty:
-    '1 Year Warranty',
+  // =====================================
+  // MOBILE PRINTER M80
+  // =====================================
 
-  inStock: true,
-},
+  {
+    id: '9',
 
-// =====================================
-// MOBILE PRINTER M80
-// =====================================
+    brand: 'ATPOS',
 
-{
-  id: '9',
+    sku: 'M80-BLUETOOTH',
 
-  brand: 'ATPOS',
+    category: 'Mobile Printer',
 
-  sku: 'M80-BLUETOOTH',
+    title:
+      'Atpos M80 80mm Portable Bluetooth Thermal Printer',
 
-  category: 'Mobile Printer',
+    rating: 5,
 
-  title:
-    'Atpos M80 80mm Portable Bluetooth Thermal Printer',
+    price: 3869,
 
-  rating: 5,
+    oldPrice: 4499,
 
-  price: 3869,
+    mainImage:
+      '/assets/Atpos-Bluetooth-M80-Portable-Mobile-Printer-Thermal002-PhotoRoom.jpg',
 
-  oldPrice: 4499,
+    thumbnails: [
 
-  mainImage:
-    '/assets/Atpos-Bluetooth-M80-Portable-Mobile-Printer-Thermal002-PhotoRoom.jpg',
+      '/assets/Atpos-Bluetooth-M80-Portable-Mobile-Printer-Thermal002-PhotoRoom.jpg',
 
-  thumbnails: [
+      '/assets/Atpos-M80-Portable-Mobile-Printer-Thermal002-PhotoRoom.jpg',
 
-    '/assets/Atpos-Bluetooth-M80-Portable-Mobile-Printer-Thermal002-PhotoRoom.jpg',
+      '/assets/Atpos-M80-Portable-Mobile-Printer-PhotoRoom.jpg',
 
-    '/assets/Atpos-M80-Portable-Mobile-Printer-Thermal002-PhotoRoom.jpg',
+      '/assets/Atpos-M80-Portable-Mobile-Printer-Therma000l002-PhotoRoom.jpg',
 
-    '/assets/Atpos-M80-Portable-Mobile-Printer-PhotoRoom.jpg',
+      '/assets/m80.jpg',
 
-    '/assets/Atpos-M80-Portable-Mobile-Printer-Therma000l002-PhotoRoom.jpg',
 
-    '/assets/m80.jpg',
+    ],
 
-    
-  ],
+    shortDesc: [
 
-  shortDesc: [
+      'Direct Thermal Printing uses thermal paper instead of ink.',
 
-    'Direct Thermal Printing uses thermal paper instead of ink.',
+      'Portable Small size, Quieter, Faster and Type-C more Energy Efficient.',
 
-    'Portable Small size, Quieter, Faster and Type-C more Energy Efficient.',
+      '1800mAh 7.4V rechargeable lithium-ion battery can work up to 8 hours',
 
-    '1800mAh 7.4V rechargeable lithium-ion battery can work up to 8 hours',
+      'High efficiency and clear printing, print speed can reach to 80mm/s.',
+      'Bluetooth Wireless Connectivity allows wireless printing using Android, iOS Phone',
+    ],
 
-    'High efficiency and clear printing, print speed can reach to 80mm/s.',
-    'Bluetooth Wireless Connectivity allows wireless printing using Android, iOS Phone',
-  ],
+    longDescription:
+      'Portable bluetooth thermal receipt printer for delivery and mobile billing.',
 
-  longDescription:
-    'Portable bluetooth thermal receipt printer for delivery and mobile billing.',
+    videoUrl:
+      'https://www.youtube.com/embed/Tr2LmrwpAXs',
 
-  videoUrl:
-    'https://www.youtube.com/embed/Tr2LmrwpAXs',
+    specs: {
 
-  specs: {
+      Printing:
+        'Thermal',
 
-    Printing:
-      'Thermal',
+      Paper:
+        '80mm',
 
-    Paper:
-      '80mm',
+      Connectivity:
+        'Bluetooth',
 
-    Connectivity:
-      'Bluetooth',
+      Battery:
+        'Rechargeable',
+    },
 
-    Battery:
-      'Rechargeable',
+    warranty:
+      '1 Year Warranty',
+
+    inStock: true,
   },
 
-  warranty:
-    '1 Year Warranty',
+  // =====================================
+  // H58BT BLUETOOTH PRINTER
+  // =====================================
 
-  inStock: true,
-},
+  {
+    id: '10',
 
-// =====================================
-// H58BT BLUETOOTH PRINTER
-// =====================================
+    brand: 'ATPOS',
 
-{
-  id: '10',
+    sku: 'H58BT-58MM',
 
-  brand: 'ATPOS',
+    category: 'Receipt Printer',
 
-  sku: 'H58BT-58MM',
+    title:
+      'Atpos H58BT 58mm Bluetooth Thermal Receipt Printer',
 
-  category: 'Receipt Printer',
+    rating: 5,
 
-  title:
-    'Atpos H58BT 58mm Bluetooth Thermal Receipt Printer',
+    price: 2100,
 
-  rating: 5,
+    oldPrice: 2950,
 
-  price: 2100,
+    mainImage:
+      '/assets/Atpos-H58BT-PNG-min.jpg',
 
-  oldPrice: 2950,
+    thumbnails: [
+      '/assets/Atpos-H58BT-PNG-min.jpg',
 
-  mainImage:
-    '/assets/Atpos-H58BT-PNG-min.jpg',
+      '/assets/51JGHxjz28L._SL1200_.jpg',
 
-  thumbnails: [
-    '/assets/Atpos-H58BT-PNG-min.jpg',
+      '/assets/51LQMdYyklL._SL1200_.jpg',
 
-     '/assets/51JGHxjz28L._SL1200_.jpg',
+      '/assets/51MybKEsFYL._SL1200_.jpg',
 
-    '/assets/51LQMdYyklL._SL1200_.jpg',
+      '/assets/51AWnFoj3bL._SL1200_.jpg',
+      '/assets/51auH1caMwL._SL1200_.jpg',
+      '/assets/61j66Tcy3XL._SL1000_.jpg'
 
-    '/assets/51MybKEsFYL._SL1200_.jpg',
 
-    '/assets/51AWnFoj3bL._SL1200_.jpg',
-    '/assets/51auH1caMwL._SL1200_.jpg',
-    '/assets/61j66Tcy3XL._SL1000_.jpg'
 
-    
 
-    
 
-  ],
+    ],
 
-  shortDesc: [
+    shortDesc: [
 
-    'BLUETOOTH 4.0: Bluetooth Connectivity Enables Wireless Mobile Printing capability.',
+      'BLUETOOTH 4.0: Bluetooth Connectivity Enables Wireless Mobile Printing capability.',
 
-    'APP SUPPORT: AEPS Kiosk Banking Printer, Blling Apps Vypaar, BillBook, KhataBook, etc',
+      'APP SUPPORT: AEPS Kiosk Banking Printer, Blling Apps Vypaar, BillBook, KhataBook, etc',
 
-    'RESTAURANT APPS: Supports Restarunt Apps Swiggy, Zomato, PetPooja, IvPOS, slantPOS etc',
+      'RESTAURANT APPS: Supports Restarunt Apps Swiggy, Zomato, PetPooja, IvPOS, slantPOS etc',
 
-    'EASY INSTALL: Quality printing and low cost, Low noise. 1-Year Warranty.',
-    'ZERO MAINTENANCE: No ribbon, no ink cartridge. The printer Head has a Life cycle of up to 100 Km',
-    'Restaurant Billing Support',
-  
-  ],
+      'EASY INSTALL: Quality printing and low cost, Low noise. 1-Year Warranty.',
+      'ZERO MAINTENANCE: No ribbon, no ink cartridge. The printer Head has a Life cycle of up to 100 Km',
+      'Restaurant Billing Support',
 
-  longDescription:
-    'Wireless bluetooth thermal receipt printer for restaurant billing software.',
+    ],
 
-  videoUrl:
-    'https://www.youtube.com/embed/IfdxL2RUVHA',
+    longDescription:
+      'Wireless bluetooth thermal receipt printer for restaurant billing software.',
 
-  specs: {
+    videoUrl:
+      'https://www.youtube.com/embed/IfdxL2RUVHA',
 
-    Printing:
-      '58mm Thermal',
+    specs: {
 
-    Connectivity:
-      'Bluetooth',
+      Printing:
+        '58mm Thermal',
 
-    Speed:
-      '90mm/s',
+      Connectivity:
+        'Bluetooth',
 
-    Interface:
-      'Wireless',
+      Speed:
+        '90mm/s',
+
+      Interface:
+        'Wireless',
+    },
+
+    warranty:
+      '1 Year Warranty',
+
+    inStock: true,
   },
 
-  warranty:
-    '1 Year Warranty',
+  // =====================================
+  // HL450 MOBILE PRINTER
+  // =====================================
 
-  inStock: true,
-},
+  {
+    id: '11',
 
-// =====================================
-// HL450 MOBILE PRINTER
-// =====================================
+    brand: 'ATPOS',
 
-{
-  id: '11',
+    sku: 'HL450-MOBILE',
 
-  brand: 'ATPOS',
+    category: 'Mobile Printer',
 
-  sku: 'HL450-MOBILE',
+    title:
+      'Atpos HL450 58mm Portable Thermal Receipt Printer',
 
-  category: 'Mobile Printer',
+    rating: 5,
 
-  title:
-    'Atpos HL450 58mm Portable Thermal Receipt Printer',
+    price: 1990,
 
-  rating: 5,
+    oldPrice: 3000,
 
-  price: 1990,
+    mainImage:
+      '/assets/HL450 58mm P.jpg',
 
-  oldPrice: 3000,
+    thumbnails: [
 
-  mainImage:
-    '/assets/HL450 58mm P.jpg',
+      '/assets/HL450 58mm P.jpg',
 
-  thumbnails: [
+      '/assets/58mm-thermal-printer-atpos-516x516.jpg',
 
-    '/assets/HL450 58mm P.jpg',
+      '/assets/printer-accessories-atpos-hl450-516x516.jpg',
 
-    '/assets/58mm-thermal-printer-atpos-516x516.jpg',
+      '/assets/rechargable-battery-thermal-printer-516x516.jpg',
 
-    '/assets/printer-accessories-atpos-hl450-516x516.jpg',
+      '/assets/hl450-2-inch-receipt-bill-printer-516x516.jpg',
 
-    '/assets/rechargable-battery-thermal-printer-516x516.jpg',
+      '/assets/protable-thermal-printer-58mm-2-inch-516x516.jpg',
+    ],
 
-    '/assets/hl450-2-inch-receipt-bill-printer-516x516.jpg',
+    shortDesc: [
 
-    '/assets/protable-thermal-printer-58mm-2-inch-516x516.jpg',
-  ],
+      'WIRELESS:  Bluetooth 4.0v Connectivity offers Wireless Printing.',
 
-  shortDesc: [
+      'SPEED: 70mm/s Print Speed, 58mm 2 Inch Width Receipt Printing.',
 
-    'WIRELESS:  Bluetooth 4.0v Connectivity offers Wireless Printing.',
+      'BATTERY:  Li-Ion 3.7v 2600 mAh Battery.',
 
-    'SPEED: 70mm/s Print Speed, 58mm 2 Inch Width Receipt Printing.',
+      'PORTABLE: 200 Grams, Small Portable Size Easy to carry around. Pocket Friendly for bill printing.',
+      'CONNECTIVITY:  Modern Type-C Port for Charing and Data.',
+      'ZERO MAINTENANCE:  Direct Thermal Printing, No ribbon, no ink cartridge required.',
+    ],
 
-    'BATTERY:  Li-Ion 3.7v 2600 mAh Battery.',
+    longDescription:
+      'Portable mini thermal printer suitable for delivery and mobile billing.',
 
-    'PORTABLE: 200 Grams, Small Portable Size Easy to carry around. Pocket Friendly for bill printing.',
-    'CONNECTIVITY:  Modern Type-C Port for Charing and Data.',
-    'ZERO MAINTENANCE:  Direct Thermal Printing, No ribbon, no ink cartridge required.',
-  ],
+    videoUrl:
+      'https://www.youtube.com/embed/SCnyvTlSim0',
 
-  longDescription:
-    'Portable mini thermal printer suitable for delivery and mobile billing.',
+    specs: {
 
-  videoUrl:
-    'https://www.youtube.com/embed/SCnyvTlSim0',
+      Printing:
+        '58mm',
 
-  specs: {
+      Battery:
+        'Rechargeable',
 
-    Printing:
-      '58mm',
+      Connectivity:
+        'Bluetooth',
 
-    Battery:
-      'Rechargeable',
+      Weight:
+        'Lightweight',
+    },
 
-    Connectivity:
-      'Bluetooth',
+    warranty:
+      '1 Year Warranty',
 
-    Weight:
-      'Lightweight',
+    inStock: true,
   },
 
-  warranty:
-    '1 Year Warranty',
+  // =====================================
+  // DIRECT THERMAL LABEL
+  // =====================================
 
-  inStock: true,
-},
+  {
+    id: '12',
 
-// =====================================
-// DIRECT THERMAL LABEL
-// =====================================
+    brand: 'ATPOS',
 
-{
-  id: '12',
+    sku: 'LABEL-50X30MM',
 
-  brand: 'ATPOS',
+    category: 'Label roll',
 
-  sku: 'LABEL-50X30MM',
+    title:
+      '50X30MM Direct Thermal Barcode Sticker Label Paper (2X1.2 INCH) Self-adhesive | 6 PACK',
 
-  category: 'Label roll',
+    rating: 5,
 
-  title:
-    '50X30MM Direct Thermal Barcode Sticker Label Paper (2X1.2 INCH) Self-adhesive | 6 PACK',
+    price: 550,
 
-  rating: 5,
+    oldPrice: 800,
 
-  price: 550,
+    mainImage:
+      '/assets/Label50x301-480x480.jpg',
 
-  oldPrice: 800,
+    thumbnails: [
 
-  mainImage:
-    '/assets/Label50x301-480x480.jpg',
+      '/assets/Label50x301-480x480.jpg',
 
-  thumbnails: [
+      '/assets/Label50x3022-480x480.jpg',
 
-    '/assets/Label50x301-480x480.jpg',
+      '/assets/50x30l3-min-480x480.jpg',
 
-    '/assets/Label50x3022-480x480.jpg',
+      '/assets/61OTFV2a1iL._SL1000_-480x480.jpg',
 
-    '/assets/50x30l3-min-480x480.jpg',
+      '/assets/50x30l4-min-480x480.jpg',
 
-    '/assets/61OTFV2a1iL._SL1000_-480x480.jpg',
+    ],
 
-    '/assets/50x30l4-min-480x480.jpg',
+    shortDesc: [
 
-  ],
+      '6 Rolls Thermal Label Paper- 50x30mm(1.97″x1.18″), 500 Labels/Roll.',
 
-  shortDesc: [
+      'Direct thermal print technology provides clear lettering without messy, ink or toner.',
 
-    '6 Rolls Thermal Label Paper- 50x30mm(1.97″x1.18″), 500 Labels/Roll.',
+      'Compatible for- Atpos -E58/HL3200/AT-602 Direct thermal label printer..',
 
-    'Direct thermal print technology provides clear lettering without messy, ink or toner.',
+      'Water-resistant, oil-resistant, abrasion-resistant, strong adhesion and BPA free.',
+    ],
 
-    'Compatible for- Atpos -E58/HL3200/AT-602 Direct thermal label printer..',
+    longDescription:
+      'Premium direct thermal barcode label rolls for shipping and retail barcode printing.',
 
-    'Water-resistant, oil-resistant, abrasion-resistant, strong adhesion and BPA free.',
-  ],
+    videoUrl:
+      'https://www.youtube.com/embed/bnKJWjfcqzI',
 
-  longDescription:
-    'Premium direct thermal barcode label rolls for shipping and retail barcode printing.',
+    specs: {
 
-  videoUrl:
-    'https://www.youtube.com/embed/bnKJWjfcqzI',
+      Size:
+        '50x30mm',
 
-  specs: {
+      Material:
+        'Thermal Paper',
 
-    Size:
-      '50x30mm',
+      Usage:
+        'Barcode Labels',
 
-    Material:
-      'Thermal Paper',
+      Color:
+        'White',
+    },
 
-    Usage:
-      'Barcode Labels',
+    warranty:
+      'No Warranty',
 
-    Color:
-      'White',
+    inStock: true,
   },
 
-  warranty:
-    'No Warranty',
+  // =====================================
+  // ATPOS AT-9300D 2D BARCODE SCANNER
+  // =====================================
 
-  inStock: true,
-},
+  {
+    id: '13',
 
-// =====================================
-// ATPOS AT-9300D 2D BARCODE SCANNER
-// =====================================
+    brand: 'ATPOS',
 
-{
-  id: '13',
+    sku: 'AT9300D-2D',
 
-  brand: 'ATPOS',
+    category: 'Barcode Scanner',
 
-  sku: 'AT9300D-2D',
+    title:
+      'Atpos AT-9300D 2D Desktop Barcode Scanner | USB Wired',
 
-  category: 'Barcode Scanner',
+    rating: 5,
 
-  title:
-    'Atpos AT-9300D 2D Desktop Barcode Scanner | USB Wired',
+    price: 2999,
 
-  rating: 5,
+    oldPrice: 3500,
 
-  price: 2999,
+    mainImage:
+      '/assets/2d.webp',
 
-  oldPrice: 3500,
+    thumbnails: [
 
-  mainImage:
-    '/assets/2d.webp',
+      '/assets/2d.webp',
 
-  thumbnails: [
+      '/assets/9300D-Desktop-inducutiMain-516x516.png',
 
-    '/assets/2d.webp',
+      '/assets/Adjustable-angle-AT-9300D-516x516.png',
 
-    '/assets/9300D-Desktop-inducutiMain-516x516.png',
+      '/assets/9300D-Desktop-inducutiMain-barcode-min-516x516.jpg',
 
-    '/assets/Adjustable-angle-AT-9300D-516x516.png',
+      '/assets/9300D-Screen-reading-Desktop-inducutiMain-usb-barcode-516x516.png',
 
-    '/assets/9300D-Desktop-inducutiMain-barcode-min-516x516.jpg',
+      '/assets/9300-Desktop-Atpos-USB-516x516.png',
+    ],
 
-    '/assets/9300D-Screen-reading-Desktop-inducutiMain-usb-barcode-516x516.png',
+    shortDesc: [
 
-    '/assets/9300-Desktop-Atpos-USB-516x516.png',
-  ],
+      'A hands-free barcode scanner improves your efficiency with an infrared auto-sensing sensor.',
 
-  shortDesc: [
+      '1D & 2D Barcode Support',
 
-    'A hands-free barcode scanner improves your efficiency with an infrared auto-sensing sensor.',
+      'Can easily capture bar codes 1D, 2D/QR on labels, paper, and phone displays.',
 
-    '1D & 2D Barcode Support',
+      '1800 times/ second, ultra-fast decoding speed, and high accuracy.',
+      'Plug and play, No need to install any software and drivers.',
+      'Can be directly fixed onto your desk no need to pick up the scanner improving working efficiency.',
+    ],
 
-    'Can easily capture bar codes 1D, 2D/QR on labels, paper, and phone displays.',
+    longDescription:
+      'Professional desktop barcode scanner for retail billing counters and supermarkets.',
 
-    '1800 times/ second, ultra-fast decoding speed, and high accuracy.',
-    'Plug and play, No need to install any software and drivers.',
-    'Can be directly fixed onto your desk no need to pick up the scanner improving working efficiency.',
-  ],
+    videoUrl:
+      'https://www.youtube.com/embed/7dxffjr1iNo',
 
-  longDescription:
-    'Professional desktop barcode scanner for retail billing counters and supermarkets.',
+    specs: {
 
-  videoUrl:
-    'https://www.youtube.com/embed/7dxffjr1iNo',
+      ScanType:
+        '1D / 2D',
 
-  specs: {
+      Connectivity:
+        'USB',
 
-    ScanType:
-      '1D / 2D',
+      Compatibility:
+        'Windows / Android',
 
-    Connectivity:
-      'USB',
+      Usage:
+        'Retail Billing',
+    },
 
-    Compatibility:
-      'Windows / Android',
+    warranty:
+      '1 Year Warranty',
 
-    Usage:
-      'Retail Billing',
+    inStock: true,
   },
 
-  warranty:
-    '1 Year Warranty',
+  // =====================================
+  // ATPOS 2200D QR SCANNER
+  // =====================================
 
-  inStock: true,
-},
+  {
+    id: '14',
 
-// =====================================
-// ATPOS 2200D QR SCANNER
-// =====================================
+    brand: 'ATPOS',
 
-{
-  id: '14',
+    sku: '2200D-QR',
 
-  brand: 'ATPOS',
+    category: 'Barcode Scanner',
 
-  sku: '2200D-QR',
+    title:
+      'Atpos AT 2200D 2D Barcode QR Scanner Wired',
 
-  category: 'Barcode Scanner',
+    rating: 5,
 
-  title:
-    'Atpos AT 2200D 2D Barcode QR Scanner Wired',
+    price: 1690,
 
-  rating: 5,
+    oldPrice: 1999,
 
-  price: 1690,
+    mainImage:
+      '/assets/2200D.jpg',
 
-  oldPrice: 1999,
+    thumbnails: [
 
-  mainImage:
-    '/assets/2200D.jpg',
+      '/assets/2200D.jpg',
 
-  thumbnails: [
+      '/assets/51V8IITb4ZL._SL1200_-516x516.jpg',
 
-    '/assets/2200D.jpg',
+      '/assets/61J3fHY5hL._SL1000_-516x516.jpg',
 
-    '/assets/51V8IITb4ZL._SL1200_-516x516.jpg',
+      '/assets/51Xvq-XagWL._SL1280_-516x516.jpg',
 
-    '/assets/61J3fHY5hL._SL1000_-516x516.jpg',
+      '/assets/51rHVs-uV4L._SL1000_-516x491.jpg',
 
-    '/assets/51Xvq-XagWL._SL1280_-516x516.jpg',
+      '/assets/61Genbq2vuL._SL1500_-516x516.jpg',
+    ],
 
-    '/assets/51rHVs-uV4L._SL1000_-516x491.jpg',
+    shortDesc: [
 
-    '/assets/61Genbq2vuL._SL1500_-516x516.jpg',
-  ],
+      'High-quality scanning function】 Fast decoding and reading with high accuracy. Scans 2D QR + 1D Bar Codes',
 
-  shortDesc: [
+      'Plug and Play – Simple to use】Ergonomic Design Handheld type Barcode Scanner with LED and buzzer indicators, 200 scans per second.',
 
-    'High-quality scanning function】 Fast decoding and reading with high accuracy. Scans 2D QR + 1D Bar Codes',
+      'Shock Resistant: 1.5m drop on a concrete surface. Cable: 1.75M (5.5ft) straight cable.',
 
-    'Plug and Play – Simple to use】Ergonomic Design Handheld type Barcode Scanner with LED and buzzer indicators, 200 scans per second.',
+      'Widely used in supermarkets, shopping malls, bookstores, convenience stores, retail stores, libraries, and pharmacies.',
+    ],
 
-    'Shock Resistant: 1.5m drop on a concrete surface. Cable: 1.75M (5.5ft) straight cable.',
+    longDescription:
+      'Professional 2D barcode and QR scanner for POS billing systems and retail shops.',
 
-    'Widely used in supermarkets, shopping malls, bookstores, convenience stores, retail stores, libraries, and pharmacies.',
-  ],
+    videoUrl:
+      'https://www.youtube.com/embed/JJYUIkRDF4I',
 
-  longDescription:
-    'Professional 2D barcode and QR scanner for POS billing systems and retail shops.',
+    specs: {
 
-  videoUrl:
-    'https://www.youtube.com/embed/JJYUIkRDF4I',
+      Scan:
+        '1D / 2D',
 
-  specs: {
+      Interface:
+        'USB',
 
-    Scan:
-      '1D / 2D',
+      Speed:
+        'Fast Scan',
 
-    Interface:
-      'USB',
+      Usage:
+        'Retail POS',
+    },
 
-    Speed:
-      'Fast Scan',
+    warranty:
+      '1 Year Warranty',
 
-    Usage:
-      'Retail POS',
+    inStock: true,
   },
 
-  warranty:
-    '1 Year Warranty',
+  // =====================================
+  // CASH DRAWER
+  // =====================================
 
-  inStock: true,
-},
+  {
+    id: '15',
 
-// =====================================
-// CASH DRAWER
-// =====================================
+    brand: 'ATPOS',
 
-{
-  id: '15',
+    sku: '405CB-CASHBOX',
 
-  brand: 'ATPOS',
+    category: 'Cash Box',
 
-  sku: '405CB-CASHBOX',
+    title:
+      'ATPOS 405CB Cash Drawer 5 Note',
 
-  category: 'Cash Box',
+    rating: 5,
 
-  title:
-    'ATPOS 405CB Cash Drawer 5 Note',
+    price: 3490,
 
-  rating: 5,
+    oldPrice: 4500,
 
-  price: 3490,
+    mainImage:
+      '/assets/Removable-Cash-Tray-with-Adjustable-Dividers.jpg',
 
-  oldPrice: 4500,
+    thumbnails: [
 
-  mainImage:
-    '/assets/Removable-Cash-Tray-with-Adjustable-Dividers.jpg',
+      '/assets/cashbox.jpg',
 
-  thumbnails: [
+      '/assets/ATPOS-405CB-Cash-Drawer-Front-View.jpg',
 
-    '/assets/cashbox.jpg',
+      '/assets/Heavy-Duty-Metal-Cash-Drawer-Build-Quality-516x516.jpg',
 
-    '/assets/ATPOS-405CB-Cash-Drawer-Front-View.jpg',
+      '/assets/RJ11-POS-Printer-Compatible-Cash-Drawer.jpg',
 
-    '/assets/Heavy-Duty-Metal-Cash-Drawer-Build-Quality-516x516.jpg',
+      '/assets/Removable-Cash-Tray-with-Adjustable-Dividers-steel-clips-516x516.jpg',
 
-    '/assets/RJ11-POS-Printer-Compatible-Cash-Drawer.jpg',
+      '/assets/Cash-Drawer.jpg',
+    ],
 
-    '/assets/Removable-Cash-Tray-with-Adjustable-Dividers-steel-clips-516x516.jpg',
+    shortDesc: [
 
-    '/assets/Cash-Drawer.jpg',
-  ],
+      'Heavy-duty metal cash drawer with durable steel build',
 
-  shortDesc: [
+      '5 note + 5 coin compartments for easy cash organisation',
 
-    'Heavy-duty metal cash drawer with durable steel build',
+      'RJ11 interface for direct POS printer connectivity',
 
-    '5 note + 5 coin compartments for easy cash organisation',
+      'Smooth sliding with ball-bearing rollers',
+      'Secure 3-position lock with 2 keys included',
+    ],
 
-    'RJ11 interface for direct POS printer connectivity',
+    longDescription:
+      'Professional heavy-duty cash drawer for POS billing counters and retail stores.',
 
-    'Smooth sliding with ball-bearing rollers',
-    'Secure 3-position lock with 2 keys included',
-  ],
+    videoUrl:
+      'https://www.youtube.com/embed/gyJ8vKuvVOg',
 
-  longDescription:
-    'Professional heavy-duty cash drawer for POS billing counters and retail stores.',
+    specs: {
 
-  videoUrl:
-    'https://www.youtube.com/embed/gyJ8vKuvVOg',
+      Material:
+        'Metal Body',
 
-  specs: {
+      Notes:
+        '5 Note Compartments',
 
-    Material:
-      'Metal Body',
+      Coins:
+        'Coin Tray Included',
 
-    Notes:
-      '5 Note Compartments',
+      Interface:
+        'RJ11',
+    },
 
-    Coins:
-      'Coin Tray Included',
+    warranty:
+      '6 Months  Warranty',
 
-    Interface:
-      'RJ11',
+    inStock: true,
   },
 
-  warranty:
-    '6 Months  Warranty',
+  // =====================================
+  // RESTAURANT MANAGEMENT SOFTWARE
+  // =====================================
 
-  inStock: true,
-},
+  {
+    id: '16',
 
-// =====================================
-// RESTAURANT MANAGEMENT SOFTWARE
-// =====================================
+    brand: 'SlantPOS',
 
-{
-  id: '16',
+    sku: 'SlantPOS BILLING-SOFTWARE',
 
-  brand: 'SlantPOS',
+    category: 'Billing Software',
 
-  sku: 'SlantPOS BILLING-SOFTWARE',
+    title:
+      'Restaurant Management Software',
 
-  category: 'Billing Software',
+    rating: 5,
 
-  title:
-    'Restaurant Management Software',
+    price: 5000,
 
-  rating: 5,
+    oldPrice: 6500,
 
-  price: 5000,
+    mainImage:
+      '/assets/594055237_1280752400737111_3545858289698028378_n - Copy.jpg',
 
-  oldPrice: 6500,
+    thumbnails: [
+      '/assets/soft111.jpg',
 
-  mainImage:
-    '/assets/594055237_1280752400737111_3545858289698028378_n - Copy.jpg',
+      '/assets/Screenshot 2026-05-14 155637.png',
 
-  thumbnails: [
-     '/assets/soft111.jpg',
-    
-    '/assets/Screenshot 2026-05-14 155637.png',
+      '/assets/Screenshot 2026-05-14 155704.png',
 
-    '/assets/Screenshot 2026-05-14 155704.png',
+      '/assets/Screenshot 2026-05-14 155652.png',
 
-    '/assets/Screenshot 2026-05-14 155652.png',
+      '/assets/588834155_1274736004672084_3486084991209680258_n - Copy.jpg',
 
-    '/assets/588834155_1274736004672084_3486084991209680258_n - Copy.jpg',
+      '/assets/Screenshot 2026-05-14 155610.png',
 
-    '/assets/Screenshot 2026-05-14 155610.png',
 
-    
-  ],
+    ],
 
-  shortDesc: [
+    shortDesc: [
 
-    'Order & Menu Management',
+      'Order & Menu Management',
 
-    'Inventory & Recipe Management',
+      'Inventory & Recipe Management',
 
-    'Takeaway & Dine-in Management',
+      'Takeaway & Dine-in Management',
 
-    'Sales Reports & Analytics',
-    'Business Analytics',
-        'Kitchen Display System',
-                'Loyalty Program & Promotions',
-                                'QR Code Menu  & Cloud based POS',
-                                'Master Management',
+      'Sales Reports & Analytics',
+      'Business Analytics',
+      'Kitchen Display System',
+      'Loyalty Program & Promotions',
+      'QR Code Menu  & Cloud based POS',
+      'Master Management',
 
 
 
 
 
-  ],
+    ],
 
-  longDescription:
-    'Complete restaurant and cafe billing software with inventory and table management.',
+    longDescription:
+      'Complete restaurant and cafe billing software with inventory and table management.',
 
-  videoUrl:
-    'https://www.youtube.com/embed/XKzl3bC65h0',
+    videoUrl:
+      'https://www.youtube.com/embed/XKzl3bC65h0',
 
-  specs: {
+    specs: {
 
-    Platform:
-      'Android & Windows',
+      Platform:
+        'Android & Windows',
 
-    Modules:
-      'Billing / Inventory/Sales Reports & Analytic/Kitchen Display System/Loyalty Program & Promotions/QR Code Menu/Master Management.',
+      Modules:
+        'Billing / Inventory/Sales Reports & Analytic/Kitchen Display System/Loyalty Program & Promotions/QR Code Menu/Master Management.',
 
-    Usage:
-      'Restaurant,Retail,Garment, Hotel,Mart,Juice shop , Bakery POS',
+      Usage:
+        'Restaurant,Retail,Garment, Hotel,Mart,Juice shop , Bakery POS',
 
-    Support:
-      'Remote Setup',
+      Support:
+        'Remote Setup',
       software:
-      '1 year validity',
+        '1 year validity',
+    },
+
+    warranty:
+      '1 Year Support',
+
+    inStock: true,
   },
 
-  warranty:
-    '1 Year Support',
+  // =====================================
+  // Cafe  MANAGEMENT SOFTWARE
+  // =====================================
 
-  inStock: true,
-},
+  {
+    id: '17',
 
-// =====================================
-// Cafe  MANAGEMENT SOFTWARE
-// =====================================
+    brand: 'SlantPOS',
 
-{
-  id: '17',
+    sku: 'SlantPOS BILLING-SOFTWARE',
 
-  brand: 'SlantPOS',
+    category: 'Billing Software',
 
-  sku: 'SlantPOS BILLING-SOFTWARE',
+    title:
+      'Cafe Management Software',
 
-  category: 'Billing Software',
+    rating: 5,
 
-  title:
-    'Cafe Management Software',
+    price: 5000,
 
-  rating: 5,
+    oldPrice: 6500,
 
-  price: 5000,
+    mainImage:
+      '/assets/ChatGPT Image Mar 12, 2026, 09_27_58 PM.png',
 
-  oldPrice: 6500,
+    thumbnails: [
+      '/assets/ChatGPT Image Mar 12, 2026, 09_27_58 PM.png',
 
-  mainImage:
-    '/assets/ChatGPT Image Mar 12, 2026, 09_27_58 PM.png',
+      '/assets/Screenshot 2026-05-14 155637.png',
 
-  thumbnails: [
-     '/assets/ChatGPT Image Mar 12, 2026, 09_27_58 PM.png',
-    
-    '/assets/Screenshot 2026-05-14 155637.png',
+      '/assets/Screenshot 2026-05-14 155704.png',
 
-    '/assets/Screenshot 2026-05-14 155704.png',
+      '/assets/Screenshot 2026-05-14 155652.png',
 
-    '/assets/Screenshot 2026-05-14 155652.png',
+      '/assets/588834155_1274736004672084_3486084991209680258_n - Copy.jpg',
 
-    '/assets/588834155_1274736004672084_3486084991209680258_n - Copy.jpg',
+      '/assets/Screenshot 2026-05-14 155610.png',
 
-    '/assets/Screenshot 2026-05-14 155610.png',
 
-    
-  ],
+    ],
 
-  shortDesc: [
+    shortDesc: [
 
-    'Order & Menu Management',
+      'Order & Menu Management',
 
-    'Inventory & Recipe Management',
+      'Inventory & Recipe Management',
 
-    'Takeaway & Dine-in Management',
+      'Takeaway & Dine-in Management',
 
-    'Sales Reports & Analytics',
-    'Business Analytics',
-        'Kitchen Display System',
-                'Loyalty Program & Promotions',
-                                'QR Code Menu  & Cloud based POS',
-                                'Master Management',
+      'Sales Reports & Analytics',
+      'Business Analytics',
+      'Kitchen Display System',
+      'Loyalty Program & Promotions',
+      'QR Code Menu  & Cloud based POS',
+      'Master Management',
 
 
 
 
 
-  ],
+    ],
 
-  longDescription:
-    'Complete restaurant and cafe billing software with inventory and table management.',
+    longDescription:
+      'Complete restaurant and cafe billing software with inventory and table management.',
 
-  videoUrl:
-    'https://www.youtube.com/embed/lm96FFIQS-0',
+    videoUrl:
+      'https://www.youtube.com/embed/lm96FFIQS-0',
 
-  specs: {
+    specs: {
 
-    Platform:
-      'Android & Windows',
+      Platform:
+        'Android & Windows',
 
-    Modules:
-      'Billing / Inventory/Sales Reports & Analytic/Kitchen Display System/Loyalty Program & Promotions/QR Code Menu/Master Management.',
+      Modules:
+        'Billing / Inventory/Sales Reports & Analytic/Kitchen Display System/Loyalty Program & Promotions/QR Code Menu/Master Management.',
 
-    Usage:
-      'Restaurant,Retail,Garment, Hotel,Mart,Juice shop , Bakery POS',
+      Usage:
+        'Restaurant,Retail,Garment, Hotel,Mart,Juice shop , Bakery POS',
 
-    Support:
-      'Remote Setup',
+      Support:
+        'Remote Setup',
       software:
-      '1 year validity',
+        '1 year validity',
+    },
+
+    warranty:
+      '1 Year Support',
+
+    inStock: true,
   },
 
-  warranty:
-    '1 Year Support',
+  // =====================================
+  // Retail  MANAGEMENT SOFTWARE
+  // =====================================
 
-  inStock: true,
-},
+  {
+    id: '18',
 
-// =====================================
-// Retail  MANAGEMENT SOFTWARE
-// =====================================
+    brand: 'SlantPOS',
 
-{
-  id: '18',
+    sku: 'SlantPOS BILLING-SOFTWARE',
 
-  brand: 'SlantPOS',
+    category: 'Billing Software',
 
-  sku: 'SlantPOS BILLING-SOFTWARE',
+    title:
+      'Retail Management Software',
 
-  category: 'Billing Software',
+    rating: 5,
 
-  title:
-    'Retail Management Software',
+    price: 5000,
 
-  rating: 5,
+    oldPrice: 6500,
 
-  price: 5000,
+    mainImage:
+      '/assets/ChatGPT Image Mar 12, 2026, 09_51_08 PM.png',
 
-  oldPrice: 6500,
+    thumbnails: [
+      '/assets/ChatGPT Image Mar 12, 2026, 09_51_08 PM.png',
 
-  mainImage:
-    '/assets/ChatGPT Image Mar 12, 2026, 09_51_08 PM.png',
+      '/assets/Screenshot 2026-05-14 155637.png',
 
-  thumbnails: [
-     '/assets/ChatGPT Image Mar 12, 2026, 09_51_08 PM.png',
-    
-    '/assets/Screenshot 2026-05-14 155637.png',
+      '/assets/Screenshot 2026-05-14 155704.png',
 
-    '/assets/Screenshot 2026-05-14 155704.png',
+      '/assets/Screenshot 2026-05-14 155652.png',
 
-    '/assets/Screenshot 2026-05-14 155652.png',
+      '/assets/588834155_1274736004672084_3486084991209680258_n - Copy.jpg',
 
-    '/assets/588834155_1274736004672084_3486084991209680258_n - Copy.jpg',
-
-    '/assets/Screenshot 2026-05-14 155610.png',
-
-    
-  ],
-
-  shortDesc: [
-
-    'Order Management',
-
-    'Inventory Management',
-        'Due & split bill Management',
+      '/assets/Screenshot 2026-05-14 155610.png',
 
 
-    'Sales Reports & Analytics',
-    'Business Analytics',
-                'Loyalty Program & Promotions',
-                                'QR Code   & Cloud based POS',
-                                'Master Management',
+    ],
+
+    shortDesc: [
+
+      'Order Management',
+
+      'Inventory Management',
+      'Due & split bill Management',
+
+
+      'Sales Reports & Analytics',
+      'Business Analytics',
+      'Loyalty Program & Promotions',
+      'QR Code   & Cloud based POS',
+      'Master Management',
 
 
 
 
 
-  ],
+    ],
 
-  longDescription:
-    'Complete restaurant and cafe billing software with inventory and table management.',
+    longDescription:
+      'Complete restaurant and cafe billing software with inventory and table management.',
 
-  videoUrl:
-    'https://www.youtube.com/embed/OZCf888EmyU',
+    videoUrl:
+      'https://www.youtube.com/embed/OZCf888EmyU',
 
-  specs: {
+    specs: {
 
-    Platform:
-      'Android & Windows',
+      Platform:
+        'Android & Windows',
 
-    Modules:
-      'Billing / Inventory/Sales Reports & Analytic/Kitchen Display System/Loyalty Program & Promotions/QR Code Menu/Master Management.',
+      Modules:
+        'Billing / Inventory/Sales Reports & Analytic/Kitchen Display System/Loyalty Program & Promotions/QR Code Menu/Master Management.',
 
-    Usage:
-      'Restaurant,Retail,Garment, Hotel,Mart,Juice shop , Bakery POS',
+      Usage:
+        'Restaurant,Retail,Garment, Hotel,Mart,Juice shop , Bakery POS',
 
-    Support:
-      'Remote Setup',
+      Support:
+        'Remote Setup',
       software:
-      '1 year validity',
+        '1 year validity',
+    },
+
+    warranty:
+      '1 Year Support',
+
+    inStock: true,
   },
 
-  warranty:
-    '1 Year Support',
 
-  inStock: true,
-},
+  // =====================================
+  // Garment Billing SOFTWARE
+  // =====================================
 
+  {
+    id: '19',
 
-// =====================================
-// Garment Billing SOFTWARE
-// =====================================
+    brand: 'SlantPOS',
 
-{
-  id: '19',
+    sku: 'SlantPOS BILLING-SOFTWARE',
 
-  brand: 'SlantPOS',
+    category: 'Billing Software',
 
-  sku: 'SlantPOS BILLING-SOFTWARE',
+    title:
+      'Garment Billing Software',
 
-  category: 'Billing Software',
+    rating: 5,
 
-  title:
-    'Garment Billing Software',
+    price: 5000,
 
-  rating: 5,
+    oldPrice: 6500,
 
-  price: 5000,
+    mainImage:
+      '/assets/ChatGPT Image Mar 12, 2026, 06_18_12 PM.png',
 
-  oldPrice: 6500,
+    thumbnails: [
+      '/assets/ChatGPT Image Mar 12, 2026, 06_18_12 PM.png',
 
-  mainImage:
-    '/assets/ChatGPT Image Mar 12, 2026, 06_18_12 PM.png',
+      '/assets/Screenshot 2026-05-14 155637.png',
 
-  thumbnails: [
-     '/assets/ChatGPT Image Mar 12, 2026, 06_18_12 PM.png',
-    
-    '/assets/Screenshot 2026-05-14 155637.png',
+      '/assets/Screenshot 2026-05-14 155704.png',
 
-    '/assets/Screenshot 2026-05-14 155704.png',
+      '/assets/Screenshot 2026-05-14 155652.png',
 
-    '/assets/Screenshot 2026-05-14 155652.png',
+      '/assets/588834155_1274736004672084_3486084991209680258_n - Copy.jpg',
 
-    '/assets/588834155_1274736004672084_3486084991209680258_n - Copy.jpg',
-
-    '/assets/Screenshot 2026-05-14 155610.png',
-
-    
-  ],
-
-  shortDesc: [
-
-    'Order Management',
-
-    'Inventory Management',
+      '/assets/Screenshot 2026-05-14 155610.png',
 
 
-    'Sales Reports & Analytics',
-    'Business Analytics',
-                        'Loyalty Program & Promotions',
-                                'Cloud based POS',
-                                'Master Management',
+    ],
+
+    shortDesc: [
+
+      'Order Management',
+
+      'Inventory Management',
+
+
+      'Sales Reports & Analytics',
+      'Business Analytics',
+      'Loyalty Program & Promotions',
+      'Cloud based POS',
+      'Master Management',
 
 
 
 
 
-  ],
+    ],
 
-  longDescription:
-    'Complete Garment billing software with inventory management.',
+    longDescription:
+      'Complete Garment billing software with inventory management.',
 
-  videoUrl:
-    'https://www.youtube.com/embed/HXHAsFqtqfc',
+    videoUrl:
+      'https://www.youtube.com/embed/HXHAsFqtqfc',
 
-  specs: {
+    specs: {
 
-    Platform:
-      'Android & Windows',
+      Platform:
+        'Android & Windows',
 
-    Modules:
-      'Billing / Inventory/Sales Reports & Analytics/Loyalty Program & Promotions/QR Code Menu/Master Management.',
+      Modules:
+        'Billing / Inventory/Sales Reports & Analytics/Loyalty Program & Promotions/QR Code Menu/Master Management.',
 
-    Usage:
-      'Restaurant,Retail,Garment, Hotel,Mart,Juice shop , Bakery POS',
+      Usage:
+        'Restaurant,Retail,Garment, Hotel,Mart,Juice shop , Bakery POS',
 
-    Support:
-      'Remote Setup',
+      Support:
+        'Remote Setup',
       software:
-      '1 year validity',
+        '1 year validity',
+    },
+
+    warranty:
+      '1 Year Support',
+
+    inStock: true,
   },
 
-  warranty:
-    '1 Year Support',
 
-  inStock: true,
-},
+  {
+    id: '20',
 
+    brand: 'ATPOS',
 
+    sku: 'HL300-AUTO-BT',
 
+    category: 'Receipt Printer',
 
+    title:
+      'Atpos HL-300 80mm 3 Inch Thermal (Usb + Bluetooth)  Receipt Printer | Auto Cutter',
+
+    rating: 5,
+
+    price: 3990,
+
+    oldPrice: 4490,
+
+    mainImage:
+      '/assets/Atpos-HL300s.jpg',
+
+    thumbnails: [
+
+      '/assets/Atpos-HL300s.jpg',
+
+      '/assets/HL3000.jpg',
+
+      '/assets/hl300-back-005.jpg',
+
+      '/assets/Atpos-HL300-2024-Version-front-usb-with-pc.jpg',
+
+    ],
+
+    shortDesc: [
+
+      '80mm Auto Cutter Printer',
+
+      'Fast Thermal Printing',
+
+      'USB + Bluetooth Support',
+
+      'Restaurant Billing Compatible',
+    ],
+
+    longDescription:
+      'Professional thermal receipt printer with auto cutter support and Bluetooth connectivity for restaurants and retail stores.',
+
+    videoUrl:
+      'https://www.youtube.com/embed/GicTjIXYeDg',
+
+    specs: {
+
+      Printing:
+        '80mm Thermal',
+
+      Cutter:
+        'Auto Cutter',
+
+      Speed:
+        '220mm/s',
+
+      Connectivity:
+        'USB / Bluetooth',
+    },
+
+    warranty:
+      '1 Year Warranty',
+
+    inStock: true,
+  },
 
 ];

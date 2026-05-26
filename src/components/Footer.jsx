@@ -37,7 +37,7 @@ const Footer = () => {
             </h4>
             <ul className="text-[13px] space-y-3">
               <li><Link to="/products?category=Billing%20Software" className="hover:text-blue-400 hover:translate-x-1 transition-all inline-block">SOFTWARE</Link></li>
-              <li><Link to="/products" className="hover:text-blue-400 hover:translate-x-1 transition-all inline-block">HARDWARE</Link></li>
+              <li><Link to="/products?type=hardware" className="hover:text-blue-400 hover:translate-x-1 transition-all inline-block">HARDWARE</Link></li>
             </ul>
           </div>
 

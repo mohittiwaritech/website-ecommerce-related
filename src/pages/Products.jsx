@@ -3,385 +3,83 @@ import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-// PRODUCTS DATA
-const allProducts = [
-  {
-    id: '1',
-    category: 'POS System',
-    tag: 'POS SYSTEM',
-    title: 'Windows Touch POS System 15.6"ATPOS TP J6412 Touchscreen',
-    rating: 5,
-    price: 49999,
-    oldPrice: 54500,
-    image: '/assets/POS SYSTEM.avif',
-    hoverImage: '/assets/Atpos pp.jpg',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-  {
-    id: '2',
-    category: 'POS System',
-    tag: 'POS SYSTEM',
-    title:
-      'ANDROID POS SYSTEM INBUILT 3 INCH PRINTER 15.6" Touchscreen',
-    rating: 5,
-    price: 40000,
-    oldPrice: 36000,
-    image: '/assets/SPPOS.webp',
-    hoverImage: '/assets/SP1.webp',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-  {
-    id: '3',
-    category: 'POS System',
-    interface: 'LAN',
-    tag: 'POS SYSTEM',
-    title: 'ATPOS 1008 Android Mobile POS 4G LTE',
-    rating: 5,
-    oldPrice: 12500,
-    price: 11999,
-    image: '/assets/1008.webp',
-    hoverImage: '/assets/10008.webp',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-  {
-    id: '4',
-    category: 'Label Printer',
-    interface: 'USB + Bluetooth',
-    tag: '80MM 3 INCH RECEIPT PRINTER',
-    title:
-      'Atpos AT 602 80mm 3 Inch Dual Mode Thermal Receipt + Label Printer',
-    rating: 4,
-    oldPrice: 7550,
-    price: 6990,
-    image: '/assets/500sm-min.png',
-    hoverImage: '/assets/602.jpg',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-  {
-    id: '5',
-    category: 'Label Printer',
-    interface: 'USB + Bluetooth',
-    tag: '58MM 2 INCH LABEL PRINTER',
-    title:
-      'Atpos E58 Bluetooth Thermal Barcode Label Sticker Printer 58mm | Direct Thermal',
-    rating: 4,
-    oldPrice: 3500,
-    price: 2950,
-    image: '/assets/barcode.webp',
-    hoverImage: '/assets/e58bt.webp',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-  {
-    id: '6',
-    category: 'Receipt Printer',
-    interface: 'USB',
-    tag: '58MM 2 INCH RECEIPT PRINTER',
-    title: 'Atpos H58 58mm USB Thermal Receipt Printer',
-    rating: 4,
-    oldPrice: 2990,
-    price: 2100,
-    image: '/assets/h58u.jpg',
-    hoverImage: '/assets/h58001.png',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-  {
-    id: '7',
-    category: 'Receipt Printer',
-    interface: 'USB',
-    tag: '80MM 3 INCH RECEIPT PRINTER',
-    title:
-      'Atpos HL-300 80mm 3 Inch Thermal USB Receipt Printer | Auto Cutter',
-    rating: 5,
-    
-    price: 3990,
-    priceRange: '₹3,990.00  ',
-    image: '/assets/Atpos-HL300s.jpg',
-    hoverImage: '/assets/HL3000.jpg',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-
-{
-    id: '20',
-    category: 'Receipt Printer',
-    interface: 'USB + Bluetooth',
-    tag: '80MM 3 INCH RECEIPT PRINTER',
-    title:
-      'Atpos HL-300 80mm 3 Inch Thermal (Usb + Bluetooth)  Receipt Printer | Auto Cutter',
-    rating: 5,
-    price: 3990,
-    priceRange: '₹4,490.00',
-    image: '/assets/Atpos-HL300s.jpg',
-    hoverImage: '/assets/HL3000.jpg',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-
-  {
-    id: '8',
-    category: 'Receipt Printer',
-    interface: 'USB',
-    tag: '80MM 3 INCH RECEIPT PRINTER',
-    title:
-      'Atpos AT-402 80mm 3 Inch Thermal Receipt Printer | Auto Cutter',
-    rating: 5,
-    price: 5199,
-    priceRange: '₹5,199.00 ',
-    image: '/assets/402.jpg',
-    hoverImage: '/assets/receipt printer 402.jpg',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-
-
-  {
-    id: '9',
-    category: 'Mobile Printer',
-    interface: 'Bluetooth',
-    tag: '80MM 3 INCH MOBILE PRINTER',
-    title: 'Atpos M80 80mm Portable Bluetooth Thermal Printer',
-    rating: 4,
-    oldPrice: 4499,
-    price: 3869,
-    image: '/assets/m80.jpg',
-    hoverImage: '/assets/md80.webp',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-  {
-    id: '10',
-    category: 'Receipt Printer',
-    interface: 'Bluetooth',
-    tag: '58MM 2 INCH RECEIPT PRINTER',
-    title:
-      'Atpos H58BT 58mm Bluetooth Thermal Receipt Printer | 2 Inch',
-    rating: 5,
-    oldPrice: 2950,
-    price: 1990,
-    image: '/assets/h58001.png',
-    hoverImage: '/assets/h58u.jpg',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-  {
-    id: '11',
-    category: 'Mobile Printer',
-    interface: 'Bluetooth',
-    tag: '58MM 2 INCH MOBILE PRINTER',
-    title: 'Atpos HL450 58mm Portable Thermal Receipt Printer',
-    rating: 4,
-    oldPrice: 3900,
-    price: 1990,
-    image: '/assets/HL450.jpg',
-    hoverImage: '/assets/450HL.jpg',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-  {
-    id: '12',
-    category: 'Receipt Paper Roll',
-    interface: 'None',
-    tag: 'DIRECT THERMAL LABEL',
-    title: '100x150mm Direct Thermal Barcode Sticker',
-    rating: 5,
-    price: 849,
-    image: '/assets/roll.jpg',
-    hoverImage: '/assets/labelrolll.jpg',
-    inStock: true,
-    btnType: 'SELECT OPTIONS',
-  },
-
-  {
-    id: '13',
-    category: 'Barcode Scanner',
-    interface: 'USB',
-    tag: 'BARCODE SCANNER',
-    title:
-      'Atpos AT-9300D 2D 1D Desktop Barcode Scanner | USB Wired',
-    rating: 4,
-    oldPrice: 3500,
-    price: 2999,
-    image: '/assets/9300d.jpg',
-    hoverImage: '/assets/9300d1.jpg',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-  {
-    id: '14',
-    category: 'Barcode Scanner',
-    interface: 'Wireless',
-    tag: 'BARCODE SCANNER',
-    title: 'Atpos at 2200D 2D Barcode QR Scanner Wired',
-    rating: 5,
-    oldPrice: 1899,
-    price: 1690,
-    image: '/assets/2200D.jpg',
-    hoverImage: '/assets/2200D1.jpg',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-  {
-    id: '15',
-    category: 'Cash Box ',
-    interface: 'None',
-    tag: 'CASH DRAWER',
-    title: 'ATPOS 405CB Cash Drawer 5 Note',
-    rating: 4,
-    oldPrice: 4500,
-    price: 3490,
-    image: '/assets/cashbox.jpg',
-    hoverImage: '/assets/CASHBOX1.jpg',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-  {
-    id: '16',
-    category: 'Billing Software',
-    interface: 'None',
-    tag: 'SOFTWARE',
-    title: 'RESTAURANT BILLING SOFTWARE',
-    rating: 5,
-    oldPrice: 8500,
-    price: 5000,
-    image: '/assets/ChatGPT Image May 14, 2026, 05_22_04 PM.png',
-    hoverImage: '/assets/soft111.jpg',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-{
-    id: '17',
-    category: 'Billing Software',
-    interface: 'None',
-    tag: 'SOFTWARE',
-    title: 'Cafe BILLING Software',
-    rating: 5,
-    oldPrice: 8500,
-    price: 5000,
-    image: '/assets/ChatGPT Image May 14, 2026, 05_24_50 PM.png',
-    hoverImage: '/assets/soft111.jpg',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-  {
-    id: '18',
-    category: 'Billing Software',
-    interface: 'None',
-    tag: 'SOFTWARE',
-    title: 'Retail Billing Software',
-    rating: 5,
-    oldPrice: 8500,
-    price: 5000,
-    image: '/assets/ChatGPT Image Mar 12, 2026, 09_51_08 PM.png',
-    hoverImage: '/assets/soft111.jpg',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-
-  {
-    id: '19',
-    category: 'Billing Software',
-    interface: 'None',
-    tag: 'SOFTWARE',
-    title: 'Garment Billing Software',
-    rating: 5,
-    oldPrice: 8500,
-    price: 5000,
-    image: '/assets/ChatGPT Image Mar 12, 2026, 06_18_12 PM.png',
-    hoverImage: '/assets/soft111.jpg',
-    inStock: true,
-    btnType: 'ADD TO BASKET',
-  },
-
-];
-
-const categoriesList = [
-  'Label Printer',
-  'Mobile Printer',
-  'POS System',
-  'Billing Software',
-  'Receipt Printer',
-  'Cash Box ',
-  'Receipt Paper Roll',
-  'Barcode Scanner',
-];
+import { getProducts, getCategories } from '../services/dbService';
 
 function Products() {
-
   const location = useLocation();
 
-  const [products, setProducts] = useState(allProducts);
+  const [allProducts, setAllProducts] = useState([]);
+  const [categoriesList, setCategoriesList] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedType, setSelectedType] = useState('');
   const [selectedInterface, setSelectedInterface] = useState('');
   const [maxPrice, setMaxPrice] = useState(50000);
   const { addToCart, loadingItemIds } = useCart();
 
-  const showSuccessToast = () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const [rawProducts, rawCategories] = await Promise.all([
+          getProducts(),
+          getCategories()
+        ]);
 
-  toast.success(
+        const mapped = rawProducts.map(p => ({
+          id: p.id,
+          category: p.category,
+          interface: p.specs?.Connectivity || p.specs?.Interface || 'None',
+          tag: p.category.toUpperCase(),
+          title: p.title,
+          rating: p.rating,
+          price: p.price,
+          oldPrice: p.oldPrice,
+          image: p.mainImage,
+          hoverImage: p.thumbnails && p.thumbnails.length > 1 ? p.thumbnails[1] : p.mainImage,
+          inStock: p.inStock,
+          btnType: 'ADD TO BASKET',
+        }));
 
-    <div className="flex items-center gap-3">
-
-      <div className="text-3xl text-white">
-        ✓
-      </div>
-
-      <div>
-
-        <h4 className="font-bold text-sm uppercase">
-          PRODUCT ADDED
-        </h4>
-
-        <p className="text-xs">
-          Item successfully added to cart
-        </p>
-
-      </div>
-
-    </div>,
-
-    {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: true,
-      closeButton: false,
-
-      style: {
-        background: '#16a34a',
-        color: '#fff',
-        borderRadius: '10px',
-        padding: '12px',
-        minHeight: '70px',
+        setAllProducts(mapped);
+        setProducts(mapped);
+        setCategoriesList(rawCategories.map(c => c.name));
+      } catch (error) {
+        console.error("Error loading products/categories:", error);
+      } finally {
+        setLoading(false);
       }
-    }
-  );
-};
-  
+    };
+    fetchData();
+  }, []);
+
+  const showSuccessToast = () => {
+    toast.success(
+      <div className="flex items-center gap-3">
+        <div className="text-3xl text-white">✓</div>
+        <div>
+          <h4 className="font-bold text-sm uppercase">PRODUCT ADDED</h4>
+          <p className="text-xs">Item successfully added to cart</p>
+        </div>
+      </div>,
+      {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        style: {
+          background: '#16a34a',
+          color: '#fff',
+          borderRadius: '10px',
+          padding: '12px',
+          minHeight: '70px',
+        }
+      }
+    );
+  };
 
   // PAGINATION
   const [currentPage, setCurrentPage] = useState(1);
@@ -389,24 +87,16 @@ function Products() {
 
   // CATEGORY URL FILTER
   useEffect(() => {
-
-    const params = new URLSearchParams(
-      location.search
-    );
-
-    const categoryFromUrl =
-      params.get('category');
-
-    if (categoryFromUrl) {
-
-      setSelectedCategory(categoryFromUrl);
-    }
-
+    const params = new URLSearchParams(location.search);
+    const categoryFromUrl = params.get('category');
+    const typeFromUrl = params.get('type');
+    
+    setSelectedCategory(categoryFromUrl || '');
+    setSelectedType(typeFromUrl || '');
   }, [location.search]);
 
   // FILTER PRODUCTS
   useEffect(() => {
-
     let filtered = allProducts;
 
     // SEARCH
@@ -425,10 +115,14 @@ function Products() {
       );
     }
 
-    // CATEGORY FILTER
+    // CATEGORY / TYPE FILTER
     if (selectedCategory) {
       filtered = filtered.filter(
         (p) => p.category === selectedCategory
+      );
+    } else if (selectedType === 'hardware') {
+      filtered = filtered.filter(
+        (p) => p.category !== 'Billing Software'
       );
     }
 
@@ -443,8 +137,10 @@ function Products() {
   }, [
     searchQuery,
     selectedCategory,
+    selectedType,
     selectedInterface,
     maxPrice,
+    allProducts
   ]);
 
   // PAGINATION LOGIC
@@ -551,22 +247,28 @@ function Products() {
                 All Categories
               </li>
 
-              {categoriesList.map((cat, index) => (
-                <li
-                  key={index}
-                  className={`cursor-pointer hover:text-blue-600 border-t border-gray-100 pt-2 flex justify-between ${
-                    selectedCategory === cat
-                      ? 'text-blue-600 font-bold'
-                      : ''
-                  }`}
-                  onClick={() =>
-                    setSelectedCategory(cat)
-                  }
-                >
-                  {cat}
-                  <span>›</span>
-                </li>
-              ))}
+              {loading ? (
+                Array.from({ length: 6 }).map((_, idx) => (
+                  <li key={idx} className="border-t border-gray-100 pt-2 h-7 bg-gray-100 animate-pulse rounded mt-2"></li>
+                ))
+              ) : (
+                categoriesList.map((cat, index) => (
+                  <li
+                    key={index}
+                    className={`cursor-pointer hover:text-blue-600 border-t border-gray-100 pt-2 flex justify-between ${
+                      selectedCategory === cat
+                        ? 'text-blue-600 font-bold'
+                        : ''
+                    }`}
+                    onClick={() =>
+                      setSelectedCategory(cat)
+                    }
+                  >
+                    {cat}
+                    <span>›</span>
+                  </li>
+                ))
+              )}
             </ul>
           </div>
         </div>
@@ -575,121 +277,110 @@ function Products() {
         <div className="w-full lg:w-3/4">
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-
-            {currentProducts.map((product) => (
-
-              <div
-                key={product.id}
-                className="group flex flex-col relative bg-white pb-4 transition-all hover:shadow-lg border border-transparent hover:border-gray-200"
-              >
-
-                {/* IMAGE */}
-                <Link
-                  to={`/product/${product.id}`}
-                  className="block relative overflow-hidden mb-4 bg-white border-b border-gray-50"
+            {loading ? (
+              Array.from({ length: 8 }).map((_, idx) => (
+                <div key={idx} className="flex flex-col h-80 bg-white border border-gray-150 rounded-sm overflow-hidden animate-pulse p-3 space-y-4">
+                  <div className="bg-gray-100 h-40 w-full rounded"></div>
+                  <div className="h-3 w-1/3 bg-gray-100 rounded"></div>
+                  <div className="h-5 w-3/4 bg-gray-100 rounded"></div>
+                  <div className="h-4 w-1/2 bg-gray-100 rounded mt-auto"></div>
+                  <div className="h-9 w-full bg-gray-100 rounded mt-2"></div>
+                </div>
+              ))
+            ) : (
+              currentProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="group flex flex-col relative bg-white pb-4 transition-all hover:shadow-lg border border-transparent hover:border-gray-200"
                 >
-
-                  <div className="relative w-full h-52 p-4">
-
-                    <img
-                      src={product.image}
-                      alt={product.title}
-                      className={`w-full h-full object-contain absolute top-0 left-0 p-4 transition-opacity duration-500 ease-in-out z-10 ${
-                        product.hoverImage
-                          ? 'group-hover:opacity-0'
-                          : 'opacity-100'
-                      }`}
-                    />
-
-                    {product.hoverImage && (
-                      <img
-                        src={product.hoverImage}
-                        alt={product.title}
-                        className="w-full h-full object-contain absolute top-0 left-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out z-20"
-                      />
-                    )}
-                  </div>
-
-                  {/* QUICK VIEW */}
-                  <div className="absolute bottom-0 left-0 w-full bg-[#0088cc]/90 text-white text-[10px] py-2 text-center font-bold uppercase transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-30 tracking-widest">
-                    Quick View
-                  </div>
-                </Link>
-
-                {/* DETAILS */}
-                <div className="px-3 flex flex-col flex-grow">
-
-                  <p className="text-[9px] text-gray-400 uppercase tracking-wider mb-1 font-bold">
-                    {product.tag}
-                  </p>
-
+                  {/* IMAGE */}
                   <Link
                     to={`/product/${product.id}`}
-                    className="text-[13px] font-semibold text-gray-800 hover:text-blue-600 mb-2 leading-tight"
+                    className="block relative overflow-hidden mb-4 bg-white border-b border-gray-50"
                   >
-                    {product.title}
+                    <div className="relative w-full h-52 p-4">
+                      <img
+                        src={product.image}
+                        alt={product.title}
+                        className={`w-full h-full object-contain absolute top-0 left-0 p-4 transition-opacity duration-500 ease-in-out z-10 ${
+                          product.hoverImage
+                            ? 'group-hover:opacity-0'
+                            : 'opacity-100'
+                        }`}
+                      />
+                      {product.hoverImage && (
+                        <img
+                          src={product.hoverImage}
+                          alt={product.title}
+                          className="w-full h-full object-contain absolute top-0 left-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out z-20"
+                        />
+                      )}
+                    </div>
+                    {/* QUICK VIEW */}
+                    <div className="absolute bottom-0 left-0 w-full bg-[#0088cc]/90 text-white text-[10px] py-2 text-center font-bold uppercase transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-30 tracking-widest">
+                      Quick View
+                    </div>
                   </Link>
 
-                  {/* RATING */}
-                  <div className="flex text-yellow-400 text-[10px] mb-2">
-                    {'★'.repeat(product.rating)}
-                    {'☆'.repeat(5 - product.rating)}
-                  </div>
-
-                  {/* PRICE */}
-                  <div className="mt-auto mb-3">
-
-                    <div className="flex flex-col">
-
-                      {product.oldPrice && (
-                        <span className="text-gray-400 line-through text-[11px]">
-                          ₹
-                          {product.oldPrice.toLocaleString(
-                            'en-IN'
-                          )}
-                          .00
-                        </span>
-                      )}
-
-                      <span className="font-bold text-gray-900 text-sm">
-                        {product.priceRange
-                          ? product.priceRange
-                          : `₹${product.price.toLocaleString(
-                              'en-IN'
-                            )}.00`}
-                      </span>
+                  {/* DETAILS */}
+                  <div className="px-3 flex flex-col flex-grow">
+                    <p className="text-[9px] text-gray-400 uppercase tracking-wider mb-1 font-bold">
+                      {product.tag}
+                    </p>
+                    <Link
+                      to={`/product/${product.id}`}
+                      className="text-[13px] font-semibold text-gray-800 hover:text-blue-600 mb-2 leading-tight"
+                    >
+                      {product.title}
+                    </Link>
+                    {/* RATING */}
+                    <div className="flex text-yellow-400 text-[10px] mb-2">
+                      {'★'.repeat(product.rating)}
+                      {'☆'.repeat(5 - product.rating)}
                     </div>
-                  </div>
-
-                  {/* BUTTON */}
-                  {(() => {
-                    const isItemLoading = loadingItemIds.includes(String(product.id));
-                    return (
-                      <button
-                        onClick={() => addToCart(product)}
-                        disabled={!product.inStock || isItemLoading}
-                        className={`text-[11px] font-bold px-3 py-2 text-white w-full uppercase transition-all rounded-sm flex items-center justify-center gap-1.5 min-h-[34px] ${
-                          product.inStock
-                            ? 'bg-[#0088cc] hover:bg-[#006699]'
-                            : 'bg-gray-400 cursor-not-allowed'
-                        } ${isItemLoading ? 'opacity-85 cursor-wait' : ''}`}
-                      >
-                        {isItemLoading ? (
-                          <>
-                            <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                            <span>Adding...</span>
-                          </>
-                        ) : product.inStock ? (
-                          product.btnType
-                        ) : (
-                          'Out of Stock'
+                    {/* PRICE */}
+                    <div className="mt-auto mb-3">
+                      <div className="flex flex-col">
+                        {product.oldPrice && (
+                          <span className="text-gray-400 line-through text-[11px]">
+                            ₹{product.oldPrice.toLocaleString('en-IN')}.00
+                          </span>
                         )}
-                      </button>
-                    );
-                  })()}
+                        <span className="font-bold text-gray-900 text-sm">
+                          ₹{product.price.toLocaleString('en-IN')}.00
+                        </span>
+                      </div>
+                    </div>
+                    {/* BUTTON */}
+                    {(() => {
+                      const isItemLoading = loadingItemIds.includes(String(product.id));
+                      return (
+                        <button
+                          onClick={() => addToCart(product)}
+                          disabled={!product.inStock || isItemLoading}
+                          className={`text-[11px] font-bold px-3 py-2 text-white w-full uppercase transition-all rounded-sm flex items-center justify-center gap-1.5 min-h-[34px] ${
+                            product.inStock
+                              ? 'bg-[#0088cc] hover:bg-[#006699]'
+                              : 'bg-gray-400 cursor-not-allowed'
+                          } ${isItemLoading ? 'opacity-85 cursor-wait' : ''}`}
+                        >
+                          {isItemLoading ? (
+                            <>
+                              <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                              <span>Adding...</span>
+                            </>
+                          ) : product.inStock ? (
+                            product.btnType
+                          ) : (
+                            'Out of Stock'
+                          )}
+                        </button>
+                      );
+                    })()}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
 
           {/* PAGINATION */}
