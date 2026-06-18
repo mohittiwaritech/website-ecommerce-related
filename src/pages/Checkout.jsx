@@ -133,7 +133,9 @@ const Checkout = () => {
           return;
         }
 
-        const orderRes = await fetch('http://localhost:5000/api/create-razorpay-order', {
+        // Localhost URL for testing
+        // const orderRes = await fetch('http://localhost:5000/api/create-razorpay-order', {
+        const orderRes = await fetch('https://website-ecommerce-related.onrender.com/api/create-razorpay-order', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ amount: Math.round(subtotal + gst) })
@@ -154,7 +156,9 @@ const Checkout = () => {
           order_id: orderDataBackend.id,
           handler: async function (response) {
             try {
-              const verifyRes = await fetch('http://localhost:5000/api/verify-payment', {
+              // Localhost URL for testing
+              // const verifyRes = await fetch('http://localhost:5000/api/verify-payment', {
+              const verifyRes = await fetch('https://website-ecommerce-related.onrender.com/api/verify-payment', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
