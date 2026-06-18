@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import Razorpay from 'razorpay';
 import dotenv from 'dotenv';
+import crypto from 'crypto';
 
 dotenv.config();
 
@@ -33,6 +34,31 @@ app.post('/api/create-razorpay-order', async (req, res) => {
   } catch (error) {
     console.error('Error creating Razorpay order:', error);
     res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/verify-payment', (req, res) => {
+  try {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+      return res.status(400).json({ success: false, message: "Missing required payment parameters" });
+    }
+
+    const secret = process.env.RAZORPAY_KEY_SECRET || 'YOUR_RAZORPAY_KEY_SECRET';
+    
+    const hmac = crypto.createHmac('sha256', secret);
+    hmac.update(razorpay_order_id + "|" + razorpay_payment_id);
+    const generated_signature = hmac.digest('hex');
+    
+    if (generated_signature === razorpay_signature) {
+      res.json({ success: true, message: "Payment verified successfully" });
+    } else {
+      res.status(400).json({ success: false, message: "Invalid signature" });
+    }
+  } catch (error) {
+    console.error('Error verifying signature:', error);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 });
 

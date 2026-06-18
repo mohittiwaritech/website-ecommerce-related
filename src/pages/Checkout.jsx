@@ -22,6 +22,20 @@ const TextField = ({ label, name, value, onChange, onBlur, error, type = "text" 
   </div>
 );
 
+const loadScript = (src) => {
+  return new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+};
+
 const Checkout = () => {
 
   // NAVIGATE
@@ -63,6 +77,132 @@ const Checkout = () => {
   // SUBMISSION STATE
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('Online Payment');
+
+  const saveOrderToFirebase = async (paymentId, orderId, signature) => {
+    try {
+      const orderData = {
+        customerDetails: formData,
+        items: cart.map((item) => ({
+          id: item.id,
+          title: item.title,
+          price: item.price,
+          quantity: item.quantity,
+          image: item.image || ''
+        })),
+        subtotal,
+        gst,
+        total: subtotal + gst,
+        paymentMethod,
+        paymentDetails: paymentId ? {
+          razorpay_payment_id: paymentId,
+          razorpay_order_id: orderId,
+          razorpay_signature: signature,
+        } : null,
+        createdAt: new Date().toISOString(),
+        status: paymentId ? 'Paid' : 'Pending'
+      };
+
+      await addDoc(collection(db, "orders"), orderData);
+      await clearCart();
+      toast.success('Order placed successfully!');
+      navigate('/order-complete');
+    } catch (error) {
+      console.error("Error saving order: ", error);
+      toast.error('Failed to save order details.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handlePayment = async () => {
+    if (isSubmitting) return;
+
+    if (!validateForm()) {
+      toast.error('Please fill all required details');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      if (paymentMethod === 'Online Payment') {
+        const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
+        if (!res) {
+          toast.error('Razorpay SDK failed to load. Are you online?');
+          setIsSubmitting(false);
+          return;
+        }
+
+        const orderRes = await fetch('http://localhost:5000/api/create-razorpay-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: Math.round(subtotal + gst) })
+        });
+
+        if (!orderRes.ok) {
+          throw new Error('Failed to create order on backend');
+        }
+
+        const orderDataBackend = await orderRes.json();
+
+        const options = {
+          key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'YOUR_RAZORPAY_KEY_ID',
+          amount: orderDataBackend.amount,
+          currency: orderDataBackend.currency,
+          name: "My E-commerce",
+          description: "Order Payment",
+          order_id: orderDataBackend.id,
+          handler: async function (response) {
+            try {
+              const verifyRes = await fetch('http://localhost:5000/api/verify-payment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_signature: response.razorpay_signature
+                })
+              });
+              
+              const verifyData = await verifyRes.json();
+              if (verifyData.success) {
+                await saveOrderToFirebase(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature);
+              } else {
+                toast.error('Payment verification failed.');
+                setIsSubmitting(false);
+              }
+            } catch (err) {
+              console.error("Verification error", err);
+              toast.error('Payment verification error.');
+              setIsSubmitting(false);
+            }
+          },
+          prefill: {
+            name: `${formData.firstName} ${formData.lastName}`,
+            email: formData.email,
+            contact: formData.phone,
+          },
+          theme: {
+            color: "#006699",
+          },
+        };
+
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.on('payment.failed', function (response){
+          toast.error('Payment failed. Please try again.');
+          setIsSubmitting(false);
+        });
+        paymentObject.open();
+
+      } else {
+        await saveOrderToFirebase(null, null, null);
+      }
+    } catch (error) {
+      console.error("Error saving order: ", error);
+      toast.error('Something went wrong. Please try again.');
+      setIsSubmitting(false);
+    }
+  };
 
   const validateField = (name, value) => {
     let errorMsg = '';
@@ -469,49 +609,7 @@ const Checkout = () => {
 
           {/* PLACE ORDER */}
           <button
-            onClick={async () => {
-              if (isSubmitting) return;
-
-              if (validateForm()) {
-                setIsSubmitting(true);
-                try {
-                  const orderData = {
-                    customerDetails: formData,
-                    items: cart.map((item) => ({
-                      id: item.id,
-                      title: item.title,
-                      price: item.price,
-                      quantity: item.quantity,
-                      image: item.image || ''
-                    })),
-                    subtotal,
-                    gst,
-                    total: subtotal,
-                    paymentMethod,
-                    createdAt: new Date().toISOString(),
-                    status: 'Pending'
-                  };
-
-                  // Save order to Firestore
-                  await addDoc(collection(db, "orders"), orderData);
-
-                  // CLEAR CART
-                  await clearCart();
-
-                  toast.success('Order placed successfully!');
-
-                  // REDIRECT
-                  navigate('/order-complete');
-                } catch (error) {
-                  console.error("Error saving order: ", error);
-                  toast.error('Something went wrong. Please try again.');
-                } finally {
-                  setIsSubmitting(false);
-                }
-              } else {
-                toast.error('Please fill all required details');
-              }
-            }}
+            onClick={handlePayment}
             disabled={isSubmitting}
             className={`w-full text-white py-3 font-bold text-sm tracking-wider rounded-lg transition-all ${
               isSubmitting 
