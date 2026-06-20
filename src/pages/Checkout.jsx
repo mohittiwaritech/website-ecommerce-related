@@ -144,7 +144,9 @@ const Checkout = () => {
         const orderRes = await fetch('https://website-ecommerce-related-tql6.onrender.com/api/create-razorpay-order', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ amount: Math.round(subtotal + gst) })
+          body: JSON.stringify({ 
+            cartItems: cart.map(item => ({ id: item.id, quantity: item.quantity }))
+          })
         });
 
         if (!orderRes.ok) {

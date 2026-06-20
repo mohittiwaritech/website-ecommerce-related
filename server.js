@@ -3,11 +3,14 @@ import cors from 'cors';
 import Razorpay from 'razorpay';
 import dotenv from 'dotenv';
 import crypto from 'crypto';
+import { productsData } from './src/data/productsData.js';
 
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5173', 'https://billingzone.in']
+}));
 app.use(express.json());
 
 const razorpay = new Razorpay({
@@ -22,10 +25,26 @@ app.get('/api/ping', (req, res) => {
 
 app.post('/api/create-razorpay-order', async (req, res) => {
   try {
-    const { amount, currency = 'INR', receipt } = req.body;
+    const { cartItems, currency = 'INR', receipt } = req.body;
+
+    if (!cartItems || !Array.isArray(cartItems)) {
+      return res.status(400).json({ error: 'Invalid cart data' });
+    }
+
+    // Securely calculate the amount on the backend
+    let subtotal = 0;
+    cartItems.forEach(item => {
+      const product = productsData.find(p => p.id === item.id);
+      if (product) {
+        subtotal += product.price * item.quantity;
+      }
+    });
+
+    const gst = subtotal * 0.18;
+    const finalAmount = Math.round(subtotal + gst);
 
     const options = {
-      amount: amount * 100,
+      amount: finalAmount * 100,
       currency,
       receipt: receipt || `receipt_${Date.now()}`,
     };
