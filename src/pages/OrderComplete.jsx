@@ -1,12 +1,15 @@
 import React from 'react';
 import { useCart } from '../context/CartContext';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const OrderComplete = () => {
 
   const { cart } = useCart();
+  const location = useLocation();
+  const orderData = location.state?.orderData;
+  const displayCart = orderData ? orderData.items : cart;
 
-  const subtotal = cart.reduce(
+  const subtotal = displayCart.reduce(
     (acc, item) =>
       acc + item.price * item.quantity,
     0
@@ -94,7 +97,7 @@ const OrderComplete = () => {
             {/* PRODUCTS */}
             <div className="space-y-5">
 
-              {cart.map((item) => (
+              {displayCart.map((item) => (
 
                 <div
                   key={item.id}
@@ -308,9 +311,9 @@ const OrderComplete = () => {
             </div>
 
             {/* BUTTONS */}
-            <div className="mt-8 space-y-3">
+            <div className="mt-8 flex flex-col gap-3">
 
-              <Link to="/products">
+              <Link to="/products" className="block">
 
                 <button className="w-full bg-[#006699] hover:bg-[#004d73] text-white py-3 rounded-xl font-semibold">
 
@@ -320,7 +323,7 @@ const OrderComplete = () => {
 
               </Link>
 
-              <Link to="/">
+              <Link to="/" className="block">
 
                 <button className="w-full border border-gray-300 hover:bg-gray-100 py-3 rounded-xl font-semibold">
 

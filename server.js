@@ -11,7 +11,7 @@ const app = express();
 app.use(cors({
   origin: ['http://localhost:5173', 'https://billingzone.in']
 }));
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID || 'YOUR_RAZORPAY_KEY_ID',
@@ -21,6 +21,44 @@ const razorpay = new Razorpay({
 // Lightweight ping endpoint to wake up Render server
 app.get('/api/ping', (req, res) => {
   res.status(200).send('OK');
+});
+
+// ImageKit Base64 Upload Proxy
+app.post('/api/upload-image', async (req, res) => {
+  try {
+    const { file, fileName } = req.body;
+    if (!file || !fileName) {
+      return res.status(400).json({ error: 'Missing file or fileName' });
+    }
+
+    const privateKey = process.env.IMAGEKIT_PRIVATE_KEY;
+    if (!privateKey) {
+      return res.status(500).json({ error: 'IMAGEKIT_PRIVATE_KEY not configured' });
+    }
+
+    const form = new FormData();
+    // ImageKit accepts base64 format natively via REST API
+    form.append('file', file); 
+    form.append('fileName', fileName);
+
+    const response = await fetch('https://upload.imagekit.io/api/v1/files/upload', {
+      method: 'POST',
+      headers: {
+        Authorization: `Basic ${Buffer.from(privateKey + ':').toString('base64')}`
+      },
+      body: form
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || 'ImageKit upload failed');
+    }
+
+    res.json({ url: data.url });
+  } catch (error) {
+    console.error('ImageKit upload error:', error);
+    res.status(500).json({ error: error.message || 'Internal Server Error' });
+  }
 });
 
 app.post('/api/create-razorpay-order', async (req, res) => {

@@ -5,8 +5,7 @@ import {
   deleteProduct, 
   getCategories 
 } from '../../services/dbService';
-import { storage } from '../../firebase';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '../../firebase'; // keep for other things if needed, or remove if unused. Actually let's just remove the storage usage in upload.
 import { toast } from 'react-toastify';
 import { 
   Plus, 
@@ -135,16 +134,40 @@ const ProductsManager = () => {
     setEditingProduct(null);
   };
 
-  // Image Upload helper
+  // Image Upload helper (via Backend Proxy to ImageKit)
   const handleImageUpload = async (e, type = 'main') => {
     const file = e.target.files[0];
     if (!file) return;
 
     setUploading(true);
     try {
-      const storageRef = ref(storage, `products/${Date.now()}_${file.name}`);
-      await uploadBytes(storageRef, file);
-      const url = await getDownloadURL(storageRef);
+      // 1. Convert file to Base64
+      const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+
+      // 2. Send to our secure Node.js backend
+      const res = await fetch('https://website-ecommerce-related-tql6.onrender.com/api/upload-image', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          file: base64,
+          fileName: file.name
+        })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Upload failed');
+      }
+
+      const url = data.url;
       
       if (type === 'main') {
         setForm(prev => ({ ...prev, mainImage: url }));
@@ -155,7 +178,7 @@ const ProductsManager = () => {
       }
     } catch (error) {
       console.error(error);
-      toast.error("Upload failed");
+      toast.error("Upload failed: " + error.message);
     } finally {
       setUploading(false);
     }

@@ -111,7 +111,7 @@ const Checkout = () => {
       await addDoc(collection(db, "orders"), orderData);
       await clearCart();
       toast.success('Order placed successfully!');
-      navigate('/order-complete');
+      navigate('/order-complete', { state: { orderData } });
     } catch (error) {
       console.error("Error saving order: ", error);
       toast.error('Failed to save order details.');
