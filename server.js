@@ -57,7 +57,7 @@ app.post('/api/create-razorpay-order', async (req, res) => {
     res.json(order);
   } catch (error) {
     console.error('Error creating Razorpay order:', error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error || 'Unknown Error' });
   }
 });
 
