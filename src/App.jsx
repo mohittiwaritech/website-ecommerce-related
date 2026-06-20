@@ -19,6 +19,12 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import OrderComplete from './pages/OrderComplete';
 
+// Legal Pages
+import Terms from './pages/legal/Terms';
+import Privacy from './pages/legal/Privacy';
+import Refund from './pages/legal/Refund';
+import Shipping from './pages/legal/Shipping';
+
 // Admin Pages
 import Login from './pages/admin/Login';
 import AdminLayout from './pages/admin/AdminLayout';
@@ -74,6 +80,24 @@ function AppContent() {
             path="/checkout"
             element={<Checkout />}
          />
+
+          {/* LEGAL PATHS */}
+          <Route
+            path="/terms"
+            element={<Terms />}
+          />
+          <Route
+            path="/privacy"
+            element={<Privacy />}
+          />
+          <Route
+            path="/refund"
+            element={<Refund />}
+          />
+          <Route
+            path="/shipping"
+            element={<Shipping />}
+          />
 
           {/* ADMIN PATHS */}
           <Route
