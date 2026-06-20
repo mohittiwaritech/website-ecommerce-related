@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -37,6 +37,12 @@ const loadScript = (src) => {
 };
 
 const Checkout = () => {
+
+  // PRE-WAKEUP RENDER SERVER (Hack for free tier)
+  useEffect(() => {
+    // Ping backend to wake it up while user is filling the form
+    fetch('https://website-ecommerce-related-tql6.onrender.com/api/ping').catch(() => {});
+  }, []);
 
   // NAVIGATE
   const navigate = useNavigate();

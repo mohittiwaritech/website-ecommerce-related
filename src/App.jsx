@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
 import { ToastContainer } from 'react-toastify';
@@ -9,25 +9,25 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
 
-// Pages
-import Home from './pages/Home';
-import Products from './pages/Products';
-import Contact from './pages/Contact';
-import Support from './pages/Support';
-import ProductDetail from './pages/ProductDetail';
-import Cart from './pages/Cart';
-import Checkout from './pages/Checkout';
-import OrderComplete from './pages/OrderComplete';
+// Lazy load Pages
+const Home = lazy(() => import('./pages/Home'));
+const Products = lazy(() => import('./pages/Products'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Support = lazy(() => import('./pages/Support'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const Cart = lazy(() => import('./pages/Cart'));
+const Checkout = lazy(() => import('./pages/Checkout'));
+const OrderComplete = lazy(() => import('./pages/OrderComplete'));
 
-// Legal Pages
-import Terms from './pages/legal/Terms';
-import Privacy from './pages/legal/Privacy';
-import Refund from './pages/legal/Refund';
-import Shipping from './pages/legal/Shipping';
+// Lazy load Legal Pages
+const Terms = lazy(() => import('./pages/legal/Terms'));
+const Privacy = lazy(() => import('./pages/legal/Privacy'));
+const Refund = lazy(() => import('./pages/legal/Refund'));
+const Shipping = lazy(() => import('./pages/legal/Shipping'));
 
-// Admin Pages
-import Login from './pages/admin/Login';
-import AdminLayout from './pages/admin/AdminLayout';
+// Lazy load Admin Pages
+const Login = lazy(() => import('./pages/admin/Login'));
+const AdminLayout = lazy(() => import('./pages/admin/AdminLayout'));
 
 function AppContent() {
   const location = useLocation();
@@ -40,7 +40,8 @@ function AppContent() {
 
       {/* MAIN */}
       <main className="flex-grow">
-        <Routes>
+        <Suspense fallback={<div className="flex items-center justify-center min-h-[50vh]"><div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div></div>}>
+          <Routes>
           <Route
             path="/"
             element={<Home />}
@@ -117,7 +118,8 @@ function AppContent() {
             path="*"
             element={<Products />}
           />
-        </Routes>
+          </Routes>
+        </Suspense>
       </main>
 
       {/* FOOTER - HIDE ON ADMIN */}

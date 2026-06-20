@@ -15,6 +15,11 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET || 'YOUR_RAZORPAY_KEY_SECRET',
 });
 
+// Lightweight ping endpoint to wake up Render server
+app.get('/api/ping', (req, res) => {
+  res.status(200).send('OK');
+});
+
 app.post('/api/create-razorpay-order', async (req, res) => {
   try {
     const { amount, currency = 'INR', receipt } = req.body;
