@@ -6,6 +6,7 @@ import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { Resend } from 'resend';
 
 dotenv.config();
 
@@ -119,7 +120,10 @@ app.post('/api/create-razorpay-order', async (req, res) => {
   }
 });
 
-// Nodemailer transporter setup
+// Initialize Resend
+const resendClient = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+
+// Nodemailer transporter setup (Fallback)
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -136,28 +140,46 @@ app.post('/api/send-order-email', async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: 'Order Confirmation - Thank you for your purchase!',
-      html: `
-        <h2>Hi ${name},</h2>
-        <p>Thank you for your order! We have received your payment and your order is being processed.</p>
-        <h3>Order Summary:</h3>
-        <p><strong>Total Amount:</strong> ₹${orderDetails.total.toLocaleString('en-IN')}</p>
-        <p><strong>Payment Method:</strong> ${orderDetails.paymentMethod}</p>
-        <p>We will notify you once your order is shipped.</p>
-        <br/>
-        <p>Best Regards,</p>
-        <p>Your E-commerce Team</p>
-      `
-    };
+    const emailHtml = `
+      <h2>Hi ${name},</h2>
+      <p>Thank you for your order! We have received your payment and your order is being processed.</p>
+      <h3>Order Summary:</h3>
+      <p><strong>Total Amount:</strong> ₹${orderDetails.total.toLocaleString('en-IN')}</p>
+      <p><strong>Payment Method:</strong> ${orderDetails.paymentMethod}</p>
+      <p>We will notify you once your order is shipped.</p>
+      <br/>
+      <p>Best Regards,</p>
+      <p>Your E-commerce Team</p>
+    `;
 
-    await transporter.sendMail(mailOptions);
+    if (resendClient) {
+      const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+      const { error } = await resendClient.emails.send({
+        from: fromEmail,
+        to: email,
+        subject: 'Order Confirmation - Thank you for your purchase!',
+        html: emailHtml
+      });
+
+      if (error) {
+        throw new Error(error.message || 'Resend API error');
+      }
+      console.log('Email sent using Resend');
+    } else {
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: 'Order Confirmation - Thank you for your purchase!',
+        html: emailHtml
+      };
+      await transporter.sendMail(mailOptions);
+      console.log('Email sent using Nodemailer fallback');
+    }
+
     res.json({ success: true, message: 'Email sent successfully' });
   } catch (error) {
     console.error('Error sending email:', error);
-    res.status(500).json({ error: 'Failed to send email' });
+    res.status(500).json({ error: error.message || 'Failed to send email' });
   }
 });
 
