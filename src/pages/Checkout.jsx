@@ -5,19 +5,21 @@ import { toast } from 'react-toastify';
 import { db } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 
-const TextField = ({ label, name, value, onChange, onBlur, error, type = "text" }) => (
-  <div>
-    <label className="block mb-1 text-sm font-medium">{label} *</label>
+const TextField = ({ label, name, value, onChange, onBlur, error, type = "text", placeholder }) => (
+  <div className="space-y-1.5 text-left">
+    <label className="block text-xs font-bold uppercase tracking-wider text-gray-500">{label} *</label>
     <input
       type={type}
       name={name}
       value={value}
       onChange={onChange}
       onBlur={onBlur}
-      className={`w-full border p-2 text-sm rounded-lg focus:outline-none focus:border-[#006699] transition-all ${error ? 'border-red-500 bg-red-50' : 'border-gray-300'
-        }`}
+      placeholder={placeholder}
+      className={`w-full border px-4 py-3.5 text-sm rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-50 focus:border-[#006699] bg-gray-50/50 hover:bg-gray-50/20 focus:bg-white transition-all duration-200 ${
+        error ? 'border-red-500 bg-red-50/30 focus:ring-red-50' : 'border-gray-200'
+      }`}
     />
-    {error && <p className="text-red-500 text-xs mt-1 animate-pulse">{error}</p>}
+    {error && <p className="text-red-500 text-xs mt-1 font-medium">{error}</p>}
   </div>
 );
 
@@ -120,7 +122,15 @@ const Checkout = () => {
           body: JSON.stringify({
             email: formData.email,
             name: `${formData.firstName} ${formData.lastName}`,
+            items: cart.map(item => ({
+              title: item.title || item.name,
+              price: item.price,
+              quantity: item.quantity
+            })),
+            customerDetails: formData,
             orderDetails: {
+              subtotal,
+              gst,
               total: subtotal + gst,
               paymentMethod,
             }
@@ -311,41 +321,26 @@ const Checkout = () => {
   };
 
   return (
-
-    <div className="max-w-6xl mx-auto px-4 py-8">
-
+    <div className="max-w-6xl mx-auto px-4 py-12 font-sans">
       {/* TOP STEPS */}
-      <div className="text-center text-xl md:text-2xl text-gray-300 font-light mb-10">
-
-        SHOPPING CART
-        {' > '}
-
-        <span className="text-black font-semibold">
-
-          CHECKOUT DETAILS
-
-        </span>
-
-        {' > '}
-        ORDER COMPLETE
-
+      <div className="text-center text-xs md:text-sm text-gray-300 font-bold mb-12 uppercase tracking-widest">
+        Shopping Cart
+        <span className="mx-3 text-gray-300">›</span>
+        <span className="text-black font-extrabold border-b-2 border-black pb-1">Checkout Details</span>
+        <span className="mx-3 text-gray-300">›</span>
+        Order Complete
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-        {/* LEFT SIDE */}
-        <div className="lg:col-span-2 bg-white border rounded-xl p-6 shadow-sm">
-
-          <h2 className="text-2xl font-bold mb-6">
-
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
+        {/* LEFT SIDE (Billing Form) */}
+        <div className="lg:col-span-2 bg-white border border-gray-100 rounded-2xl p-8 shadow-sm space-y-6">
+          <h2 className="text-xl font-bold text-gray-900 border-b pb-4 mb-4 text-left">
             BILLING DETAILS
-
           </h2>
 
-          <div className="space-y-4">
-
+          <div className="space-y-5">
             {/* FIRST + LAST NAME */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <TextField
                 label="First Name"
                 name="firstName"
@@ -353,6 +348,7 @@ const Checkout = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={errors.firstName}
+                placeholder="John"
               />
               <TextField
                 label="Last Name"
@@ -361,6 +357,7 @@ const Checkout = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={errors.lastName}
+                placeholder="Doe"
               />
             </div>
 
@@ -371,6 +368,7 @@ const Checkout = () => {
               onChange={handleChange}
               onBlur={handleBlur}
               error={errors.address}
+              placeholder="House number and street name"
             />
 
             <TextField
@@ -380,27 +378,37 @@ const Checkout = () => {
               onChange={handleChange}
               onBlur={handleBlur}
               error={errors.city}
+              placeholder="City name"
             />
 
             {/* STATE */}
-            <div>
-              <label className="block mb-1 text-sm font-medium">State *</label>
-              <select
-                name="state"
-                value={formData.state}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className={`w-full border p-2 text-sm rounded-lg focus:outline-none focus:border-[#006699] transition-all ${errors.state ? 'border-red-500 bg-red-50' : 'border-gray-300'
+            <div className="space-y-1.5 text-left">
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-500">State *</label>
+              <div className="relative">
+                <select
+                  name="state"
+                  value={formData.state}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={`w-full border px-4 py-3.5 text-sm rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-50 focus:border-[#006699] bg-gray-50/50 hover:bg-gray-50/20 focus:bg-white transition-all duration-200 appearance-none ${
+                    errors.state ? 'border-red-500 bg-red-50/30 focus:ring-red-50' : 'border-gray-200'
                   }`}
-              >
-                <option value="">Select State</option>
-                <option>Uttar Pradesh</option>
-                <option>Delhi</option>
-                <option>Haryana</option>
-                <option>Maharashtra</option>
-                <option>Telangana</option>
-              </select>
-              {errors.state && <p className="text-red-500 text-xs mt-1 animate-pulse">{errors.state}</p>}
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 16px center',
+                    backgroundSize: '16px'
+                  }}
+                >
+                  <option value="">Select State</option>
+                  <option>Uttar Pradesh</option>
+                  <option>Delhi</option>
+                  <option>Haryana</option>
+                  <option>Maharashtra</option>
+                  <option>Telangana</option>
+                </select>
+              </div>
+              {errors.state && <p className="text-red-500 text-xs mt-1 font-medium">{errors.state}</p>}
             </div>
 
             <TextField
@@ -410,6 +418,7 @@ const Checkout = () => {
               onChange={handleChange}
               onBlur={handleBlur}
               error={errors.zip}
+              placeholder="6-digit PIN code"
             />
 
             <TextField
@@ -419,6 +428,7 @@ const Checkout = () => {
               onChange={handleChange}
               onBlur={handleBlur}
               error={errors.phone}
+              placeholder="10-digit mobile number"
             />
 
             <TextField
@@ -429,232 +439,139 @@ const Checkout = () => {
               onChange={handleChange}
               onBlur={handleBlur}
               error={errors.email}
+              placeholder="email@example.com"
             />
-
-
           </div>
-
         </div>
 
-        {/* RIGHT SIDE */}
-        <div className="bg-white border border-[#006699] rounded-xl p-5 shadow-sm h-fit">
-
-          <h2 className="text-2xl font-bold mb-5">
-
+        {/* RIGHT SIDE (Order Summary & Payments) */}
+        <div className="bg-[#fcfdfd] border border-gray-100 rounded-2xl p-6 shadow-sm h-fit sticky top-24 space-y-6">
+          <h2 className="text-lg font-bold text-gray-900 border-b pb-3.5 text-left">
             YOUR ORDER
-
           </h2>
 
-          {/* PRODUCTS */}
-          <div className="space-y-4 border-b pb-4 max-h-[250px] overflow-y-auto">
-
-            {cart.map((item) => (
-
+          {/* PRODUCTS LIST */}
+          <div className="space-y-4 max-h-[250px] overflow-y-auto pr-2 divide-y divide-gray-100">
+            {cart.map((item, index) => (
               <div
                 key={item.id}
-                className="flex justify-between gap-4 text-sm"
+                className={`flex justify-between gap-4 text-sm ${index > 0 ? 'pt-4' : ''}`}
               >
-
                 <div className="flex gap-3">
-
                   <img
-                    src={
-                      item.image ||
-                      item.hoverImage
-                    }
-                    alt={
-                      item.title ||
-                      item.name
-                    }
-                    className="w-14 h-14 object-contain border rounded"
+                    src={item.image || item.hoverImage}
+                    alt={item.title || item.name}
+                    className="w-14 h-14 object-contain border rounded-xl bg-white p-1"
                   />
-
-                  <div>
-
-                    <p className="font-semibold leading-5">
-
+                  <div className="text-left">
+                    <p className="font-bold text-gray-800 leading-snug line-clamp-2">
                       {item.title || item.name}
-
                     </p>
-
-                    <p className="text-gray-500 text-xs mt-1">
-
-                      Qty:
-                      {' '}
-                      {item.quantity}
-
+                    <p className="text-gray-400 text-xs mt-1 font-medium">
+                      Qty: {item.quantity}
                     </p>
-
                   </div>
-
                 </div>
-
-                <div className="font-bold whitespace-nowrap">
-
-                  ₹
-                  {(
-                    item.price *
-                    item.quantity
-                  ).toLocaleString('en-IN')}
-
+                <div className="font-bold text-gray-900 whitespace-nowrap">
+                  ₹{(item.price * item.quantity).toLocaleString('en-IN')}.00
                 </div>
-
               </div>
-
             ))}
-
           </div>
 
-          {/* TOTAL */}
-          <div className="space-y-3 py-5 border-b text-sm">
-
-            <div className="flex justify-between">
-
-              <span>
-                Subtotal
+          {/* TOTALS */}
+          <div className="space-y-3 py-5 border-t border-b border-gray-100 text-sm">
+            <div className="flex justify-between text-gray-600">
+              <span>Subtotal</span>
+              <span className="font-semibold text-gray-900">
+                ₹{subtotal.toLocaleString('en-IN')}.00
               </span>
-
-              <span className="font-semibold">
-
-                ₹
-                {subtotal.toLocaleString(
-                  'en-IN'
-                )}
-
-              </span>
-
             </div>
-
-            <div className="flex justify-between">
-
-              <span>
-                Shipping
-              </span>
-
-              <span>
+            <div className="flex justify-between text-gray-600">
+              <span>Shipping</span>
+              <span className="font-semibold text-green-600">
                 Free Shipping
               </span>
-
             </div>
-
-            <div className="flex justify-between text-lg font-bold pt-2">
-
-              <span>
-                Total
-              </span>
-
+            <div className="flex justify-between text-base font-bold text-gray-900 pt-2">
+              <span>Total</span>
               <div className="text-right">
-
-                ₹
-                {subtotal.toLocaleString(
-                  'en-IN'
-                )}
-
-                <p className="text-xs text-gray-400 font-normal">
-
-                  incl.
-                  {' '}
-                  ₹
-                  {gst.toFixed(2)}
-                  {' '}
-                  GST
-
+                <span>₹{subtotal.toLocaleString('en-IN')}.00</span>
+                <p className="text-[10px] text-gray-400 font-normal mt-0.5">
+                  incl. ₹{gst.toFixed(2)} GST
                 </p>
-
               </div>
-
             </div>
-
           </div>
 
-          {/* PAYMENT */}
-          <div className="py-5 space-y-3">
-
-            <label className="flex items-start gap-3 border rounded-lg p-3 cursor-pointer hover:border-[#006699] transition-all">
-
+          {/* PAYMENT METHODS */}
+          <div className="space-y-3.5">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 text-left">Payment Method</h3>
+            
+            <label className={`flex items-start gap-3.5 border rounded-xl p-4 cursor-pointer transition-all duration-200 text-left ${
+              paymentMethod === 'Online Payment'
+                ? 'border-[#006699] bg-[#006699]/5 shadow-sm'
+                : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50/40'
+            }`}>
               <input
                 type="radio"
                 name="payment"
                 value="Online Payment"
                 checked={paymentMethod === 'Online Payment'}
                 onChange={(e) => setPaymentMethod(e.target.value)}
-                className="mt-1 accent-[#006699]"
+                className="mt-1 w-4 h-4 accent-[#006699]"
               />
-
-              <div>
-
-                <p className="font-semibold text-sm">
-
-                  Online Payment
-
-                </p>
-
-                <p className="text-xs text-gray-500 mt-1">
-
-                  UPI / Debit Card / Credit Card
-
-                </p>
-
+              <div className="select-none">
+                <p className="font-bold text-sm text-gray-800">Online Payment</p>
+                <p className="text-[11px] text-gray-500 mt-1 leading-normal">UPI / Debit Card / Credit Card (Instant & Secure)</p>
               </div>
-
             </label>
 
-            <label className="flex items-start gap-3 border rounded-lg p-3 cursor-pointer hover:border-[#006699] transition-all">
-
+            <label className={`flex items-start gap-3.5 border rounded-xl p-4 cursor-pointer transition-all duration-200 text-left ${
+              paymentMethod === 'Cash on Delivery'
+                ? 'border-[#006699] bg-[#006699]/5 shadow-sm'
+                : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50/40'
+            }`}>
               <input
                 type="radio"
                 name="payment"
                 value="Cash on Delivery"
                 checked={paymentMethod === 'Cash on Delivery'}
                 onChange={(e) => setPaymentMethod(e.target.value)}
-                className="mt-1 accent-[#006699]"
+                className="mt-1 w-4 h-4 accent-[#006699]"
               />
-
-              <div>
-
-                <p className="font-semibold text-sm">
-
-                  Cash on Delivery
-
-                </p>
-
+              <div className="select-none">
+                <p className="font-bold text-sm text-gray-800">Cash on Delivery</p>
+                <p className="text-[11px] text-gray-500 mt-1 leading-normal">Pay with cash when order is delivered</p>
               </div>
-
             </label>
-
-            <label className="flex items-start gap-2 text-xs leading-5">
-
-              <input
-                type="checkbox"
-                className="mt-1 accent-[#006699]"
-              />
-
-              <span>
-
-                I agree to the terms and conditions
-
-              </span>
-
-            </label>
-
           </div>
 
-          {/* PLACE ORDER */}
-          <button
-            onClick={handlePayment}
-            disabled={isSubmitting}
-            className={`w-full text-white py-3 font-bold text-sm tracking-wider rounded-lg transition-all ${isSubmitting
-                ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-[#006699] hover:bg-[#004d73]'
+          {/* TERMS & PLACE ORDER */}
+          <div className="space-y-4 pt-2">
+            <label className="flex items-start gap-2.5 text-xs text-gray-500 leading-normal cursor-pointer select-none text-left">
+              <input
+                type="checkbox"
+                required
+                className="mt-0.5 w-4 h-4 accent-[#006699] border-gray-300 rounded focus:ring-[#006699]/20"
+              />
+              <span>I have read and agree to the website terms and conditions *</span>
+            </label>
+
+            <button
+              onClick={handlePayment}
+              disabled={isSubmitting}
+              className={`w-full text-white py-3.5 font-bold text-sm tracking-wider rounded-xl transition-all duration-300 active:scale-[0.98] ${
+                isSubmitting
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-[#006699] hover:bg-[#004d73] hover:shadow-lg hover:shadow-blue-900/10'
               }`}
-          >
-            {isSubmitting ? 'PROCESSING...' : 'PLACE ORDER'}
-          </button>
-
+            >
+              {isSubmitting ? 'PROCESSING...' : 'PLACE ORDER'}
+            </button>
+          </div>
         </div>
-
       </div>
-
     </div>
   );
 };
