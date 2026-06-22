@@ -527,6 +527,7 @@ const Checkout = () => {
               </div>
             </label>
 
+            {/* 
             <label className={`flex items-start gap-3.5 border rounded-xl p-4 cursor-pointer transition-all duration-200 text-left ${
               paymentMethod === 'Cash on Delivery'
                 ? 'border-[#006699] bg-[#006699]/5 shadow-sm'
@@ -545,6 +546,7 @@ const Checkout = () => {
                 <p className="text-[11px] text-gray-500 mt-1 leading-normal">Pay with cash when order is delivered</p>
               </div>
             </label>
+            */}
           </div>
 
           {/* TERMS & PLACE ORDER */}

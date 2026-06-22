@@ -327,7 +327,7 @@ app.post('/api/send-order-email', async (req, res) => {
     const emailHtml = generateEmailTemplate(name, items, customerDetails, orderDetails);
 
     if (resendClient) {
-      const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+      const fromEmail = process.env.RESEND_FROM_EMAIL || 'orders@billingzone.in';
       const { error } = await resendClient.emails.send({
         from: fromEmail,
         to: email,
