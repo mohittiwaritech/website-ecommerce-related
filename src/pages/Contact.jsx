@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { db } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
-import { MapPin, Phone, Mail, Clock, Send, MessageSquare } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
 
 const Contact = () => {
   const [name, setName] = useState('');
@@ -40,123 +40,144 @@ const Contact = () => {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen py-16 md:py-24 font-sans">
+    <div className="bg-white min-h-screen py-12 md:py-20 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* HERO TITLE HEADER */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <span className="text-[#0088cc] font-bold text-xs uppercase tracking-widest bg-blue-50 px-4 py-1.5 rounded-full">
-            Contact Support
-          </span>
-          <h1 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight">
-            Let's Start a Conversation
-          </h1>
-          <p className="text-slate-500 text-base md:text-lg leading-relaxed">
-            Have questions about our professional POS hardware, software installations, or driver downloads? Reach out and we will help you scale your business operations.
-          </p>
-        </div>
-
-        {/* MAIN CONTAINER */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        {/* TWO-COLUMN GRID (Details Left, Map Right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16 items-start">
           
-          {/* LEFT COLUMN: CONTACT CARD INFO (5/12 width) */}
-          <div className="lg:col-span-5 bg-slate-900 text-white rounded-3xl p-8 md:p-12 shadow-2xl flex flex-col justify-between relative overflow-hidden min-h-[500px]">
+          {/* LEFT COLUMN: Contact details (6/12 width) */}
+          <div className="lg:col-span-6 space-y-8">
+            <div>
+              <h1 className="text-3xl md:text-4xl font-extrabold text-[#2C2C2C] tracking-tight mb-2">
+                Contact Us
+              </h1>
+              <p className="text-gray-500 text-sm md:text-base font-semibold">
+                Get In Touch
+              </p>
+            </div>
             
-            {/* BACKGROUND DECORATIVE GLOW */}
-            <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#0088cc]/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-green-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
-            <div className="space-y-10 relative z-10">
-              <div>
-                <h2 className="text-2xl font-bold tracking-tight">Contact Information</h2>
-                <p className="text-slate-400 text-sm mt-2">
-                  Fill out the form on the right and our dedicated technical support team will contact you within 24 business hours.
-                </p>
+            {/* Contact Info Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-12 pt-4">
+              
+              {/* ADDRESS */}
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-[#0088cc] shadow-sm">
+                  <MapPin className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-slate-800">
+                    Address
+                  </h3>
+                  <div className="text-xs md:text-sm text-slate-600 mt-2 leading-relaxed space-y-0.5">
+                    <p className="font-extrabold text-slate-800">BILLING ZONE</p>
+                    <p>C-56/22 Sector 62,</p>
+                    <p>Noida, Uttar Pradesh,</p>
+                    <p>201309</p>
+                  </div>
+                </div>
               </div>
 
-              {/* LIST DETAILS */}
-              <div className="space-y-6">
-                
-                {/* ADDRESS */}
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center flex-shrink-0 text-[#0088cc]">
-                    <MapPin className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">Head Office</h4>
-                    <p className="text-sm text-slate-200 mt-1 leading-relaxed">
-                      C-56/22 Sector 62, Noida, Uttar Pradesh, 201309
-                    </p>
+              {/* OPENING HOURS */}
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-[#0088cc] shadow-sm">
+                  <Clock className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-slate-800">
+                    Opening Hours
+                  </h3>
+                  <div className="text-xs md:text-sm text-slate-600 mt-2 leading-relaxed space-y-1">
+                    <p>Monday - Saturday:</p>
+                    <p className="font-semibold text-slate-800">10:00 AM - 7:00 PM</p>
+                    <p>Sunday: Closed</p>
                   </div>
                 </div>
-
-                {/* PHONE */}
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center flex-shrink-0 text-[#0088cc]">
-                    <Phone className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">Call / Support</h4>
-                    <p className="text-sm text-slate-200 mt-1 font-semibold hover:text-[#0088cc] transition-colors">
-                      <a href="tel:+919289024863">+91 9289024863</a>
-                    </p>
-                  </div>
-                </div>
-
-                {/* EMAIL */}
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center flex-shrink-0 text-[#0088cc]">
-                    <Mail className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">Email Us</h4>
-                    <p className="text-sm text-slate-200 mt-1 font-semibold hover:text-[#0088cc] transition-colors">
-                      <a href="mailto:sales@billingzone.in">sales@billingzone.in</a>
-                    </p>
-                  </div>
-                </div>
-
-                {/* BUSINESS HOURS */}
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center flex-shrink-0 text-[#0088cc]">
-                    <Clock className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">Working Hours</h4>
-                    <p className="text-sm text-slate-200 mt-1 leading-relaxed">
-                      Monday - Saturday: 10:00 AM - 7:00 PM
-                    </p>
-                  </div>
-                </div>
-
               </div>
-            </div>
 
-            {/* QUICK WHATSAPP CHAT */}
-            <div className="mt-12 relative z-10 border-t border-slate-800 pt-8">
-              <a
-                href="https://wa.me/919289024863"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3.5 bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-2xl transition-all duration-300 hover:shadow-lg hover:shadow-green-600/20 font-bold text-sm tracking-wide justify-center md:justify-start hover:scale-[1.02]"
-              >
-                <MessageSquare className="w-4 h-4" />
-                <span>Chat Instantly on WhatsApp</span>
-              </a>
-            </div>
+              {/* E-MAIL */}
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-[#0088cc] shadow-sm">
+                  <Mail className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-slate-800">
+                    E-Mail
+                  </h3>
+                  <div className="text-xs md:text-sm text-[#0088cc] mt-2 leading-relaxed space-y-1 font-semibold">
+                    <p>
+                      <a href="mailto:sales@billingzone.in" className="hover:underline hover:text-[#006699] transition-colors">
+                        sales@billingzone.in
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
 
+              {/* PHONE */}
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-[#0088cc] shadow-sm">
+                  <Phone className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-slate-800">
+                    Phone
+                  </h3>
+                  <div className="text-xs md:text-sm text-[#0088cc] mt-2 leading-relaxed space-y-1 font-semibold">
+                    <p>
+                      <a href="tel:+919289024863" className="hover:underline hover:text-[#006699] transition-colors">
+                        +91 9289024863
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
 
-          {/* RIGHT COLUMN: CONTACT FORM (7/12 width) */}
-          <div className="lg:col-span-7 bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-slate-100 flex flex-col justify-center">
+          {/* RIGHT COLUMN: MAPS LOCATION (6/12 width) */}
+          <div className="lg:col-span-6 space-y-8">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-[#2C2C2C] tracking-tight mb-2">
+                Maps Location
+              </h2>
+              <div className="h-4 hidden lg:block"></div> {/* aligns with left column's subtitle spacing */}
+            </div>
             
+            <div className="w-full h-[360px] md:h-[400px] rounded-2xl overflow-hidden shadow-md border border-slate-100 relative group">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.4338944520977!2d77.36214157630248!3d28.61676647567228!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce55df4c58e57%3A0xe54efde8bd9b706c!2sC-56%20Noida%20Sector%2062!5e0!3m2!1sen!2sin!4v1782139000000!5m2!1sen!2sin"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Google Maps Location for Billing Zone Noida"
+                className="w-full h-full grayscale group-hover:grayscale-0 transition-all duration-500"
+              ></iframe>
+            </div>
+          </div>
+
+        </div>
+
+        {/* BOTTOM SECTION: MESSAGE FORM */}
+        <div className="border-t border-slate-100 pt-16">
+          <div className="max-w-3xl mx-auto bg-slate-50/55 rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100">
+            <div className="text-center mb-10 space-y-2">
+              <h2 className="text-2xl font-bold text-slate-900">Send Us a Message</h2>
+              <p className="text-slate-500 text-sm">
+                Have questions about our products or need technical support? Drop us a message below.
+              </p>
+            </div>
+
             <form onSubmit={handleSubmit} className="space-y-6">
-              
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
                 {/* NAME */}
                 <div>
-                  <label className="block text-xs font-bold uppercase text-slate-400 mb-2 tracking-wider">
+                  <label className="block text-xs font-bold uppercase text-slate-500 mb-2 tracking-wider">
                     Your Name *
                   </label>
                   <input 
@@ -166,13 +187,13 @@ const Contact = () => {
                     required
                     onChange={(e) => setName(e.target.value)}
                     disabled={isSubmitting}
-                    className="w-full px-4 py-3.5 border border-slate-200 rounded-xl bg-slate-50/50 focus:outline-none focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-[#0088cc] transition-all disabled:opacity-55 text-slate-800 text-sm font-medium" 
+                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-[#0088cc] transition-all disabled:opacity-55 text-slate-800 text-sm font-medium" 
                   />
                 </div>
 
                 {/* EMAIL */}
                 <div>
-                  <label className="block text-xs font-bold uppercase text-slate-400 mb-2 tracking-wider">
+                  <label className="block text-xs font-bold uppercase text-slate-500 mb-2 tracking-wider">
                     Your Email *
                   </label>
                   <input 
@@ -182,7 +203,7 @@ const Contact = () => {
                     required
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={isSubmitting}
-                    className="w-full px-4 py-3.5 border border-slate-200 rounded-xl bg-slate-50/50 focus:outline-none focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-[#0088cc] transition-all disabled:opacity-55 text-slate-800 text-sm font-medium" 
+                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-[#0088cc] transition-all disabled:opacity-55 text-slate-800 text-sm font-medium" 
                   />
                 </div>
 
@@ -190,67 +211,63 @@ const Contact = () => {
 
               {/* MESSAGE */}
               <div>
-                <label className="block text-xs font-bold uppercase text-slate-400 mb-2 tracking-wider">
+                <label className="block text-xs font-bold uppercase text-slate-500 mb-2 tracking-wider">
                   Detailed Message *
                 </label>
                 <textarea 
-                  placeholder="How can our support team help you today? Please include details about product models if applicable..." 
+                  placeholder="How can we help you today?" 
                   value={message}
                   required
-                  rows="6"
+                  rows="5"
                   onChange={(e) => setMessage(e.target.value)}
                   disabled={isSubmitting}
-                  className="w-full px-4 py-3.5 border border-slate-200 rounded-xl bg-slate-50/50 focus:outline-none focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-[#0088cc] transition-all disabled:opacity-55 text-slate-800 text-sm font-medium resize-none leading-relaxed"
+                  className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-[#0088cc] transition-all disabled:opacity-55 text-slate-800 text-sm font-medium resize-none leading-relaxed"
                 ></textarea>
               </div>
 
               {/* SUBMIT BUTTON */}
-              <button 
-                type="submit"
-                disabled={isSubmitting}
-                className={`w-full md:w-auto text-white px-10 py-4 rounded-xl font-bold uppercase tracking-wider text-xs transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2.5 cursor-pointer hover:scale-[1.02] ${
-                  isSubmitting 
-                    ? 'bg-slate-400 cursor-not-allowed' 
-                    : 'bg-[#0088cc] hover:bg-[#006699] hover:shadow-blue-500/10'
-                }`}
-              >
-                {isSubmitting ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>Sending message...</span>
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-3.5 h-3.5" />
-                    <span>Send Message</span>
-                  </>
-                )}
-              </button>
+              <div className="flex justify-center">
+                <button 
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`w-full md:w-auto text-white px-10 py-4 rounded-xl font-bold uppercase tracking-wider text-xs transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2.5 cursor-pointer hover:scale-[1.02] ${
+                    isSubmitting 
+                      ? 'bg-slate-400 cursor-not-allowed' 
+                      : 'bg-[#0088cc] hover:bg-[#006699]'
+                  }`}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Sending message...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-3.5 h-3.5" />
+                      <span>Send Message</span>
+                    </>
+                  )}
+                </button>
+              </div>
 
             </form>
-
           </div>
-
         </div>
 
         {/* BOTTOM FEATURES BANNER */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20 border-t border-slate-200 pt-12">
-          
           <div className="text-center p-4">
             <h3 className="text-slate-800 font-bold text-base mb-1">Quick Response</h3>
             <p className="text-slate-400 text-sm">Our sales and technical support representatives answer all queries within 24 hours.</p>
           </div>
-
           <div className="text-center p-4">
             <h3 className="text-slate-800 font-bold text-base mb-1">Expert Assistance</h3>
             <p className="text-slate-400 text-sm">Need help configuring POS systems or printer drivers? Our technicians are ready to guide you.</p>
           </div>
-
           <div className="text-center p-4">
             <h3 className="text-slate-800 font-bold text-base mb-1">Pan-India Support</h3>
             <p className="text-slate-400 text-sm">Providing robust billing machine services and device replacement coverage nationwide.</p>
           </div>
-
         </div>
 
       </div>
