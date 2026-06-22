@@ -15,14 +15,13 @@ const Cart = () => {
     loadingItemIds
   } = useCart();
 
-  // TOTAL
-  const subtotal = cart.reduce(
-    (acc, item) =>
-      acc + item.price * item.quantity,
+  // TOTAL & TAX-INCLUSIVE CALCULATIONS
+  const totalAmount = cart.reduce(
+    (acc, item) => acc + item.price * item.quantity,
     0
   );
-
-  const gst = subtotal * 0.18;
+  const gst = totalAmount * 18 / 118;
+  const subtotal = totalAmount - gst; // exclusive subtotal
 
   // ALL INDIAN STATES
   const indianStates = [
@@ -299,7 +298,8 @@ const Cart = () => {
             <span className="font-bold">
               ₹
               {subtotal.toLocaleString(
-                'en-IN'
+                'en-IN',
+                { minimumFractionDigits: 2, maximumFractionDigits: 2 }
               )}
             </span>
           </div>
