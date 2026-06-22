@@ -14,9 +14,8 @@ const TextField = ({ label, name, value, onChange, onBlur, error, type = "text" 
       value={value}
       onChange={onChange}
       onBlur={onBlur}
-      className={`w-full border p-2 text-sm rounded-lg focus:outline-none focus:border-[#006699] transition-all ${
-        error ? 'border-red-500 bg-red-50' : 'border-gray-300'
-      }`}
+      className={`w-full border p-2 text-sm rounded-lg focus:outline-none focus:border-[#006699] transition-all ${error ? 'border-red-500 bg-red-50' : 'border-gray-300'
+        }`}
     />
     {error && <p className="text-red-500 text-xs mt-1 animate-pulse">{error}</p>}
   </div>
@@ -41,7 +40,7 @@ const Checkout = () => {
   // PRE-WAKEUP RENDER SERVER (Hack for free tier)
   useEffect(() => {
     // Ping backend to wake it up while user is filling the form
-    fetch('https://website-ecommerce-related-tql6.onrender.com/api/ping').catch(() => {});
+    fetch('https://website-ecommerce-related-tql6.onrender.com/api/ping').catch(() => { });
   }, []);
 
   // NAVIGATE
@@ -111,6 +110,26 @@ const Checkout = () => {
       await addDoc(collection(db, "orders"), orderData);
       await clearCart();
       toast.success('Order placed successfully!');
+
+      // Send confirmation email
+      try {
+        const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://website-ecommerce-related-tql6.onrender.com';
+        await fetch(`${API_BASE_URL}/api/send-order-email`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: formData.email,
+            name: `${formData.firstName} ${formData.lastName}`,
+            orderDetails: {
+              total: subtotal + gst,
+              paymentMethod,
+            }
+          })
+        });
+      } catch (emailError) {
+        console.error("Failed to send confirmation email:", emailError);
+      }
+
       navigate('/order-complete', { state: { orderData } });
     } catch (error) {
       console.error("Error saving order: ", error);
@@ -139,12 +158,13 @@ const Checkout = () => {
           return;
         }
 
-        // Localhost URL for testing
-        // const orderRes = await fetch('http://localhost:5000/api/create-razorpay-order', {
-        const orderRes = await fetch('https://website-ecommerce-related-tql6.onrender.com/api/create-razorpay-order', {
+        // Dynamically choose backend URL based on environment
+        const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://website-ecommerce-related-tql6.onrender.com';
+        
+        const orderRes = await fetch(`${API_BASE_URL}/api/create-razorpay-order`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
+          body: JSON.stringify({
             cartItems: cart.map(item => ({ id: item.id, quantity: item.quantity }))
           })
         });
@@ -164,9 +184,10 @@ const Checkout = () => {
           order_id: orderDataBackend.id,
           handler: async function (response) {
             try {
-              // Localhost URL for testing
-              // const verifyRes = await fetch('http://localhost:5000/api/verify-payment', {
-              const verifyRes = await fetch('https://website-ecommerce-related-tql6.onrender.com/api/verify-payment', {
+              // Dynamically choose backend URL based on environment
+              const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://website-ecommerce-related-tql6.onrender.com';
+              
+              const verifyRes = await fetch(`${API_BASE_URL}/api/verify-payment`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -175,7 +196,7 @@ const Checkout = () => {
                   razorpay_signature: response.razorpay_signature
                 })
               });
-              
+
               const verifyData = await verifyRes.json();
               if (verifyData.success) {
                 await saveOrderToFirebase(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature);
@@ -200,7 +221,7 @@ const Checkout = () => {
         };
 
         const paymentObject = new window.Razorpay(options);
-        paymentObject.on('payment.failed', function (response){
+        paymentObject.on('payment.failed', function (response) {
           toast.error('Payment failed. Please try again.');
           setIsSubmitting(false);
         });
@@ -369,9 +390,8 @@ const Checkout = () => {
                 value={formData.state}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={`w-full border p-2 text-sm rounded-lg focus:outline-none focus:border-[#006699] transition-all ${
-                  errors.state ? 'border-red-500 bg-red-50' : 'border-gray-300'
-                }`}
+                className={`w-full border p-2 text-sm rounded-lg focus:outline-none focus:border-[#006699] transition-all ${errors.state ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                  }`}
               >
                 <option value="">Select State</option>
                 <option>Uttar Pradesh</option>
@@ -623,11 +643,10 @@ const Checkout = () => {
           <button
             onClick={handlePayment}
             disabled={isSubmitting}
-            className={`w-full text-white py-3 font-bold text-sm tracking-wider rounded-lg transition-all ${
-              isSubmitting 
-                ? 'bg-gray-400 cursor-not-allowed' 
+            className={`w-full text-white py-3 font-bold text-sm tracking-wider rounded-lg transition-all ${isSubmitting
+                ? 'bg-gray-400 cursor-not-allowed'
                 : 'bg-[#006699] hover:bg-[#004d73]'
-            }`}
+              }`}
           >
             {isSubmitting ? 'PROCESSING...' : 'PLACE ORDER'}
           </button>

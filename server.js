@@ -2,8 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import Razorpay from 'razorpay';
 import dotenv from 'dotenv';
+import nodemailer from 'nodemailer';
 import crypto from 'crypto';
-import { productsData } from './src/data/productsData.js';
+import { initializeApp } from "firebase/app";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 dotenv.config();
 
@@ -12,6 +14,18 @@ app.use(cors({
   origin: ['http://localhost:5173', 'https://billingzone.in']
 }));
 app.use(express.json({ limit: '50mb' }));
+
+// Initialize Firebase Admin/Client for backend
+const firebaseConfig = {
+  apiKey: process.env.VITE_FIREBASE_API_KEY,
+  authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.VITE_FIREBASE_APP_ID
+};
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID || 'YOUR_RAZORPAY_KEY_ID',
@@ -69,15 +83,21 @@ app.post('/api/create-razorpay-order', async (req, res) => {
       return res.status(400).json({ error: 'Invalid cart data' });
     }
 
-    // Securely calculate the amount on the backend
+    // Securely calculate the amount on the backend using Firestore
     let subtotal = 0;
-    cartItems.forEach(item => {
-      const product = productsData.find(p => p.id === item.id);
-      if (product) {
-        subtotal += product.price * item.quantity;
+    
+    // Fetch all product details from Firestore
+    for (const item of cartItems) {
+      const docRef = doc(db, "products", item.id.toString());
+      const docSnap = await getDoc(docRef);
+      
+      if (docSnap.exists()) {
+        const product = docSnap.data();
+        subtotal += Number(product.price) * Number(item.quantity);
+      } else {
+        console.warn(`Product not found: ${item.id}`);
       }
-    });
-
+    }
     const gst = subtotal * 0.18;
     const finalAmount = Math.round(subtotal + gst);
 
@@ -96,6 +116,48 @@ app.post('/api/create-razorpay-order', async (req, res) => {
   } catch (error) {
     console.error('Error creating Razorpay order:', error);
     res.status(500).json({ error: error || 'Unknown Error' });
+  }
+});
+
+// Nodemailer transporter setup
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
+app.post('/api/send-order-email', async (req, res) => {
+  try {
+    const { email, name, orderDetails } = req.body;
+    
+    if (!email || !name || !orderDetails) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Order Confirmation - Thank you for your purchase!',
+      html: `
+        <h2>Hi ${name},</h2>
+        <p>Thank you for your order! We have received your payment and your order is being processed.</p>
+        <h3>Order Summary:</h3>
+        <p><strong>Total Amount:</strong> ₹${orderDetails.total.toLocaleString('en-IN')}</p>
+        <p><strong>Payment Method:</strong> ${orderDetails.paymentMethod}</p>
+        <p>We will notify you once your order is shipped.</p>
+        <br/>
+        <p>Best Regards,</p>
+        <p>Your E-commerce Team</p>
+      `
+    };
+
+    await transporter.sendMail(mailOptions);
+    res.json({ success: true, message: 'Email sent successfully' });
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).json({ error: 'Failed to send email' });
   }
 });
 

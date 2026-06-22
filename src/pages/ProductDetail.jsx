@@ -40,14 +40,45 @@ const ProductDetails = () => {
     window.scrollTo(0, 0);
   }, [id]);
 
-  // LOADING STATE
+  // LOADING STATE (SKELETON LOADER)
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center h-[70vh] bg-white">
-        <div className="w-10 h-10 border-4 border-[#0088cc] border-t-transparent rounded-full animate-spin"></div>
-        <p className="mt-4 text-slate-500 text-sm font-semibold tracking-wider uppercase animate-pulse">
-          Loading Details...
-        </p>
+      <div className="bg-white min-h-screen">
+        <div className="max-w-7xl mx-auto px-4 py-10 animate-pulse">
+          {/* Breadcrumb Skeleton */}
+          <div className="h-4 bg-gray-100 w-1/3 rounded mb-8"></div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
+            {/* Left Image Skeleton */}
+            <div className="space-y-6">
+              <div className="h-[500px] bg-gray-100 rounded-2xl w-full"></div>
+              <div className="grid grid-cols-6 gap-3">
+                {[1, 2, 3, 4, 5, 6].map(i => (
+                  <div key={i} className="h-16 bg-gray-100 rounded-lg"></div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right Details Skeleton */}
+            <div className="space-y-6 pt-4">
+              <div className="h-6 bg-gray-100 w-1/4 rounded-full"></div>
+              <div className="h-12 bg-gray-100 w-3/4 rounded mt-4"></div>
+              <div className="h-6 bg-gray-100 w-1/3 rounded"></div>
+              <div className="h-12 bg-gray-100 w-1/2 rounded mb-8"></div>
+              
+              <div className="space-y-4 pt-6">
+                <div className="h-4 bg-gray-100 w-full rounded"></div>
+                <div className="h-4 bg-gray-100 w-5/6 rounded"></div>
+                <div className="h-4 bg-gray-100 w-4/5 rounded"></div>
+              </div>
+              
+              <div className="flex gap-4 pt-10">
+                <div className="h-14 bg-gray-100 w-32 rounded-lg"></div>
+                <div className="h-14 bg-gray-100 flex-1 rounded-xl"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -299,6 +330,29 @@ const ProductDetails = () => {
           </div>
 
         </div>
+
+        {/* YOUTUBE VIDEO SECTION */}
+        {product.videoUrl && (
+          <div className="mt-16 mb-20">
+            <div className="flex items-center justify-center mb-10">
+              <div className="flex-grow h-px bg-gray-200"></div>
+              <h2 className="px-6 text-xl md:text-2xl font-bold text-gray-800 tracking-wide uppercase">Product Video</h2>
+              <div className="flex-grow h-px bg-gray-200"></div>
+            </div>
+            <div className="max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl border border-gray-100 aspect-video">
+              <iframe
+                width="100%"
+                height="100%"
+                src={product.videoUrl}
+                title={`${product.title} Video`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="w-full h-full"
+              ></iframe>
+            </div>
+          </div>
+        )}
 
       </div>
 

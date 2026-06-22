@@ -228,8 +228,25 @@ const DriversManager = () => {
 
       {/* DRIVERS TABLE */}
       {loading ? (
-        <div className="h-64 flex items-center justify-center">
-          <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden animate-pulse">
+          {/* Header Skeleton */}
+          <div className="bg-slate-950/60 border-b border-slate-800 p-4 flex gap-6">
+            <div className="h-3 bg-slate-800 rounded w-20"></div>
+            <div className="h-3 bg-slate-800 rounded flex-1"></div>
+            <div className="h-3 bg-slate-800 rounded flex-1"></div>
+            <div className="h-3 bg-slate-800 rounded w-24"></div>
+            <div className="h-3 bg-slate-800 rounded w-32"></div>
+          </div>
+          {/* Rows Skeleton */}
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="border-b border-slate-800/50 p-4 flex gap-6 items-center">
+              <div className="h-12 w-12 bg-slate-800 rounded"></div>
+              <div className="h-4 bg-slate-800 rounded flex-1"></div>
+              <div className="h-3 bg-slate-800 rounded flex-1"></div>
+              <div className="h-3 bg-slate-800 rounded w-20"></div>
+              <div className="h-8 w-20 bg-slate-800 rounded-lg ml-auto"></div>
+            </div>
+          ))}
         </div>
       ) : filteredDrivers.length === 0 ? (
         <div className="bg-slate-900 border border-slate-800 p-12 text-center rounded-2xl text-slate-500">
