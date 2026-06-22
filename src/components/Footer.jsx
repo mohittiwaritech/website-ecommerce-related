@@ -47,7 +47,7 @@ const Footer = () => {
               Support
             </h4>
             <ul className="text-[13px] space-y-3">
-              <li><Link to="/support" className="hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Printer Drivers & Manuals</Link></li>
+              <li><Link to="/drivers" className="hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Printer Drivers & Manuals</Link></li>
               <li><Link to="/terms" className="hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Terms & Conditions</Link></li>
               <li><Link to="/privacy" className="hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Privacy Policy</Link></li>
               <li><Link to="/refund" className="hover:text-blue-400 hover:translate-x-1 transition-all inline-block">Refund Policy</Link></li>
