@@ -49,7 +49,7 @@ const Refund = () => {
           <h2 className="text-xl font-semibold text-black mb-3">5. Contact for Refunds</h2>
           <p>
             To initiate a return or cancellation request, please contact our support team at:
-            <br />Email: sales@slantco.com
+            <br />Email: sales@billingzone.in
             <br />Phone: +91 9289024863
             <br />Address: C-56/22 Sector 62, Noida, Uttar Pradesh, 201309
           </p>

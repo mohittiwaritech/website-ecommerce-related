@@ -54,7 +54,7 @@ const Shipping = () => {
           <h2 className="text-xl font-semibold text-black mb-3">6. Contact Us</h2>
           <p>
             If you have any questions about the shipping and delivery of your order, please contact us at:
-            <br />Email: sales@slantco.com
+            <br />Email: sales@billingzone.in
             <br />Phone: +91 9289024863
             <br />Address: C-56/22 Sector 62, Noida, Uttar Pradesh, 201309
           </p>
