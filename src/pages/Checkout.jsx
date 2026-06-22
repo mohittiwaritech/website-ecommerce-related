@@ -54,15 +54,13 @@ const Checkout = () => {
     clearCart
   } = useCart();
 
-  // SUBTOTAL
-  const subtotal = cart.reduce(
-    (acc, item) =>
-      acc + item.price * item.quantity,
+  // TOTAL & TAX-INCLUSIVE CALCULATIONS
+  const totalAmount = cart.reduce(
+    (acc, item) => acc + item.price * item.quantity,
     0
   );
-
-  // GST
-  const gst = subtotal * 0.18;
+  const gst = totalAmount * 18 / 118;
+  const subtotal = totalAmount - gst; // exclusive portion
 
   // FORM DATA
   const [formData, setFormData] = useState({
@@ -484,7 +482,7 @@ const Checkout = () => {
             <div className="flex justify-between text-gray-600">
               <span>Subtotal (Excl. Tax)</span>
               <span className="font-semibold text-gray-900">
-                ₹{subtotal.toLocaleString('en-IN')}.00
+                ₹{subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
             </div>
             <div className="flex justify-between text-gray-600">

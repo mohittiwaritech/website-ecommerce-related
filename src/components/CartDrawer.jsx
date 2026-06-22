@@ -206,13 +206,13 @@ const CartDrawer = () => {
               <div className="flex justify-between text-sm text-slate-500 font-medium">
                 <span>Subtotal (Excl. Tax)</span>
                 <span className="text-slate-800 font-semibold">
-                  ₹{totalPrice.toLocaleString('en-IN')}.00
+                  ₹{(totalPrice / 1.18).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
               </div>
               <div className="flex justify-between text-sm text-slate-500 font-medium">
                 <span>GST (18%)</span>
                 <span className="text-slate-800 font-semibold">
-                  ₹{(totalPrice * 0.18).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  ₹{(totalPrice - (totalPrice / 1.18)).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
               </div>
               <div className="flex justify-between text-sm text-slate-500 font-medium">
@@ -222,7 +222,7 @@ const CartDrawer = () => {
               <div className="flex justify-between text-slate-800 border-t border-slate-100 pt-2">
                 <span className="font-semibold">Total (Incl. Tax)</span>
                 <span className="text-xl font-black text-[#0088cc]">
-                  ₹{(totalPrice * 1.18).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  ₹{totalPrice.toLocaleString('en-IN')}.00
                 </span>
               </div>
             </div>

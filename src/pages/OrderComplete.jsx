@@ -18,9 +18,10 @@ const OrderComplete = () => {
   const displayPaymentMethod = orderData?.paymentMethod || 'Online Payment';
   const codFee = displayPaymentMethod === 'Cash on Delivery' ? 75 : 0;
   
-  // Calculate GST as 18% of subtotal (added on top)
-  const gst = orderData?.gst || (subtotal * 0.18);
-  const finalTotal = orderData?.total || (subtotal + gst + codFee);
+  // Calculate GST as 18% included in the subtotal
+  const gst = orderData?.gst || (subtotal * 18 / 118);
+  const finalTotal = orderData?.total || (subtotal + codFee);
+  const subtotalExclTax = subtotal - gst;
 
   const orderNumber = orderData?.id || Math.floor(100000 + Math.random() * 900000);
 
@@ -106,7 +107,7 @@ const OrderComplete = () => {
                    <tr>
                     <td className="py-3.5 font-semibold text-gray-600">Subtotal (Excl. Tax):</td>
                     <td className="py-3.5 text-right font-semibold text-gray-900">
-                      ₹{subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      ₹{subtotalExclTax.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </td>
                   </tr>
                   

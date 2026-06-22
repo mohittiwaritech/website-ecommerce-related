@@ -99,8 +99,7 @@ app.post('/api/create-razorpay-order', async (req, res) => {
         console.warn(`Product not found: ${item.id}`);
       }
     }
-    const gst = subtotal * 0.18;
-    const finalAmount = Math.round(subtotal + gst);
+    const finalAmount = Math.round(subtotal);
 
     const options = {
       amount: finalAmount * 100,
