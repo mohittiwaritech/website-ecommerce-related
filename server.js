@@ -11,7 +11,7 @@ dotenv.config();
 
 const app = express();
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://billingzone.in']
+  origin: ['http://localhost:5173', 'https://billingzone.in', 'https://www.billingzone.in']
 }));
 app.use(express.json({ limit: '50mb' }));
 
