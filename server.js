@@ -265,18 +265,21 @@ const generateEmailTemplate = (name, items = [], customerDetails = {}, orderDeta
                   <!-- Pricing Summary -->
                   <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-left: auto; width: 280px; margin-bottom: 25px;">
                     <tr>
-                      <td style="padding: 6px 0; font-family: sans-serif; font-size: 13px; color: #718096;">Subtotal:</td>
+                      <td style="padding: 6px 0; font-family: sans-serif; font-size: 13px; color: #718096;">Subtotal (Excl. Tax):</td>
                       <td style="padding: 6px 0; font-family: sans-serif; font-size: 13px; color: #2d3748; font-weight: bold; text-align: right;">₹${Number(subtotalVal).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 6px 0; font-family: sans-serif; font-size: 13px; color: #718096;">GST (18%):</td>
+                      <td style="padding: 6px 0; font-family: sans-serif; font-size: 13px; color: #2d3748; font-weight: bold; text-align: right;">₹${Number(gstVal).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                     </tr>
                     <tr>
                       <td style="padding: 6px 0; font-family: sans-serif; font-size: 13px; color: #718096;">Shipping:</td>
                       <td style="padding: 6px 0; font-family: sans-serif; font-size: 13px; color: #48bb78; font-weight: bold; text-align: right;">Free Shipping</td>
                     </tr>
                     <tr style="border-top: 1px solid #edf2f7; border-bottom: 2px solid #1e3a8a;">
-                      <td style="padding: 12px 0; font-family: sans-serif; font-size: 15px; color: #1a202c; font-weight: bold;">Grand Total:</td>
+                      <td style="padding: 12px 0; font-family: sans-serif; font-size: 15px; color: #1a202c; font-weight: bold;">Grand Total (Incl. Tax):</td>
                       <td style="padding: 12px 0; font-family: sans-serif; font-size: 17px; color: #1e3a8a; font-weight: 800; text-align: right;">
                         ₹${Number(totalVal).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        <span style="font-size: 10px; font-weight: normal; color: #a0aec0; display: block; margin-top: 4px;">(includes ₹${Number(gstVal).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} GST)</span>
                       </td>
                     </tr>
                   </table>

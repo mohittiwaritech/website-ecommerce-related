@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
+import { getProductUrl } from '../utils/slugify';
+
 
 const CartDrawer = () => {
   const {
@@ -140,7 +142,7 @@ const CartDrawer = () => {
                       <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
                         {item.tag || item.category}
                       </span>
-                      <h4 className="text-sm font-semibold text-slate-800 leading-tight line-clamp-2 mt-0.5 hover:text-[#0088cc] cursor-pointer" onClick={() => handleNavigate(`/product/${item.id}`)}>
+                      <h4 className="text-sm font-semibold text-slate-800 leading-tight line-clamp-2 mt-0.5 hover:text-[#0088cc] cursor-pointer" onClick={() => handleNavigate(getProductUrl(item))}>
                         {item.title}
                       </h4>
                     </div>
@@ -202,18 +204,27 @@ const CartDrawer = () => {
             {/* Summary */}
             <div className="space-y-2">
               <div className="flex justify-between text-sm text-slate-500 font-medium">
-                <span>Shipping</span>
-                <span className="text-green-600 font-bold uppercase text-xs">FREE</span>
-              </div>
-              <div className="flex justify-between text-slate-800">
-                <span className="font-semibold">Subtotal</span>
-                <span className="text-2xl font-black text-slate-900">
+                <span>Subtotal (Excl. Tax)</span>
+                <span className="text-slate-800 font-semibold">
                   ₹{totalPrice.toLocaleString('en-IN')}.00
                 </span>
               </div>
-              <p className="text-[10px] text-slate-400 text-right italic">
-                Inclusive of all taxes & GST estimates
-              </p>
+              <div className="flex justify-between text-sm text-slate-500 font-medium">
+                <span>GST (18%)</span>
+                <span className="text-slate-800 font-semibold">
+                  ₹{(totalPrice * 0.18).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </span>
+              </div>
+              <div className="flex justify-between text-sm text-slate-500 font-medium">
+                <span>Shipping</span>
+                <span className="text-green-600 font-bold uppercase text-xs">FREE</span>
+              </div>
+              <div className="flex justify-between text-slate-800 border-t border-slate-100 pt-2">
+                <span className="font-semibold">Total (Incl. Tax)</span>
+                <span className="text-xl font-black text-[#0088cc]">
+                  ₹{(totalPrice * 1.18).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </span>
+              </div>
             </div>
 
             {/* Actions */}

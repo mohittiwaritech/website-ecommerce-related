@@ -13,7 +13,7 @@ const HeroSlider = () => {
       description:
         'Small thermal printers packed with features to enable consistent, high-quality 2-inch wide receipt printing.',
       bgColor: 'bg-[#EAEAEA]',
-      link: '/product/10'
+      link: '/product/10-atpos-h58bt-58mm-bluetooth-thermal-receipt-printer'
     },
     {
       id: 2,
@@ -22,7 +22,7 @@ const HeroSlider = () => {
       description:
         'Reliable and durable label printing solutions for your business needs.',
       bgColor: 'bg-[#F5F5F5]',
-      link: '/product/4'
+      link: '/product/4-atpos-at-602-80mm-3-inch-dual-mode-thermal-receipt-printer'
     },
     {
       id: 3,
@@ -31,7 +31,7 @@ const HeroSlider = () => {
       description:
         'Print receipts on the go with our portable and long-lasting battery-powered printers.',
       bgColor: 'bg-[#F5F5F5]',
-      link: '/product/5'
+      link: '/product/5-atpos-e58-bluetooth-thermal-barcode-label-sticker-printer'
     }
   ];
 

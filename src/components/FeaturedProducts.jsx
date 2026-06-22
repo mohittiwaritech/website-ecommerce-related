@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { getProducts } from '../services/dbService';
+import { getProductUrl } from '../utils/slugify';
+
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -28,7 +30,7 @@ const FeaturedProducts = () => {
             displayPrice: `₹${p.price.toLocaleString('en-IN')}.00`,
             image: p.mainImage,
             buttonText: 'ADD TO BASKET',
-            link: `/product/${p.id}`
+            link: getProductUrl(p)
           }));
         setProducts(featured);
       } catch (error) {

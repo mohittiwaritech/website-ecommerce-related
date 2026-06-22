@@ -17,10 +17,10 @@ const OrderComplete = () => {
 
   const displayPaymentMethod = orderData?.paymentMethod || 'Online Payment';
   const codFee = displayPaymentMethod === 'Cash on Delivery' ? 75 : 0;
-  const finalTotal = orderData?.total || (subtotal + codFee);
   
-  // Calculate GST as included in the subtotal
-  const gst = orderData?.gst || (subtotal * 18 / 118);
+  // Calculate GST as 18% of subtotal (added on top)
+  const gst = orderData?.gst || (subtotal * 0.18);
+  const finalTotal = orderData?.total || (subtotal + gst + codFee);
 
   const orderNumber = orderData?.id || Math.floor(100000 + Math.random() * 900000);
 
@@ -103,10 +103,17 @@ const OrderComplete = () => {
                     </tr>
                   ))}
                   
-                  <tr>
-                    <td className="py-3.5 font-semibold text-gray-600">Subtotal:</td>
+                   <tr>
+                    <td className="py-3.5 font-semibold text-gray-600">Subtotal (Excl. Tax):</td>
                     <td className="py-3.5 text-right font-semibold text-gray-900">
                       ₹{subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td className="py-3.5 font-semibold text-gray-600">GST (18%):</td>
+                    <td className="py-3.5 text-right font-semibold text-gray-900">
+                      ₹{gst.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </td>
                   </tr>
                   
@@ -134,12 +141,9 @@ const OrderComplete = () => {
                   </tr>
 
                   <tr className="border-t-2 border-gray-200 text-base font-bold">
-                    <td className="py-5 text-gray-900">Total:</td>
-                    <td className="py-5 text-right text-gray-900">
+                    <td className="py-5 text-gray-900">Total (Incl. Tax):</td>
+                    <td className="py-5 text-right text-lg text-[#0088cc]">
                       ₹{finalTotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                      <span className="text-xs font-normal text-gray-400 block mt-1">
-                        (includes ₹{gst.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} GST)
-                      </span>
                     </td>
                   </tr>
                 </tbody>

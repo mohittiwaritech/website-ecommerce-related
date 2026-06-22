@@ -482,9 +482,15 @@ const Checkout = () => {
           {/* TOTALS */}
           <div className="space-y-3 py-5 border-t border-b border-gray-100 text-sm">
             <div className="flex justify-between text-gray-600">
-              <span>Subtotal</span>
+              <span>Subtotal (Excl. Tax)</span>
               <span className="font-semibold text-gray-900">
                 ₹{subtotal.toLocaleString('en-IN')}.00
+              </span>
+            </div>
+            <div className="flex justify-between text-gray-600">
+              <span>GST (18%)</span>
+              <span className="font-semibold text-gray-900">
+                ₹{gst.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
             </div>
             <div className="flex justify-between text-gray-600">
@@ -494,12 +500,11 @@ const Checkout = () => {
               </span>
             </div>
             <div className="flex justify-between text-base font-bold text-gray-900 pt-2">
-              <span>Total</span>
+              <span>Total (Incl. Tax)</span>
               <div className="text-right">
-                <span>₹{subtotal.toLocaleString('en-IN')}.00</span>
-                <p className="text-[10px] text-gray-400 font-normal mt-0.5">
-                  incl. ₹{gst.toFixed(2)} GST
-                </p>
+                <span className="text-lg text-[#006699]">
+                  ₹{(subtotal + gst).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </span>
               </div>
             </div>
           </div>

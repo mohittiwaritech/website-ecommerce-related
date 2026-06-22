@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { getProductUrl } from '../utils/slugify';
+
 
 const Cart = () => {
 
@@ -202,17 +204,19 @@ const Cart = () => {
                         </button>
 
                         {/* IMAGE */}
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="w-16 h-16 object-contain border rounded-md p-1 bg-white"
-                        />
+                        <Link to={getProductUrl(item)}>
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            className="w-16 h-16 object-contain border rounded-md p-1 bg-white hover:opacity-85 transition-opacity"
+                          />
+                        </Link>
 
                         {/* TITLE */}
                         <div>
-                          <p className="text-blue-600 text-sm leading-6 max-w-[250px]">
+                          <Link to={getProductUrl(item)} className="text-blue-600 hover:text-blue-800 text-sm leading-6 max-w-[250px] font-medium transition-colors hover:underline block">
                             {item.title}
-                          </p>
+                          </Link>
                         </div>
                       </div>
                     </td>
@@ -289,22 +293,26 @@ const Cart = () => {
 
           {/* SUBTOTAL */}
           <div className="flex justify-between py-2 text-gray-600">
-
             <span>
-
-              Subtotal
-
+              Subtotal (Excl. Tax)
             </span>
-
             <span className="font-bold">
-
               ₹
               {subtotal.toLocaleString(
                 'en-IN'
               )}
-
             </span>
+          </div>
 
+          {/* GST */}
+          <div className="flex justify-between py-2 text-gray-600">
+            <span>
+              GST (18%)
+            </span>
+            <span className="font-bold">
+              ₹
+              {gst.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </span>
           </div>
 
           {/* SHIPPING */}
@@ -502,33 +510,18 @@ const Cart = () => {
 
           {/* TOTAL */}
           <div className="flex justify-between py-4 text-xl font-bold border-t mt-4 border-b">
-
             <span>
-
-              Total
-
+              Total (Incl. Tax)
             </span>
-
             <div className="text-right">
-
-              <p>
-
+              <p className="text-xl font-bold text-[#006699]">
                 ₹
-                {subtotal.toLocaleString(
-                  'en-IN'
+                {(subtotal + gst).toLocaleString(
+                  'en-IN',
+                  { minimumFractionDigits: 2, maximumFractionDigits: 2 }
                 )}
-
               </p>
-
-              <p className="text-[10px] text-gray-400 font-normal">
-
-                (includes ₹
-                {gst.toFixed(2)} GST)
-
-              </p>
-
             </div>
-
           </div>
 
           {/* CHECKOUT */}

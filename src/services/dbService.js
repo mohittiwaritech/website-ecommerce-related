@@ -280,3 +280,30 @@ export const seedInitialDatabase = async (products, categories, drivers) => {
     throw error;
   }
 };
+
+export const getProductReviews = async (productId) => {
+  try {
+    const reviewsCol = collection(db, 'reviews');
+    const q = query(reviewsCol, where('productId', '==', String(productId)));
+    const snapshot = await getDocs(q);
+    const reviews = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    throw error;
+  }
+};
+
+export const addReview = async (reviewData) => {
+  try {
+    const reviewsCol = collection(db, 'reviews');
+    const docSnap = await addDoc(reviewsCol, {
+      ...reviewData,
+      createdAt: new Date().toISOString()
+    });
+    return docSnap.id;
+  } catch (error) {
+    console.error("Error adding review:", error);
+    throw error;
+  }
+};

@@ -4,6 +4,8 @@ import { useCart } from '../context/CartContext';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getProducts, getCategories } from '../services/dbService';
+import { getProductUrl } from '../utils/slugify';
+
 
 function Products() {
   const location = useLocation();
@@ -295,7 +297,7 @@ function Products() {
                 >
                   {/* IMAGE */}
                   <Link
-                    to={`/product/${product.id}`}
+                    to={getProductUrl(product)}
                     className="block relative overflow-hidden mb-4 bg-white border-b border-gray-50"
                   >
                     <div className="relative w-full h-52 p-4">
@@ -328,7 +330,7 @@ function Products() {
                       {product.tag}
                     </p>
                     <Link
-                      to={`/product/${product.id}`}
+                      to={getProductUrl(product)}
                       className="text-[13px] font-semibold text-gray-800 hover:text-blue-600 mb-2 leading-tight"
                     >
                       {product.title}
