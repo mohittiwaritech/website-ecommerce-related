@@ -13,7 +13,7 @@ import WhatsAppButton from './components/WhatsAppButton';
 const Home = lazy(() => import('./pages/Home'));
 const Products = lazy(() => import('./pages/Products'));
 const Contact = lazy(() => import('./pages/Contact'));
-const Support = lazy(() => import('./pages/Support'));
+const Drivers = lazy(() => import('./pages/Drivers'));
 const ProductDetail = lazy(() => import('./pages/ProductDetail'));
 const Cart = lazy(() => import('./pages/Cart'));
 const Checkout = lazy(() => import('./pages/Checkout'));
@@ -63,8 +63,8 @@ function AppContent() {
           />
 
           <Route
-            path="/support"
-            element={<Support />}
+            path="/drivers"
+            element={<Drivers />}
           />
 
           <Route

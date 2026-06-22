@@ -38,7 +38,7 @@ const Navbar = () => {
           </Link>
 
           <Link
-            to="/support"
+            to="/drivers"
             className="hover:text-blue-600"
           >
             Drivers
