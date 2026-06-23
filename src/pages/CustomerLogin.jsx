@@ -4,10 +4,11 @@ import { auth } from '../firebase';
 import { 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword,
-  signInWithPopup,
+  signInWithRedirect,
   GoogleAuthProvider
 } from 'firebase/auth';
 import { toast } from 'react-toastify';
+import { useAuth } from '../context/AuthContext';
 
 const getPasswordStrength = (pass) => {
   if (!pass) return null;
@@ -25,6 +26,14 @@ const getPasswordStrength = (pass) => {
 };
 const CustomerLogin = () => {
   const navigate = useNavigate();
+  const { currentUser } = useAuth(); // We need to import useAuth for this
+
+  // If already logged in, redirect to my-orders
+  React.useEffect(() => {
+    if (currentUser) {
+      navigate('/my-orders');
+    }
+  }, [currentUser, navigate]);
   
   // Login State
   const [loginEmail, setLoginEmail] = useState('');
@@ -43,12 +52,10 @@ const CustomerLogin = () => {
   const handleGoogleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      toast.success("Welcome Back!");
-      navigate('/my-orders');
+      await signInWithRedirect(auth, provider);
+      // It will redirect away, so we don't navigate or toast here
     } catch (error) {
       console.error("Google Auth error:", error);
-      if (error.code === 'auth/popup-closed-by-user') return;
       toast.error(error.message || "Google authentication failed.");
     }
   };

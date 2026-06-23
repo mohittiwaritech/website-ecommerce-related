@@ -8,6 +8,16 @@ const Navbar = () => {
   const { cart, totalItems, totalPrice, setIsDrawerOpen, removeFromCart } = useCart();
   const { currentUser, logout } = useAuth();
 
+  const getInitial = () => {
+    if (currentUser?.displayName) {
+      return currentUser.displayName.charAt(0).toUpperCase();
+    }
+    if (currentUser?.email) {
+      return currentUser.email.charAt(0).toUpperCase();
+    }
+    return 'U';
+  };
+
   return (
     <nav className="bg-white border-b sticky top-0 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
@@ -59,20 +69,48 @@ const Navbar = () => {
           
           {/* USER ACCOUNT */}
           {currentUser ? (
-            <div className="relative group">
-              <Link to="/my-orders" className="text-gray-600 hover:text-blue-600 font-semibold text-sm mr-4">
-                My Orders
-              </Link>
-              <button 
-                onClick={logout}
-                className="text-gray-600 hover:text-red-600 font-semibold text-sm"
-              >
-                Logout
-              </button>
+            <div className="relative group h-20 flex items-center">
+              <div className="flex items-center gap-2 cursor-pointer">
+                {currentUser.photoURL ? (
+                  <img src={currentUser.photoURL} alt="Profile" className="w-9 h-9 rounded-full object-cover border-2 border-gray-100 shadow-sm" />
+                ) : (
+                  <div className="w-9 h-9 rounded-full bg-[#006699] flex items-center justify-center text-white font-bold text-sm shadow-sm">
+                    {getInitial()}
+                  </div>
+                )}
+                <span className="hidden md:block text-sm font-semibold text-gray-700">
+                  {currentUser.displayName ? currentUser.displayName.split(' ')[0] : 'Profile'}
+                </span>
+                <svg className="w-4 h-4 text-gray-500 hidden md:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+              </div>
+
+              {/* USER DROPDOWN */}
+              <div className="absolute right-0 top-[70px] w-56 bg-white border border-gray-100 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 rounded-sm flex flex-col py-2">
+                <div className="px-4 py-3 border-b border-gray-50">
+                  <p className="text-sm font-bold text-gray-800 truncate">{currentUser.displayName || 'User'}</p>
+                  <p className="text-xs text-gray-500 truncate mt-0.5">{currentUser.email}</p>
+                </div>
+                <div className="py-2">
+                  <Link to="/my-orders" className="flex items-center gap-3 px-4 py-2 text-sm text-gray-600 hover:text-[#006699] hover:bg-gray-50 transition-colors">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                    My Orders
+                  </Link>
+                </div>
+                <div className="border-t border-gray-50 py-2">
+                  <button 
+                    onClick={logout}
+                    className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors text-left"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    Logout
+                  </button>
+                </div>
+              </div>
             </div>
           ) : (
-            <Link to="/login" className="text-gray-600 hover:text-blue-600 font-semibold text-sm">
-              Login / Register
+            <Link to="/login" className="flex items-center gap-2 text-gray-600 hover:text-[#006699] font-semibold text-sm transition-colors">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+              <span className="hidden sm:inline">Login / Register</span>
             </Link>
           )}
 
