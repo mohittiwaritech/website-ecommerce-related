@@ -7,23 +7,43 @@ import { collection, addDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useAuth } from '../context/AuthContext';
 
-const TextField = ({ label, name, value, onChange, onBlur, error, type = "text", placeholder }) => (
-  <div className="space-y-1.5 text-left">
-    <label className="block text-xs font-bold uppercase tracking-wider text-gray-500">{label} *</label>
-    <input
-      type={type}
-      name={name}
-      value={value}
-      onChange={onChange}
-      onBlur={onBlur}
-      placeholder={placeholder}
-      className={`w-full border px-4 py-3.5 text-sm rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-50 focus:border-[#006699] bg-gray-50/50 hover:bg-gray-50/20 focus:bg-white transition-all duration-200 ${
-        error ? 'border-red-500 bg-red-50/30 focus:ring-red-50' : 'border-gray-200'
-      }`}
-    />
-    {error && <p className="text-red-500 text-xs mt-1 font-medium">{error}</p>}
-  </div>
-);
+const TextField = ({ label, name, value, onChange, onBlur, error, type = "text", placeholder }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const isPasswordType = type === "password";
+  const inputType = isPasswordType ? (showPassword ? "text" : "password") : type;
+
+  return (
+    <div className="space-y-1.5 text-left">
+      <label className="block text-xs font-bold uppercase tracking-wider text-gray-500">{label} *</label>
+      <div className="relative">
+        <input
+          type={inputType}
+          name={name}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+          placeholder={placeholder}
+          className={`w-full border px-4 py-3.5 text-sm rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-50 focus:border-[#006699] bg-gray-50/50 hover:bg-gray-50/20 focus:bg-white transition-all duration-200 pr-12 ${error ? 'border-red-500 bg-red-50/30 focus:ring-red-50' : 'border-gray-200'
+            }`}
+        />
+        {isPasswordType && (
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-[#006699] focus:outline-none"
+          >
+            {showPassword ? (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+            ) : (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
+            )}
+          </button>
+        )}
+      </div>
+      {error && <p className="text-red-500 text-xs mt-1 font-medium">{error}</p>}
+    </div>
+  );
+};
 
 const loadScript = (src) => {
   return new Promise((resolve) => {
@@ -126,7 +146,7 @@ const Checkout = () => {
   // SUBMISSION STATE
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('Online Payment');
-  
+
   // ACCOUNT CREATION
   const [createAccount, setCreateAccount] = useState(false);
   const [password, setPassword] = useState('');
@@ -203,9 +223,15 @@ const Checkout = () => {
       toast.error('Please fill all required details');
       return;
     }
-    if (createAccount && !password) {
-      toast.error('Please enter a password for your new account');
-      return;
+    if (!currentUser && createAccount) {
+      if (!password) {
+        toast.error('Please enter a password for your new account');
+        return;
+      }
+      if (password.length < 6) {
+        toast.error('Password must be at least 6 characters long');
+        return;
+      }
     }
 
     setIsSubmitting(true);
@@ -235,7 +261,7 @@ const Checkout = () => {
 
         // Dynamically choose backend URL based on environment
         const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://website-ecommerce-related-tql6.onrender.com';
-        
+
         const orderRes = await fetch(`${API_BASE_URL}/api/create-razorpay-order`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -261,7 +287,7 @@ const Checkout = () => {
             try {
               // Dynamically choose backend URL based on environment
               const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://website-ecommerce-related-tql6.onrender.com';
-              
+
               const verifyRes = await fetch(`${API_BASE_URL}/api/verify-payment`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -455,9 +481,8 @@ const Checkout = () => {
                   value={formData.state}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className={`w-full border px-4 py-3.5 text-sm rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-50 focus:border-[#006699] bg-gray-50/50 hover:bg-gray-50/20 focus:bg-white transition-all duration-200 appearance-none ${
-                    errors.state ? 'border-red-500 bg-red-50/30 focus:ring-red-50' : 'border-gray-200'
-                  }`}
+                  className={`w-full border px-4 py-3.5 text-sm rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-50 focus:border-[#006699] bg-gray-50/50 hover:bg-gray-50/20 focus:bg-white transition-all duration-200 appearance-none ${errors.state ? 'border-red-500 bg-red-50/30 focus:ring-red-50' : 'border-gray-200'
+                    }`}
                   style={{
                     backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
                     backgroundRepeat: 'no-repeat',
@@ -510,14 +535,14 @@ const Checkout = () => {
             {/* CREATE ACCOUNT TOGGLE */}
             {!currentUser && (
               <div className="space-y-4 pt-2 border-t border-gray-100">
-                <label className="flex items-start gap-2.5 text-sm text-gray-700 font-medium cursor-pointer select-none text-left">
+                <label className="flex items-start gap-2.5 text-sm text-gray-700 font-bold cursor-pointer select-none text-left">
                   <input
                     type="checkbox"
                     checked={createAccount}
                     onChange={(e) => setCreateAccount(e.target.checked)}
                     className="mt-0.5 w-4 h-4 accent-[#006699] border-gray-300 rounded focus:ring-[#006699]/20"
                   />
-                  <span>Create an account for faster checkout next time?</span>
+                  <span>Create an account & Subscribe to our newsletter?</span>
                 </label>
 
                 {createAccount && (
@@ -527,7 +552,7 @@ const Checkout = () => {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter a secure password"
+                    placeholder="Minimum 6 characters"
                   />
                 )}
               </div>
@@ -603,12 +628,11 @@ const Checkout = () => {
           {/* PAYMENT METHODS */}
           <div className="space-y-3.5">
             <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 text-left">Payment Method</h3>
-            
-            <label className={`flex items-start gap-3.5 border rounded-xl p-4 cursor-pointer transition-all duration-200 text-left ${
-              paymentMethod === 'Online Payment'
-                ? 'border-[#006699] bg-[#006699]/5 shadow-sm'
-                : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50/40'
-            }`}>
+
+            <label className={`flex items-start gap-3.5 border rounded-xl p-4 cursor-pointer transition-all duration-200 text-left ${paymentMethod === 'Online Payment'
+              ? 'border-[#006699] bg-[#006699]/5 shadow-sm'
+              : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50/40'
+              }`}>
               <input
                 type="radio"
                 name="payment"
@@ -628,7 +652,7 @@ const Checkout = () => {
               paymentMethod === 'Cash on Delivery'
                 ? 'border-[#006699] bg-[#006699]/5 shadow-sm'
                 : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50/40'
-            }`}>
+              }`}>
               <input
                 type="radio"
                 name="payment"
@@ -659,11 +683,10 @@ const Checkout = () => {
             <button
               onClick={handlePayment}
               disabled={isSubmitting}
-              className={`w-full text-white py-3.5 font-bold text-sm tracking-wider rounded-xl transition-all duration-300 active:scale-[0.98] ${
-                isSubmitting
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-[#006699] hover:bg-[#004d73] hover:shadow-lg hover:shadow-blue-900/10'
-              }`}
+              className={`w-full text-white py-3.5 font-bold text-sm tracking-wider rounded-xl transition-all duration-300 active:scale-[0.98] ${isSubmitting
+                ? 'bg-gray-400 cursor-not-allowed'
+                : 'bg-[#006699] hover:bg-[#004d73] hover:shadow-lg hover:shadow-blue-900/10'
+                }`}
             >
               {isSubmitting ? 'PROCESSING...' : 'PLACE ORDER'}
             </button>
