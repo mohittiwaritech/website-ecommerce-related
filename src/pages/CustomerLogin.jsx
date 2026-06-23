@@ -4,7 +4,7 @@ import { auth } from '../firebase';
 import { 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword,
-  signInWithRedirect,
+  signInWithPopup,
   GoogleAuthProvider
 } from 'firebase/auth';
 import { toast } from 'react-toastify';
@@ -52,10 +52,12 @@ const CustomerLogin = () => {
   const handleGoogleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithRedirect(auth, provider);
-      // It will redirect away, so we don't navigate or toast here
+      await signInWithPopup(auth, provider);
+      toast.success("Welcome Back!");
+      navigate('/my-orders');
     } catch (error) {
       console.error("Google Auth error:", error);
+      if (error.code === 'auth/popup-closed-by-user') return;
       toast.error(error.message || "Google authentication failed.");
     }
   };
