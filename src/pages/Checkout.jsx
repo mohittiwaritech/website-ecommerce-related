@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { db } from '../firebase';
+import { db, auth } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { useAuth } from '../context/AuthContext';
 
 const TextField = ({ label, name, value, onChange, onBlur, error, type = "text", placeholder }) => (
   <div className="space-y-1.5 text-left">
@@ -37,6 +39,45 @@ const loadScript = (src) => {
   });
 };
 
+const INDIAN_STATES = [
+  "Andaman and Nicobar Islands",
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chandigarh",
+  "Chhattisgarh",
+  "Dadra and Nagar Haveli and Daman and Diu",
+  "Delhi",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jammu and Kashmir",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Ladakh",
+  "Lakshadweep",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Puducherry",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal"
+];
+
 const Checkout = () => {
 
   // PRE-WAKEUP RENDER SERVER (Hack for free tier)
@@ -47,6 +88,9 @@ const Checkout = () => {
 
   // NAVIGATE
   const navigate = useNavigate();
+
+  // AUTH
+  const { currentUser } = useAuth();
 
   // CART
   const {
@@ -82,8 +126,12 @@ const Checkout = () => {
   // SUBMISSION STATE
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('Online Payment');
+  
+  // ACCOUNT CREATION
+  const [createAccount, setCreateAccount] = useState(false);
+  const [password, setPassword] = useState('');
 
-  const saveOrderToFirebase = async (paymentId, orderId, signature) => {
+  const saveOrderToFirebase = async (paymentId, orderId, signature, userId = null) => {
     try {
       const orderData = {
         customerDetails: formData,
@@ -104,7 +152,8 @@ const Checkout = () => {
           razorpay_signature: signature,
         } : null,
         createdAt: new Date().toISOString(),
-        status: paymentId ? 'Paid' : 'Pending'
+        status: paymentId ? 'Paid' : 'Pending',
+        userId: userId
       };
 
       await addDoc(collection(db, "orders"), orderData);
@@ -154,8 +203,26 @@ const Checkout = () => {
       toast.error('Please fill all required details');
       return;
     }
+    if (createAccount && !password) {
+      toast.error('Please enter a password for your new account');
+      return;
+    }
 
     setIsSubmitting(true);
+
+    const handleAccountAndSave = async (payId, ordId, sign) => {
+      let finalUserId = currentUser?.uid || null;
+      if (!finalUserId && createAccount && password) {
+        try {
+          const userCred = await createUserWithEmailAndPassword(auth, formData.email, password);
+          finalUserId = userCred.user.uid;
+        } catch (err) {
+          console.error("Failed to create account", err);
+          toast.info("Order placed, but account creation failed (Email may already exist).");
+        }
+      }
+      await saveOrderToFirebase(payId, ordId, sign, finalUserId);
+    };
 
     try {
       if (paymentMethod === 'Online Payment') {
@@ -207,7 +274,7 @@ const Checkout = () => {
 
               const verifyData = await verifyRes.json();
               if (verifyData.success) {
-                await saveOrderToFirebase(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature);
+                await handleAccountAndSave(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature);
               } else {
                 toast.error('Payment verification failed.');
                 setIsSubmitting(false);
@@ -229,14 +296,14 @@ const Checkout = () => {
         };
 
         const paymentObject = new window.Razorpay(options);
-        paymentObject.on('payment.failed', function (response) {
+        paymentObject.on('payment.failed', function () {
           toast.error('Payment failed. Please try again.');
           setIsSubmitting(false);
         });
         paymentObject.open();
 
       } else {
-        await saveOrderToFirebase(null, null, null);
+        await handleAccountAndSave(null, null, null);
       }
     } catch (error) {
       console.error("Error saving order: ", error);
@@ -399,11 +466,11 @@ const Checkout = () => {
                   }}
                 >
                   <option value="">Select State</option>
-                  <option>Uttar Pradesh</option>
-                  <option>Delhi</option>
-                  <option>Haryana</option>
-                  <option>Maharashtra</option>
-                  <option>Telangana</option>
+                  {INDIAN_STATES.map((state) => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))}
                 </select>
               </div>
               {errors.state && <p className="text-red-500 text-xs mt-1 font-medium">{errors.state}</p>}
@@ -439,6 +506,32 @@ const Checkout = () => {
               error={errors.email}
               placeholder="email@example.com"
             />
+
+            {/* CREATE ACCOUNT TOGGLE */}
+            {!currentUser && (
+              <div className="space-y-4 pt-2 border-t border-gray-100">
+                <label className="flex items-start gap-2.5 text-sm text-gray-700 font-medium cursor-pointer select-none text-left">
+                  <input
+                    type="checkbox"
+                    checked={createAccount}
+                    onChange={(e) => setCreateAccount(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 accent-[#006699] border-gray-300 rounded focus:ring-[#006699]/20"
+                  />
+                  <span>Create an account for faster checkout next time?</span>
+                </label>
+
+                {createAccount && (
+                  <TextField
+                    label="Account Password"
+                    name="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter a secure password"
+                  />
+                )}
+              </div>
+            )}
           </div>
         </div>
 

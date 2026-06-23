@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -25,19 +25,25 @@ const Cart = () => {
 
   // ALL INDIAN STATES
   const indianStates = [
-
+    "Andaman and Nicobar Islands",
     "Andhra Pradesh",
     "Arunachal Pradesh",
     "Assam",
     "Bihar",
+    "Chandigarh",
     "Chhattisgarh",
+    "Dadra and Nagar Haveli and Daman and Diu",
+    "Delhi",
     "Goa",
     "Gujarat",
     "Haryana",
     "Himachal Pradesh",
+    "Jammu and Kashmir",
     "Jharkhand",
     "Karnataka",
     "Kerala",
+    "Ladakh",
+    "Lakshadweep",
     "Madhya Pradesh",
     "Maharashtra",
     "Manipur",
@@ -45,6 +51,7 @@ const Cart = () => {
     "Mizoram",
     "Nagaland",
     "Odisha",
+    "Puducherry",
     "Punjab",
     "Rajasthan",
     "Sikkim",
@@ -53,9 +60,7 @@ const Cart = () => {
     "Tripura",
     "Uttar Pradesh",
     "Uttarakhand",
-    "West Bengal",
-    "Delhi"
-
+    "West Bengal"
   ];
 
   // ADDRESS FORM SHOW/HIDE

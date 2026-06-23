@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+// Contexts
+import { AuthProvider } from './context/AuthContext';
+
 // Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -18,6 +21,8 @@ const ProductDetail = lazy(() => import('./pages/ProductDetail'));
 const Cart = lazy(() => import('./pages/Cart'));
 const Checkout = lazy(() => import('./pages/Checkout'));
 const OrderComplete = lazy(() => import('./pages/OrderComplete'));
+const CustomerLogin = lazy(() => import('./pages/CustomerLogin'));
+const MyOrders = lazy(() => import('./pages/MyOrders'));
 
 // Lazy load Legal Pages
 const Terms = lazy(() => import('./pages/legal/Terms'));
@@ -82,6 +87,16 @@ function AppContent() {
             element={<Checkout />}
          />
 
+          {/* CUSTOMER ACCOUNT PATHS */}
+          <Route
+            path="/login"
+            element={<CustomerLogin />}
+          />
+          <Route
+            path="/my-orders"
+            element={<MyOrders />}
+          />
+
           {/* LEGAL PATHS */}
           <Route
             path="/terms"
@@ -133,19 +148,21 @@ function AppContent() {
 
 function App() {
   return (
-    <Router>
-      <AppContent />
-      {/* TOAST */}
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={true}
-        newestOnTop
-        closeOnClick
-        pauseOnHover
-        draggable
-      />
-    </Router>
+    <AuthProvider>
+      <Router>
+        <AppContent />
+        {/* TOAST */}
+        <ToastContainer
+          position="top-right"
+          autoClose={2000}
+          hideProgressBar={true}
+          newestOnTop
+          closeOnClick
+          pauseOnHover
+          draggable
+        />
+      </Router>
+    </AuthProvider>
   );
 }
 

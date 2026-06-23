@@ -1,9 +1,46 @@
-import React from 'react';
+import { useLocation } from 'react-router-dom';
 
 const WhatsAppButton = () => {
+  const location = useLocation();
+
+  const getWhatsAppLink = (pathname) => {
+    // Active support number (Change this if the active number changes)
+    const phone = "9104048522682"; 
+    
+    // Default fallback message
+    let message = "Hi BillingZone! I visited your website and would like to inquire about your products and services.";
+
+    if (pathname.startsWith('/product/')) {
+      // Extract product details from URL slug
+      const productSlug = pathname.replace('/product/', '');
+      const parts = productSlug.split('-');
+      
+      // Filter out the numeric product ID at the beginning of the slug (if it exists)
+      const titleParts = isNaN(parts[0]) ? parts : parts.slice(1);
+      
+      if (titleParts.length > 0) {
+        // Convert slug words back to standard capitalized product title
+        const productName = titleParts
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ');
+        message = `Hi BillingZone, I'm interested in the "${productName}" and have a query about it. Can you please help?`;
+      }
+    } else if (pathname === '/cart') {
+      message = "Hi BillingZone, I'm checking my cart items and have a question before placing my order.";
+    } else if (pathname === '/checkout') {
+      message = "Hi BillingZone, I'm on the Checkout page and need assistance with placing my order.";
+    } else if (pathname === '/contact') {
+      message = "Hi BillingZone, I'm on your Contact page and would like to get in touch.";
+    } else if (pathname === '/drivers') {
+      message = "Hi BillingZone, I need help downloading or installing the drivers for my billing machine.";
+    }
+
+    return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  };
+
   return (
     <a
-      href="https://wa.me/9104048522682" // Apna number yahan sahi karein
+      href={getWhatsAppLink(location.pathname)}
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-6 right-6 z-50 bg-[#25D366] p-3 rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
