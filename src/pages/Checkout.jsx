@@ -4,8 +4,23 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { db, auth } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useAuth } from '../context/AuthContext';
+
+const getPasswordStrength = (pass) => {
+  if (!pass) return null;
+  if (pass.length < 6) return { label: 'Weak', color: 'text-red-500', bg: 'bg-red-500', width: '33%' };
+  
+  let score = 0;
+  if (pass.length >= 6) score += 1;
+  if (pass.length >= 8) score += 1;
+  if (/[A-Z]/.test(pass)) score += 1;
+  if (/[0-9]/.test(pass)) score += 1;
+  if (/[^A-Za-z0-9]/.test(pass)) score += 1;
+
+  if (score <= 2) return { label: 'Fair', color: 'text-yellow-500', bg: 'bg-yellow-500', width: '66%' };
+  return { label: 'Strong', color: 'text-green-500', bg: 'bg-green-500', width: '100%' };
+};
 
 const TextField = ({ label, name, value, onChange, onBlur, error, type = "text", placeholder }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -142,6 +157,18 @@ const Checkout = () => {
 
   // ERRORS
   const [errors, setErrors] = useState({});
+
+  const handleGoogleLogin = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      toast.success("Successfully logged in with Google!");
+    } catch (error) {
+      console.error("Google Auth error:", error);
+      if (error.code === 'auth/popup-closed-by-user') return;
+      toast.error(error.message || "Google authentication failed.");
+    }
+  };
 
   // SUBMISSION STATE
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -424,7 +451,33 @@ const Checkout = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
         {/* LEFT SIDE (Billing Form) */}
-        <div className="lg:col-span-2 bg-white border border-gray-100 rounded-2xl p-8 shadow-sm space-y-6">
+        <div className="lg:col-span-2">
+          {!currentUser && (
+            <div className="bg-[#fcfdfd] border border-blue-100 rounded-2xl p-6 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+              <div className="text-left">
+                <h3 className="font-bold text-[#006699] text-sm">Fast Checkout</h3>
+                <p className="text-[13px] text-gray-500 mt-1">Register or log in quickly to save your details for future orders.</p>
+              </div>
+              <button
+                onClick={handleGoogleLogin}
+                type="button"
+                className="flex items-center justify-center gap-3 bg-[#4285F4] hover:bg-[#3367D6] text-white font-bold py-3 px-6 text-xs transition duration-200 rounded shadow-sm whitespace-nowrap"
+              >
+                <div className="bg-white p-0.5 rounded-sm">
+                  <svg className="w-5 h-5" viewBox="0 0 48 48">
+                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                    <path fill="none" d="M0 0h48v48H0z"/>
+                  </svg>
+                </div>
+                <span>Continue with Google</span>
+              </button>
+            </div>
+          )}
+
+          <div className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm space-y-6">
           <h2 className="text-xl font-bold text-gray-900 border-b pb-4 mb-4 text-left">
             BILLING DETAILS
           </h2>
@@ -546,19 +599,36 @@ const Checkout = () => {
                 </label>
 
                 {createAccount && (
-                  <TextField
-                    label="Account Password"
-                    name="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Minimum 6 characters"
-                  />
+                  <div className="space-y-2">
+                    <TextField
+                      label="Account Password"
+                      name="password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Minimum 6 characters"
+                    />
+                    {password && (() => {
+                      const strength = getPasswordStrength(password);
+                      return (
+                        <div className="space-y-1.5 mt-2 px-1">
+                          <div className="flex justify-between items-center text-[11px] uppercase tracking-wider">
+                            <span className="text-gray-500 font-bold">Password Strength</span>
+                            <span className={`font-black ${strength.color}`}>{strength.label}</span>
+                          </div>
+                          <div className="w-full bg-gray-100 rounded-full h-1.5 flex overflow-hidden">
+                            <div className={`h-full ${strength.bg} transition-all duration-300 ease-out`} style={{ width: strength.width }}></div>
+                          </div>
+                        </div>
+                      );
+                    })()}
+                  </div>
                 )}
               </div>
             )}
           </div>
         </div>
+      </div>
 
         {/* RIGHT SIDE (Order Summary & Payments) */}
         <div className="bg-[#fcfdfd] border border-gray-100 rounded-2xl p-6 shadow-sm h-fit sticky top-24 space-y-6">
