@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -7,6 +7,7 @@ import CartDrawer from './CartDrawer';
 const Navbar = () => {
   const { cart, totalItems, totalPrice, setIsDrawerOpen, removeFromCart } = useCart();
   const { currentUser, logout } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const getInitial = () => {
     if (currentUser?.displayName) {
@@ -188,6 +189,41 @@ const Navbar = () => {
               )}
             </div>
           </div>
+
+          {/* MOBILE MENU BUTTON */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden flex items-center justify-center p-2 text-gray-700 hover:text-[#006699]"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {isMobileMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Navigation Drawer */}
+      <div 
+        className={`fixed inset-0 bg-black/50 z-[60] transition-opacity duration-300 md:hidden ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`} 
+        onClick={() => setIsMobileMenuOpen(false)}
+      ></div>
+      
+      <div className={`fixed inset-y-0 right-0 w-64 bg-white z-[70] transform transition-transform duration-300 ease-in-out md:hidden flex flex-col ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className="flex items-center justify-between p-4 border-b">
+          <span className="text-lg font-bold text-blue-900 italic">Billing<span className="text-green-500">Zone</span></span>
+          <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-gray-500 hover:text-red-500">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
+        </div>
+        <div className="flex flex-col p-4 space-y-4 font-semibold text-gray-700 uppercase text-sm">
+          <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-blue-600 block border-b border-gray-50 pb-2">Home</Link>
+          <Link to="/products" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-blue-600 block border-b border-gray-50 pb-2">Products</Link>
+          <Link to="/drivers" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-blue-600 block border-b border-gray-50 pb-2">Drivers</Link>
+          <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-blue-600 block border-b border-gray-50 pb-2">Contact</Link>
         </div>
       </div>
 

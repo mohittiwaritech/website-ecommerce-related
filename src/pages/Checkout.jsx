@@ -346,6 +346,11 @@ const Checkout = () => {
           theme: {
             color: "#006699",
           },
+          modal: {
+            ondismiss: function () {
+              setIsSubmitting(false);
+            }
+          },
         };
 
         const paymentObject = new window.Razorpay(options);

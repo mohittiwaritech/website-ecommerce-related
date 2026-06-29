@@ -54,15 +54,15 @@ const HeroSlider = () => {
 
   return (
     <div
-      className={`relative w-full ${slides[currentSlide].bgColor} py-12 md:py-20 transition-all duration-500 overflow-hidden`}
+      className={`relative w-full ${slides[currentSlide].bgColor} py-8 md:py-20 transition-all duration-500 overflow-hidden`}
     >
 
       {/* Left Arrow */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-gray-400 flex items-center justify-center text-gray-600 hover:bg-white hover:shadow-md transition-all z-20"
+        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full border border-gray-400 flex items-center justify-center text-gray-600 hover:bg-white hover:shadow-md transition-all z-20"
       >
-        <span className="text-xl">❮</span>
+        <span className="text-sm md:text-xl">❮</span>
       </button>
 
       {/* Slide Content */}
@@ -83,11 +83,11 @@ const HeroSlider = () => {
 
         {/* Text */}
         <div className="w-full md:w-1/2 text-center md:text-left">
-          <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mb-4 leading-tight">
+          <h2 className="text-xl md:text-4xl font-bold text-gray-800 mb-2 md:mb-4 leading-tight px-4 md:px-0">
             {slides[currentSlide].title}
           </h2>
 
-          <p className="text-gray-600 text-sm md:text-base mb-8 max-w-md">
+          <p className="text-gray-600 text-xs md:text-base mb-6 md:mb-8 max-w-md mx-auto md:mx-0 px-4 md:px-0">
             {slides[currentSlide].description}
           </p>
 
@@ -106,9 +106,9 @@ const HeroSlider = () => {
       {/* Right Arrow */}
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-gray-400 flex items-center justify-center text-gray-600 hover:bg-white hover:shadow-md transition-all z-20"
+        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full border border-gray-400 flex items-center justify-center text-gray-600 hover:bg-white hover:shadow-md transition-all z-20"
       >
-        <span className="text-xl">❯</span>
+        <span className="text-sm md:text-xl">❯</span>
       </button>
 
       {/* Dots */}

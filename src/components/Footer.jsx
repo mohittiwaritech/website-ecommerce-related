@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer className="w-full font-sans">
       {/* Upper Footer: Modern Grid */}
-      <div className="bg-[#2C2C2C] text-gray-300 py-16 px-6">
+      <div className="bg-[#2C2C2C] text-gray-300 py-10 md:py-16 px-6">
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
 
           {/* Column 1: Company Info */}
@@ -95,9 +95,9 @@ const Footer = () => {
           </div>
 
           {/* Payment Badges */}
-          <div className="flex items-center gap-3">
-            <span className="text-[9px] font-bold text-gray-500 uppercase mr-2 tracking-tighter">Secure Payments:</span>
-            <div className="flex gap-2">
+          <div className="flex flex-col md:flex-row items-center gap-3 mt-4 md:mt-0">
+            <span className="text-[9px] font-bold text-gray-500 uppercase tracking-tighter">Secure Payments:</span>
+            <div className="flex flex-wrap justify-center gap-2">
               <div className="bg-gray-800/50 border border-gray-700 px-3 py-1 rounded-sm text-[10px] text-gray-400 font-bold">UPI</div>
               <div className="bg-gray-800/50 border border-gray-700 px-3 py-1 rounded-sm text-[10px] text-gray-400 font-bold">VISA</div>
               <div className="bg-gray-800/50 border border-gray-700 px-3 py-1 rounded-sm text-[10px] text-gray-400 font-bold">MASTERCARD</div>
