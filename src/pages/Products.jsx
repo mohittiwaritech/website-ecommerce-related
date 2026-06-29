@@ -245,6 +245,33 @@ function Products() {
             </select>
           </div>
 
+          {/* FILTER BY PRICE */}
+          <div className="mb-8">
+            <h3 className="font-bold text-gray-800 mb-4 uppercase text-sm border-b pb-2">
+              Filter By Price
+            </h3>
+            
+            <div className="flex flex-col space-y-4">
+              <input 
+                type="range" 
+                min="0" 
+                max="100000" 
+                step="500"
+                value={maxPrice} 
+                onChange={(e) => setMaxPrice(Number(e.target.value))}
+                className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#0088cc]"
+              />
+              <div className="flex justify-between items-center text-xs font-bold text-gray-600">
+                <button 
+                  className="bg-gray-600 hover:bg-gray-800 text-white px-3 py-1.5 rounded-full uppercase text-[10px] tracking-wider transition-colors"
+                >
+                  Filter
+                </button>
+                <span>Price: ₹0 — ₹{maxPrice.toLocaleString('en-IN')}</span>
+              </div>
+            </div>
+          </div>
+
           {/* CATEGORIES */}
           <div className="mb-8">
             <h3 className="font-bold text-gray-800 mb-4 uppercase text-sm border-b pb-2">
