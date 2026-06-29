@@ -5,6 +5,7 @@ import { useCart } from '../context/CartContext';
 import { getProductUrl } from '../utils/slugify';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SEO from '../components/SEO';
 
 const ProductDetails = () => {
   const navigate = useNavigate();
@@ -212,6 +213,12 @@ const ProductDetails = () => {
 
   return (
     <div className="bg-white min-h-screen">
+      <SEO 
+        title={product.title} 
+        description={product.shortDesc ? product.shortDesc.join(', ') : 'Buy this high-quality product from BillingZone.'} 
+        image={mainImage}
+        type="product"
+      />
       <div className="max-w-7xl mx-auto px-4 py-10">
         {/* BREADCRUMB */}
         <div className="flex items-center gap-2 text-sm text-gray-400 mb-8 font-semibold">

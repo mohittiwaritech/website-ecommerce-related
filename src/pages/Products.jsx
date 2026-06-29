@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getProducts, getCategories } from '../services/dbService';
 import { getProductUrl } from '../utils/slugify';
+import SEO from '../components/SEO';
 
 
 function Products() {
@@ -163,6 +164,10 @@ function Products() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl font-sans text-slate-900">
+      <SEO 
+        title="Shop Products" 
+        description="Browse our wide range of POS hardware, thermal printers, barcode scanners and software solutions." 
+      />
 
       {/* HEADER */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 border-b pb-4">

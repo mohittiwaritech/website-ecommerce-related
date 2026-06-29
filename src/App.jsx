@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { HelmetProvider } from 'react-helmet-async';
 
 // Contexts
 import { AuthProvider } from './context/AuthContext';
@@ -148,21 +149,23 @@ function AppContent() {
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <AppContent />
-        {/* TOAST */}
-        <ToastContainer
-          position="top-right"
-          autoClose={2000}
-          hideProgressBar={true}
-          newestOnTop
-          closeOnClick
-          pauseOnHover
-          draggable
-        />
-      </Router>
-    </AuthProvider>
+    <HelmetProvider>
+      <AuthProvider>
+        <Router>
+          <AppContent />
+          {/* TOAST */}
+          <ToastContainer
+            position="top-right"
+            autoClose={2000}
+            hideProgressBar={true}
+            newestOnTop
+            closeOnClick
+            pauseOnHover
+            draggable
+          />
+        </Router>
+      </AuthProvider>
+    </HelmetProvider>
   );
 }
 

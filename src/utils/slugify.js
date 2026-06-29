@@ -1,5 +1,3 @@
-// src/utils/slugify.js
-
 /**
  * Converts a string (e.g., product title) into an SEO-friendly slug.
  * @param {string} text
@@ -8,11 +6,11 @@
 export const convertToSlug = (text) => {
   return text
     ? text
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, '') // remove special characters except spaces/hyphens
-        .replace(/\s+/g, '-')         // replace spaces with hyphens
-        .replace(/-+/g, '-')          // replace multiple consecutive hyphens with one
-        .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '') // remove special characters except spaces/hyphens
+      .replace(/\s+/g, '-')         // replace spaces with hyphens
+      .replace(/-+/g, '-')          // replace multiple consecutive hyphens with one
+      .trim()
     : '';
 };
 

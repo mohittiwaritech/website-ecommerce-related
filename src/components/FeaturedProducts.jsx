@@ -19,7 +19,7 @@ const FeaturedProducts = () => {
     const loadFeatured = async () => {
       try {
         const allProducts = await getProducts();
-        const featured = allProducts
+        let featured = allProducts
           .filter(p => p.featured === true)
           .map(p => ({
             id: p.id,
@@ -32,7 +32,12 @@ const FeaturedProducts = () => {
             buttonText: 'ADD TO BASKET',
             link: getProductUrl(p)
           }));
-        setProducts(featured);
+          
+        // Shuffle the featured products to show different ones on every load
+        featured = featured.sort(() => 0.5 - Math.random());
+        
+        // Take only the first 4 items
+        setProducts(featured.slice(0, 4));
       } catch (error) {
         console.error("Error loading featured products:", error);
       } finally {
