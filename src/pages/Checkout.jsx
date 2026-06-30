@@ -3,7 +3,7 @@ import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { db, auth } from '../firebase';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
 import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useAuth } from '../context/AuthContext';
 
@@ -143,7 +143,6 @@ const Checkout = () => {
 
   // FORM DATA
   const [formData, setFormData] = useState({
-
     firstName: '',
     lastName: '',
     address: '',
@@ -152,8 +151,65 @@ const Checkout = () => {
     zip: '',
     phone: '',
     email: ''
-
   });
+
+  // Autofill data when user logs in
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (currentUser) {
+        let fName = '';
+        let lName = '';
+        
+        if (currentUser.displayName) {
+          const nameParts = currentUser.displayName.split(' ');
+          fName = nameParts[0] || '';
+          lName = nameParts.slice(1).join(' ') || '';
+        }
+
+        setFormData(prev => ({
+          ...prev,
+          firstName: prev.firstName || fName,
+          lastName: prev.lastName || lName,
+          email: prev.email || currentUser.email || '',
+          phone: prev.phone || currentUser.phoneNumber || ''
+        }));
+
+        try {
+          // Query for the user's latest order to autofill the rest of the details
+          const q = query(
+            collection(db, "orders"),
+            where("userId", "==", currentUser.uid),
+            orderBy("createdAt", "desc"),
+            limit(1)
+          );
+          const querySnapshot = await getDocs(q);
+          
+          if (!querySnapshot.empty) {
+            const lastOrder = querySnapshot.docs[0].data();
+            const customerDetails = lastOrder.customerDetails;
+            
+            if (customerDetails) {
+              setFormData(prev => ({
+                ...prev,
+                firstName: prev.firstName || customerDetails.firstName || '',
+                lastName: prev.lastName || customerDetails.lastName || '',
+                address: prev.address || customerDetails.address || '',
+                city: prev.city || customerDetails.city || '',
+                state: prev.state || customerDetails.state || '',
+                zip: prev.zip || customerDetails.zip || '',
+                phone: prev.phone || customerDetails.phone || '',
+                email: prev.email || customerDetails.email || ''
+              }));
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching last order for autofill:", error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [currentUser]);
 
   // ERRORS
   const [errors, setErrors] = useState({});
