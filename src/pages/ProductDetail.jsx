@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getProductById, getProducts, getProductReviews, addReview } from '../services/dbService';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { getProductUrl } from '../utils/slugify';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,6 +10,9 @@ import SEO from '../components/SEO';
 
 const ProductDetails = () => {
   const navigate = useNavigate();
+
+  // AUTH
+  const { currentUser } = useAuth();
 
   // CART
   const { addToCart, loadingItemIds } = useCart();
@@ -32,6 +36,13 @@ const ProductDetails = () => {
   const [reviewerEmail, setReviewerEmail] = useState('');
   const [reviewComment, setReviewComment] = useState('');
   const [newRating, setNewRating] = useState(5);
+
+  useEffect(() => {
+    if (currentUser) {
+      setReviewerName(currentUser.displayName || '');
+      setReviewerEmail(currentUser.email || '');
+    }
+  }, [currentUser]);
 
   // RESET ON PRODUCT ID CHANGE
   useEffect(() => {
@@ -568,8 +579,9 @@ const ProductDetails = () => {
                       required
                       value={reviewerName}
                       onChange={(e) => setReviewerName(e.target.value)}
+                      readOnly={!!currentUser}
                       placeholder="Your name"
-                      className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0088cc]"
+                      className={`w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0088cc] ${currentUser ? 'bg-gray-100 cursor-not-allowed text-gray-500' : 'bg-white'}`}
                     />
                   </div>
                   <div>
@@ -579,8 +591,9 @@ const ProductDetails = () => {
                       required
                       value={reviewerEmail}
                       onChange={(e) => setReviewerEmail(e.target.value)}
+                      readOnly={!!currentUser}
                       placeholder="Your email address"
-                      className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0088cc]"
+                      className={`w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0088cc] ${currentUser ? 'bg-gray-100 cursor-not-allowed text-gray-500' : 'bg-white'}`}
                     />
                   </div>
                 </div>
