@@ -5,7 +5,7 @@ const Features = () => {
     {
       id: 1,
       title: 'Experience',
-      desc: '8+ Years of experience in POS Industry',
+      desc: '2+ Years of experience in POS Industry',
       // Clock Icon
       icon: (
         <svg className="w-16 h-16 mb-4" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -17,7 +17,7 @@ const Features = () => {
     {
       id: 2,
       title: 'Customers',
-      desc: 'Over 100,000+ Happy Customers all over India',
+      desc: 'Over 500 + Happy Customers all over India',
       // Customers Icon
       icon: (
         <svg className="w-16 h-16 mb-4" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
