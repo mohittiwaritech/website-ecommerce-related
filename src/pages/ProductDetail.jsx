@@ -512,15 +512,30 @@ const ProductDetails = () => {
                         {product.inStock ? 'In Stock' : 'Out of Stock'}
                       </td>
                     </tr>
-                    {product.specs && Object.entries(product.specs).map(([key, value], idx) => (
-                      <tr 
-                        key={key} 
-                        className={`border-b border-gray-100 ${idx % 2 === 0 ? '' : 'bg-gray-50/50'}`}
-                      >
-                        <td className="px-6 py-4 font-bold text-gray-700 w-1/3 text-sm uppercase">{key}</td>
-                        <td className="px-6 py-4 text-gray-600 text-sm">{value}</td>
-                      </tr>
-                    ))}
+                    {product.specs && Object.entries(product.specs).map(([key, value], idx) => {
+                      const isList = value.includes(',') || value.includes('\n');
+                      const items = isList ? value.split(/[,\n]+/).map(s => s.trim()).filter(Boolean) : [value];
+                      
+                      return (
+                        <tr 
+                          key={key} 
+                          className={`border-b border-gray-100 ${idx % 2 === 0 ? '' : 'bg-gray-50/50'}`}
+                        >
+                          <td className="px-6 py-4 font-bold text-gray-700 w-1/3 text-sm uppercase align-top">{key}</td>
+                          <td className="px-6 py-4 text-gray-600 text-sm">
+                            {isList && items.length > 1 ? (
+                              <ul className="list-disc pl-5 space-y-1">
+                                {items.map((item, i) => (
+                                  <li key={i}>{item}</li>
+                                ))}
+                              </ul>
+                            ) : (
+                              value
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>

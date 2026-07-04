@@ -799,12 +799,12 @@ const ProductsManager = () => {
                         onChange={(e) => handleSpecChange(idx, 'key', e.target.value)}
                         className="flex-1 bg-slate-950 border border-slate-800 text-white rounded-xl px-4 py-2 text-xs focus:outline-none focus:border-blue-500"
                       />
-                      <input
-                        type="text"
-                        placeholder="Value (e.g. Intel Celeron)"
+                      <textarea
+                        rows="1"
+                        placeholder="Value (Use Enter or comma for bullets)"
                         value={item.value}
                         onChange={(e) => handleSpecChange(idx, 'value', e.target.value)}
-                        className="flex-1 bg-slate-950 border border-slate-800 text-white rounded-xl px-4 py-2 text-xs focus:outline-none focus:border-blue-500"
+                        className="flex-1 bg-slate-950 border border-slate-800 text-white rounded-xl px-4 py-2 text-xs focus:outline-none focus:border-blue-500 resize-y"
                       />
                       <button
                         type="button"
