@@ -20,7 +20,7 @@ function Products() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [selectedInterface, setSelectedInterface] = useState('');
-  const [maxPrice, setMaxPrice] = useState(50000);
+  const [maxPrice, setMaxPrice] = useState(100000);
   const { addToCart, loadingItemIds } = useCart();
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 

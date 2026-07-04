@@ -41,6 +41,7 @@ const ProductsManager = () => {
   const [isAddingCategory, setIsAddingCategory] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
   const [newCategoryImage, setNewCategoryImage] = useState('');
+  const [editingCategoryId, setEditingCategoryId] = useState(null);
 
   // Form State
   const [form, setForm] = useState({
@@ -143,27 +144,40 @@ const ProductsManager = () => {
     setIsAddingCategory(false);
     setNewCategoryName('');
     setNewCategoryImage('');
+    setEditingCategoryId(null);
   };
 
   const handleSaveNewCategory = async () => {
     if (!newCategoryName.trim()) return;
     
-    if (categories.find(c => c.name.toLowerCase() === newCategoryName.trim().toLowerCase())) {
+    const existing = categories.find(c => c.name.toLowerCase() === newCategoryName.trim().toLowerCase());
+    if (existing && existing.id !== editingCategoryId) {
       toast.error("Category already exists!");
       return;
     }
 
     try {
-      const catId = await saveCategory({ name: newCategoryName.trim(), image: newCategoryImage });
+      const payload = { name: newCategoryName.trim(), image: newCategoryImage };
+      if (editingCategoryId) payload.id = editingCategoryId;
+
+      const catId = await saveCategory(payload);
       const newCategoryObj = { id: catId, name: newCategoryName.trim(), image: newCategoryImage };
-      setCategories(prev => [...prev, newCategoryObj]);
+      
+      if (editingCategoryId) {
+        setCategories(prev => prev.map(c => c.id === editingCategoryId ? newCategoryObj : c));
+        toast.success("Category updated successfully!");
+      } else {
+        setCategories(prev => [...prev, newCategoryObj]);
+        toast.success("Category added successfully!");
+      }
+      
       setForm(prev => ({ ...prev, category: newCategoryObj.name }));
       setIsAddingCategory(false);
       setNewCategoryName('');
       setNewCategoryImage('');
-      toast.success("Category added successfully!");
+      setEditingCategoryId(null);
     } catch (error) {
-      toast.error("Failed to add category");
+      toast.error(editingCategoryId ? "Failed to update category" : "Failed to add category");
     }
   };
 
@@ -891,16 +905,37 @@ const ProductsManager = () => {
                 <h3 className="font-bold text-white text-md">Manage Categories</h3>
               </div>
               <button 
-                onClick={() => setIsCategoryDrawerOpen(false)}
+                onClick={() => {
+                  setIsCategoryDrawerOpen(false);
+                  setEditingCategoryId(null);
+                  setNewCategoryName('');
+                  setNewCategoryImage('');
+                }}
                 className="p-2 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* ADD CATEGORY */}
-            <div className="p-6 border-b border-slate-800 bg-slate-950/30">
-              <h4 className="text-xs uppercase font-bold text-slate-400 mb-3 tracking-wider">Add New Category</h4>
+            {/* ADD / EDIT CATEGORY */}
+            <div className="p-6 border-b border-slate-800 bg-slate-950/30 transition-all">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="text-xs uppercase font-bold text-slate-400 tracking-wider">
+                  {editingCategoryId ? 'Edit Category' : 'Add New Category'}
+                </h4>
+                {editingCategoryId && (
+                  <button
+                    onClick={() => {
+                      setEditingCategoryId(null);
+                      setNewCategoryName('');
+                      setNewCategoryImage('');
+                    }}
+                    className="text-[10px] uppercase font-bold text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 px-2 py-1 rounded"
+                  >
+                    Cancel Edit
+                  </button>
+                )}
+              </div>
               <div className="space-y-3">
                 <input
                   type="text"
@@ -963,7 +998,7 @@ const ProductsManager = () => {
                   disabled={uploading || !newCategoryName.trim()}
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-5 rounded-xl text-xs uppercase tracking-wider transition disabled:opacity-50"
                 >
-                  Save Category
+                  {editingCategoryId ? 'Update Category' : 'Save Category'}
                 </button>
               </div>
             </div>
@@ -986,12 +1021,24 @@ const ProductsManager = () => {
                       )}
                       <span className="font-bold text-slate-200 text-sm">{c.name}</span>
                     </div>
-                    <button
-                      onClick={() => handleDeleteCategory(c.id)}
-                      className="p-2 text-slate-400 hover:text-red-400 bg-slate-900 border border-slate-800 hover:border-red-900/50 rounded-lg transition"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    <div className="flex gap-1">
+                      <button
+                        onClick={() => {
+                          setEditingCategoryId(c.id);
+                          setNewCategoryName(c.name);
+                          setNewCategoryImage(c.image || '');
+                        }}
+                        className="p-2 text-slate-400 hover:text-blue-400 bg-slate-900 border border-slate-800 hover:border-blue-900/50 rounded-lg transition"
+                      >
+                        <Edit className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteCategory(c.id)}
+                        className="p-2 text-slate-400 hover:text-red-400 bg-slate-900 border border-slate-800 hover:border-red-900/50 rounded-lg transition"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
