@@ -4,7 +4,8 @@ import {
   saveProduct, 
   deleteProduct, 
   getCategories,
-  saveCategory
+  saveCategory,
+  deleteCategory
 } from '../../services/dbService';
 import { storage } from '../../firebase'; // keep for other things if needed, or remove if unused. Actually let's just remove the storage usage in upload.
 import { toast } from 'react-toastify';
@@ -36,8 +37,10 @@ const ProductsManager = () => {
   const [uploading, setUploading] = useState(false);
 
   // Category State
+  const [isCategoryDrawerOpen, setIsCategoryDrawerOpen] = useState(false);
   const [isAddingCategory, setIsAddingCategory] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
+  const [newCategoryImage, setNewCategoryImage] = useState('');
 
   // Form State
   const [form, setForm] = useState({
@@ -139,6 +142,7 @@ const ProductsManager = () => {
     setEditingProduct(null);
     setIsAddingCategory(false);
     setNewCategoryName('');
+    setNewCategoryImage('');
   };
 
   const handleSaveNewCategory = async () => {
@@ -150,15 +154,28 @@ const ProductsManager = () => {
     }
 
     try {
-      const catId = await saveCategory({ name: newCategoryName.trim() });
-      const newCategoryObj = { id: catId, name: newCategoryName.trim() };
+      const catId = await saveCategory({ name: newCategoryName.trim(), image: newCategoryImage });
+      const newCategoryObj = { id: catId, name: newCategoryName.trim(), image: newCategoryImage };
       setCategories(prev => [...prev, newCategoryObj]);
       setForm(prev => ({ ...prev, category: newCategoryObj.name }));
       setIsAddingCategory(false);
       setNewCategoryName('');
+      setNewCategoryImage('');
       toast.success("Category added successfully!");
     } catch (error) {
       toast.error("Failed to add category");
+    }
+  };
+
+  const handleDeleteCategory = async (id) => {
+    if (window.confirm("Are you sure you want to delete this category?")) {
+      try {
+        await deleteCategory(id);
+        setCategories(prev => prev.filter(c => c.id !== id));
+        toast.success("Category deleted");
+      } catch (error) {
+        toast.error("Failed to delete category");
+      }
     }
   };
 
@@ -363,13 +380,22 @@ const ProductsManager = () => {
           </select>
         </div>
 
-        <button
-          onClick={() => handleOpenDrawer()}
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-5 rounded-xl text-xs uppercase tracking-wider transition w-full sm:w-auto justify-center"
-        >
-          <Plus className="w-4 h-4" />
-          Add Product
-        </button>
+        <div className="flex gap-2 w-full sm:w-auto">
+          <button
+            onClick={() => setIsCategoryDrawerOpen(true)}
+            className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-bold py-2.5 px-5 rounded-xl text-xs uppercase tracking-wider transition w-full sm:w-auto justify-center"
+          >
+            <FolderOpen className="w-4 h-4" />
+            Categories
+          </button>
+          <button
+            onClick={() => handleOpenDrawer()}
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-5 rounded-xl text-xs uppercase tracking-wider transition w-full sm:w-auto justify-center"
+          >
+            <Plus className="w-4 h-4" />
+            Add Product
+          </button>
+        </div>
       </div>
 
       {/* TABLE */}
@@ -851,6 +877,125 @@ const ProductsManager = () => {
               </button>
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {/* CATEGORY DRAWER */}
+      {isCategoryDrawerOpen && (
+        <div className="fixed inset-0 z-50 overflow-hidden flex justify-end bg-black/60 backdrop-blur-xs font-sans">
+          <div className="w-full max-w-md bg-slate-900 border-l border-slate-800 flex flex-col h-full shadow-2xl animate-slide-in">
+            {/* HEADER */}
+            <div className="h-20 border-b border-slate-800 px-6 flex items-center justify-between bg-slate-900/50">
+              <div>
+                <h3 className="font-bold text-white text-md">Manage Categories</h3>
+              </div>
+              <button 
+                onClick={() => setIsCategoryDrawerOpen(false)}
+                className="p-2 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* ADD CATEGORY */}
+            <div className="p-6 border-b border-slate-800 bg-slate-950/30">
+              <h4 className="text-xs uppercase font-bold text-slate-400 mb-3 tracking-wider">Add New Category</h4>
+              <div className="space-y-3">
+                <input
+                  type="text"
+                  placeholder="Category Name"
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-blue-500"
+                />
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="Image URL"
+                    value={newCategoryImage}
+                    onChange={(e) => setNewCategoryImage(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-blue-500"
+                  />
+                  <div className="relative">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      id="cat-img-upload-drawer"
+                      onChange={async (e) => {
+                        const file = e.target.files[0];
+                        if(!file) return;
+                        setUploading(true);
+                        try {
+                          const base64 = await new Promise((res, rej) => {
+                            const reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            reader.onload = () => res(reader.result);
+                            reader.onerror = err => rej(err);
+                          });
+                          const res = await fetch('https://website-ecommerce-related-tql6.onrender.com/api/upload-image', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ file: base64, fileName: file.name })
+                          });
+                          const data = await res.json();
+                          if (!res.ok) throw new Error(data.error);
+                          setNewCategoryImage(data.url);
+                          toast.success("Image uploaded!");
+                        } catch (err) {
+                          toast.error("Upload failed");
+                        } finally {
+                          setUploading(false);
+                        }
+                      }}
+                      className="hidden"
+                    />
+                    <label
+                      htmlFor="cat-img-upload-drawer"
+                      className="flex items-center justify-center bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 hover:border-slate-600 px-3 rounded-xl cursor-pointer h-full transition"
+                    >
+                      <Upload className="w-4 h-4 text-blue-400" />
+                    </label>
+                  </div>
+                </div>
+                <button
+                  onClick={handleSaveNewCategory}
+                  disabled={uploading || !newCategoryName.trim()}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-5 rounded-xl text-xs uppercase tracking-wider transition disabled:opacity-50"
+                >
+                  Save Category
+                </button>
+              </div>
+            </div>
+
+            {/* CATEGORY LIST */}
+            <div className="flex-grow overflow-y-auto p-6">
+              <h4 className="text-xs uppercase font-bold text-slate-400 mb-4 tracking-wider">Existing Categories</h4>
+              <div className="space-y-2">
+                {categories.map(c => (
+                  <div key={c.id} className="flex items-center justify-between bg-slate-800/30 border border-slate-800 p-3 rounded-xl">
+                    <div className="flex items-center gap-3">
+                      {c.image ? (
+                        <div className="w-10 h-10 rounded bg-white p-1 flex items-center justify-center">
+                          <img src={c.image} className="max-w-full max-h-full object-contain" alt={c.name} />
+                        </div>
+                      ) : (
+                        <div className="w-10 h-10 rounded bg-slate-800 flex items-center justify-center text-slate-500">
+                          <FolderOpen className="w-5 h-5" />
+                        </div>
+                      )}
+                      <span className="font-bold text-slate-200 text-sm">{c.name}</span>
+                    </div>
+                    <button
+                      onClick={() => handleDeleteCategory(c.id)}
+                      className="p-2 text-slate-400 hover:text-red-400 bg-slate-900 border border-slate-800 hover:border-red-900/50 rounded-lg transition"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       )}

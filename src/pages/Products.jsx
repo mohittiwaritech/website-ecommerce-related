@@ -37,7 +37,7 @@ function Products() {
           id: p.id,
           category: p.category,
           interface: p.specs?.Connectivity || p.specs?.Interface || 'None',
-          tag: p.category.toUpperCase(),
+          tag: (p.category || '').toUpperCase(),
           title: p.title,
           rating: p.rating,
           price: p.price,
@@ -48,9 +48,16 @@ function Products() {
           btnType: 'ADD TO BASKET',
         }));
 
+        const categoriesWithProducts = new Set(
+          rawProducts.map((p) => (p.category ? p.category.toLowerCase() : ''))
+        );
+        const activeCategories = rawCategories
+          .filter((c) => c.name && categoriesWithProducts.has(c.name.toLowerCase()))
+          .map((c) => c.name);
+
         setAllProducts(mapped);
         setProducts(mapped);
-        setCategoriesList(rawCategories.map(c => c.name));
+        setCategoriesList(activeCategories);
       } catch (error) {
         console.error("Error loading products/categories:", error);
       } finally {
@@ -122,7 +129,7 @@ function Products() {
     // CATEGORY / TYPE FILTER
     if (selectedCategory) {
       filtered = filtered.filter(
-        (p) => p.category === selectedCategory
+        (p) => p.category && p.category.toLowerCase() === selectedCategory.toLowerCase()
       );
     } else if (selectedType === 'hardware') {
       filtered = filtered.filter(

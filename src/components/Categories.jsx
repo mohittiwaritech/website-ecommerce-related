@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getCategories } from '../services/dbService';
+import { getCategories, getProducts } from '../services/dbService';
 
 const Categories = () => {
   const navigate = useNavigate();
@@ -10,8 +10,14 @@ const Categories = () => {
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        const data = await getCategories();
-        setCategoryData(data);
+        const [cats, prods] = await Promise.all([getCategories(), getProducts()]);
+        const categoriesWithProducts = new Set(
+          prods.map((p) => (p.category ? p.category.toLowerCase() : ''))
+        );
+        const activeCategories = cats.filter(
+          (c) => c.name && categoriesWithProducts.has(c.name.toLowerCase())
+        );
+        setCategoryData(activeCategories);
       } catch (error) {
         console.error("Error loading categories:", error);
       } finally {
