@@ -30,7 +30,8 @@ const FeaturedProducts = () => {
             displayPrice: `₹${p.price.toLocaleString('en-IN')}.00`,
             image: p.mainImage,
             buttonText: 'ADD TO BASKET',
-            link: getProductUrl(p)
+            link: getProductUrl(p),
+            inStock: p.inStock
           }));
           
         // Shuffle the featured products to show different ones on every load
@@ -154,9 +155,11 @@ const FeaturedProducts = () => {
                   return (
                     <button
                       onClick={() => handleAddToCart(product)}
-                      disabled={isItemLoading}
-                      className={`mt-auto w-full bg-[#0073B7] hover:bg-[#005f91] text-white font-bold py-3 px-4 rounded-md text-xs uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-1.5 min-h-[42px] ${
-                        isItemLoading ? 'opacity-85 cursor-wait' : ''
+                      disabled={!product.inStock || isItemLoading}
+                      className={`mt-auto w-full text-white font-bold py-3 px-4 rounded-md text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5 min-h-[42px] ${
+                        product.inStock ? 'bg-[#0073B7] hover:bg-[#005f91] shadow-md hover:shadow-lg' : 'bg-gray-400 cursor-not-allowed hover:bg-gray-400'
+                      } ${
+                        isItemLoading && product.inStock ? 'opacity-85 cursor-wait' : ''
                       }`}
                     >
                       {isItemLoading ? (
@@ -164,8 +167,10 @@ const FeaturedProducts = () => {
                           <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                           <span>Adding...</span>
                         </>
-                      ) : (
+                      ) : product.inStock ? (
                         product.buttonText
+                      ) : (
+                        'Out of Stock'
                       )}
                     </button>
                   );

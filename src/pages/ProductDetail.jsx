@@ -345,7 +345,7 @@ const ProductDetails = () => {
                         onClick={() =>
                           setQuantity((q) => Math.max(1, q - 1))
                         }
-                        disabled={isItemLoading || quantity <= 1}
+                        disabled={!product.inStock || isItemLoading || quantity <= 1}
                         className="px-5 hover:bg-gray-200 font-bold transition-colors disabled:opacity-40"
                       >
                         -
@@ -359,7 +359,7 @@ const ProductDetails = () => {
                         onClick={() =>
                           setQuantity((q) => q + 1)
                         }
-                        disabled={isItemLoading}
+                        disabled={!product.inStock || isItemLoading}
                         className="px-5 hover:bg-gray-200 font-bold transition-colors disabled:opacity-40"
                       >
                         +
@@ -385,9 +385,11 @@ const ProductDetails = () => {
                         console.error("Error adding to cart:", error);
                       }
                     }}
-                    disabled={isItemLoading}
-                    className={`bg-[#0088cc] hover:bg-[#006699] text-white px-12 py-4 rounded-xl font-bold uppercase tracking-widest transition-all duration-300 shadow-xl flex-1 flex items-center justify-center gap-2.5 hover:scale-105 ${
-                      isItemLoading ? 'opacity-85 cursor-wait hover:scale-100' : ''
+                    disabled={!product.inStock || isItemLoading}
+                    className={`text-white px-12 py-4 rounded-xl font-bold uppercase tracking-widest transition-all duration-300 flex-1 flex items-center justify-center gap-2.5 ${
+                      product.inStock ? 'bg-[#0088cc] hover:bg-[#006699] shadow-xl hover:scale-105' : 'bg-gray-400 cursor-not-allowed'
+                    } ${
+                      isItemLoading && product.inStock ? 'opacity-85 cursor-wait hover:scale-100' : ''
                     }`}
                   >
                     {isItemLoading ? (
@@ -395,8 +397,10 @@ const ProductDetails = () => {
                         <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                         <span>Adding to Basket...</span>
                       </>
-                    ) : (
+                    ) : product.inStock ? (
                       <>🛒 Add To Basket</>
+                    ) : (
+                      <>Out of Stock</>
                     )}
                   </button>
                 );
@@ -692,9 +696,11 @@ const ProductDetails = () => {
                               console.error("Error adding related to cart:", error);
                             }
                           }}
-                          disabled={isItemLoading}
-                          className={`mt-auto w-full bg-[#0088cc] hover:bg-[#006699] text-white font-bold py-2.5 px-4 rounded-lg text-[10px] uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5 cursor-pointer ${
-                            isItemLoading ? 'opacity-80 cursor-wait' : ''
+                          disabled={!p.inStock || isItemLoading}
+                          className={`mt-auto w-full text-white font-bold py-2.5 px-4 rounded-lg text-[10px] uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5 ${
+                            p.inStock ? 'bg-[#0088cc] hover:bg-[#006699] cursor-pointer' : 'bg-gray-400 cursor-not-allowed'
+                          } ${
+                            isItemLoading && p.inStock ? 'opacity-80 cursor-wait' : ''
                           }`}
                         >
                           {isItemLoading ? (
@@ -702,8 +708,10 @@ const ProductDetails = () => {
                               <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                               <span>Adding...</span>
                             </>
-                          ) : (
+                          ) : p.inStock ? (
                             "Add To Basket"
+                          ) : (
+                            "Out of Stock"
                           )}
                         </button>
                       );
