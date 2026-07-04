@@ -58,7 +58,7 @@ export const saveProduct = async (product) => {
 
     if (product.id) {
       const docRef = doc(db, 'products', product.id);
-      await setDoc(docRef, productData, { merge: true });
+      await updateDoc(docRef, productData);
       return product.id;
     } else {
       const docRef = collection(db, 'products');
