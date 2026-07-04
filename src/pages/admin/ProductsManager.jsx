@@ -3,7 +3,8 @@ import {
   getProducts, 
   saveProduct, 
   deleteProduct, 
-  getCategories 
+  getCategories,
+  saveCategory
 } from '../../services/dbService';
 import { storage } from '../../firebase'; // keep for other things if needed, or remove if unused. Actually let's just remove the storage usage in upload.
 import { toast } from 'react-toastify';
@@ -33,6 +34,10 @@ const ProductsManager = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [uploading, setUploading] = useState(false);
+
+  // Category State
+  const [isAddingCategory, setIsAddingCategory] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState('');
 
   // Form State
   const [form, setForm] = useState({
@@ -132,6 +137,29 @@ const ProductsManager = () => {
   const handleCloseDrawer = () => {
     setIsDrawerOpen(false);
     setEditingProduct(null);
+    setIsAddingCategory(false);
+    setNewCategoryName('');
+  };
+
+  const handleSaveNewCategory = async () => {
+    if (!newCategoryName.trim()) return;
+    
+    if (categories.find(c => c.name.toLowerCase() === newCategoryName.trim().toLowerCase())) {
+      toast.error("Category already exists!");
+      return;
+    }
+
+    try {
+      const catId = await saveCategory({ name: newCategoryName.trim() });
+      const newCategoryObj = { id: catId, name: newCategoryName.trim() };
+      setCategories(prev => [...prev, newCategoryObj]);
+      setForm(prev => ({ ...prev, category: newCategoryObj.name }));
+      setIsAddingCategory(false);
+      setNewCategoryName('');
+      toast.success("Category added successfully!");
+    } catch (error) {
+      toast.error("Failed to add category");
+    }
   };
 
   // Image Upload helper (via Backend Proxy to ImageKit)
@@ -541,15 +569,39 @@ const ProductsManager = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Category</label>
-                  <select
-                    value={form.category}
-                    onChange={(e) => setForm(prev => ({ ...prev, category: e.target.value }))}
-                    className="w-full bg-slate-950 border border-slate-800 text-slate-300 rounded-xl px-4 py-2.5 text-xs focus:outline-none"
-                  >
-                    {categories.map(c => (
-                      <option key={c.id} value={c.name}>{c.name}</option>
-                    ))}
-                  </select>
+                  {isAddingCategory ? (
+                    <div className="flex gap-2">
+                      <input 
+                        type="text" 
+                        value={newCategoryName} 
+                        onChange={e => setNewCategoryName(e.target.value)} 
+                        className="w-full bg-slate-950 border border-slate-800 text-slate-300 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-blue-500"
+                        placeholder="New Category"
+                      />
+                      <button type="button" onClick={handleSaveNewCategory} className="bg-green-600 hover:bg-green-500 px-3 rounded-xl text-white transition-colors" title="Save Category"><Check size={16}/></button>
+                      <button type="button" onClick={() => { setIsAddingCategory(false); setNewCategoryName(''); }} className="bg-red-600 hover:bg-red-500 px-3 rounded-xl text-white transition-colors" title="Cancel"><X size={16}/></button>
+                    </div>
+                  ) : (
+                    <div className="flex gap-2">
+                      <select
+                        value={form.category}
+                        onChange={(e) => setForm(prev => ({ ...prev, category: e.target.value }))}
+                        className="w-full bg-slate-950 border border-slate-800 text-slate-300 rounded-xl px-4 py-2.5 text-xs focus:outline-none"
+                      >
+                        {categories.map(c => (
+                          <option key={c.id} value={c.name}>{c.name}</option>
+                        ))}
+                      </select>
+                      <button
+                        type="button"
+                        onClick={() => setIsAddingCategory(true)}
+                        className="bg-blue-600 hover:bg-blue-500 text-white px-3 rounded-xl flex items-center justify-center transition-colors shrink-0"
+                        title="Add New Category"
+                      >
+                        <Plus size={16} />
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <div className="space-y-1">
                   <label className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Rating (1 to 5 Stars)</label>
