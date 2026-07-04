@@ -91,7 +91,7 @@ const AdminLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex font-sans antialiased">
+    <div className="h-screen overflow-hidden bg-slate-950 text-slate-100 flex font-sans antialiased">
       
       {/* SIDEBAR - DESKTOP */}
       <aside className="hidden lg:flex flex-col w-64 bg-slate-900 border-r border-slate-800">
