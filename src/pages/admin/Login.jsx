@@ -4,6 +4,7 @@ import { auth } from '../../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { Lock, Mail, Eye, EyeOff } from 'lucide-react';
+import SEO from '../../components/SEO';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4 font-sans">
+      <SEO title="Admin login" noindex />
       <div className="max-w-md w-full bg-slate-800 rounded-2xl shadow-2xl border border-slate-700 p-8 space-y-6">
         
         {/* HEADER */}

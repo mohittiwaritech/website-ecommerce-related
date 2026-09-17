@@ -4,13 +4,15 @@ import HeroSlider from '../components/HeroSlider';
 import Categories from '../components/Categories';
 import FeaturedProducts from '../components/FeaturedProducts';
 import Features from '../components/Features';
+import { localBusinessSchema, organizationSchema } from '../utils/structuredData';
 
 const Home = () => {
   return (
     <>
-      <SEO 
-        title="Home" 
-        description="Welcome to BillingZone. Find the best POS hardware, thermal receipt printers, and barcode scanners." 
+      <SEO
+        title="POS Hardware & Billing Software | BillingZone"
+        description="Thermal printers, barcode scanners, POS systems and billing software for retail and restaurants. Noida-based, pan-India shipping."
+        jsonLd={[organizationSchema(), localBusinessSchema()]}
       />
       <HeroSlider />
       <Categories />

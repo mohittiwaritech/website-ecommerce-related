@@ -3,6 +3,7 @@ import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getProductUrl } from '../utils/slugify';
+import SEO from '../components/SEO';
 
 
 const Cart = () => {
@@ -110,6 +111,7 @@ const Cart = () => {
   return (
 
     <div className="max-w-7xl mx-auto p-6 font-sans">
+      <SEO title="Cart" noindex />
 
       {/* HEADING */}
       <div className="flex justify-between items-center border-b pb-4 mb-6">

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useCart } from '../context/CartContext';
 import { Link, useLocation } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 const OrderComplete = () => {
   const { cart } = useCart();
@@ -59,6 +60,7 @@ const OrderComplete = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10 font-sans">
+      <SEO title="Order placed" noindex />
       {/* STEPS */}
       <div className="text-center text-lg md:text-xl text-gray-300 font-light mb-10 tracking-wider">
         SHOPPING CART

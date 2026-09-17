@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getDrivers } from '../services/dbService';
+import SEO from '../components/SEO';
 
 // Local backup of drivers data to display if Firestore is blocked/fails
 const fallbackDrivers = [
@@ -62,6 +63,10 @@ const Drivers = () => {
 
   return (
     <div className="w-full bg-white font-sans antialiased text-slate-900">
+      <SEO
+        title="Printer Drivers"
+        description="Download Windows, Linux and Android drivers for BillingZone receipt and label printers."
+      />
       <div className="py-8 text-center border-b border-gray-100">
         <h1 className="text-2xl font-bold uppercase tracking-[0.2em] text-slate-800">Drivers</h1>
       </div>

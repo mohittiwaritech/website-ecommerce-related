@@ -12,6 +12,7 @@ import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
+import InstallPrompt from './components/InstallPrompt';
 
 // Lazy load Pages
 const Home = lazy(() => import('./pages/Home'));
@@ -30,6 +31,7 @@ const Terms = lazy(() => import('./pages/legal/Terms'));
 const Privacy = lazy(() => import('./pages/legal/Privacy'));
 const Refund = lazy(() => import('./pages/legal/Refund'));
 const Shipping = lazy(() => import('./pages/legal/Shipping'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Lazy load Admin Pages
 const Login = lazy(() => import('./pages/admin/Login'));
@@ -45,11 +47,17 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
+      <a
+        href="#main-content"
+        className="skip-link"
+      >
+        Skip to content
+      </a>
       {/* HEADER - HIDE ON ADMIN */}
       {!isAdminPath && <Navbar />}
 
       {/* MAIN */}
-      <main className="flex-grow">
+      <main id="main-content" className="flex-grow" tabIndex={-1}>
         <Suspense fallback={<div className="flex items-center justify-center min-h-[50vh]"><div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div></div>}>
           <Routes>
           <Route
@@ -136,7 +144,7 @@ function AppContent() {
 
           <Route
             path="*"
-            element={<Products />}
+            element={<NotFound />}
           />
           </Routes>
         </Suspense>
@@ -147,6 +155,7 @@ function AppContent() {
 
       {/* WHATSAPP - HIDE ON ADMIN */}
       {!isAdminPath && <WhatsAppButton />}
+      {!isAdminPath && <InstallPrompt />}
     </div>
   );
 }

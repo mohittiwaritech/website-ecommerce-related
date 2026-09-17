@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import CartDrawer from './CartDrawer';
@@ -36,33 +36,18 @@ const Navbar = () => {
 
         {/* MENU */}
         <div className="hidden md:flex space-x-8 font-semibold text-gray-700 uppercase text-sm">
-          <Link
-            to="/"
-            className="hover:text-blue-600"
-          >
+          <NavLink to="/" end className={({ isActive }) => isActive ? 'text-blue-600' : 'hover:text-blue-600'}>
             Home
-          </Link>
-
-          <Link
-            to="/products"
-            className="hover:text-blue-600"
-          >
+          </NavLink>
+          <NavLink to="/products" className={({ isActive }) => isActive ? 'text-blue-600' : 'hover:text-blue-600'}>
             Products
-          </Link>
-
-          <Link
-            to="/drivers"
-            className="hover:text-blue-600"
-          >
+          </NavLink>
+          <NavLink to="/drivers" className={({ isActive }) => isActive ? 'text-blue-600' : 'hover:text-blue-600'}>
             Drivers
-          </Link>
-
-          <Link
-            to="/contact"
-            className="hover:text-blue-600"
-          >
+          </NavLink>
+          <NavLink to="/contact" className={({ isActive }) => isActive ? 'text-blue-600' : 'hover:text-blue-600'}>
             Contact
-          </Link>
+          </NavLink>
         </div>
 
         {/* ACTIONS */}
@@ -192,6 +177,9 @@ const Navbar = () => {
 
           {/* MOBILE MENU BUTTON */}
           <button
+            type="button"
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMobileMenuOpen}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="md:hidden flex items-center justify-center p-2 text-gray-700 hover:text-[#006699]"
           >

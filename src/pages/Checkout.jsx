@@ -6,6 +6,7 @@ import { db, auth } from '../firebase';
 import { collection, addDoc, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
 import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useAuth } from '../context/AuthContext';
+import SEO from '../components/SEO';
 
 const getPasswordStrength = (pass) => {
   if (!pass) return null;
@@ -501,6 +502,7 @@ const Checkout = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-12 font-sans">
+      <SEO title="Checkout" noindex />
       {/* TOP STEPS */}
       <div className="text-center text-xs md:text-sm text-gray-300 font-bold mb-12 uppercase tracking-widest">
         Shopping Cart

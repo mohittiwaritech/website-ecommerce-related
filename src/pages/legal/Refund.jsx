@@ -1,8 +1,10 @@
 import React from 'react';
+import SEO from '../../components/SEO';
 
 const Refund = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-12 font-sans">
+      <SEO title="Refund Policy" description="Refund and cancellation rules for BillingZone hardware and software orders." />
       <h1 className="text-3xl font-bold mb-6 text-[#006699]">Refund and Cancellation Policy</h1>
       <div className="space-y-6 text-gray-700 leading-relaxed text-sm">
         <p>Last updated: June 20, 2026</p>

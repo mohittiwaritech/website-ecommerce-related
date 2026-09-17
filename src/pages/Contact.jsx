@@ -3,6 +3,7 @@ import { db } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const Contact = () => {
   const [name, setName] = useState('');
@@ -41,6 +42,10 @@ const Contact = () => {
 
   return (
     <div className="bg-white min-h-screen py-12 md:py-20 font-sans">
+      <SEO
+        title="Contact"
+        description="Talk to BillingZone in Noida for POS machines, printers and billing software. Call +91 9289024863 or email sales@billingzone.in."
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* TWO-COLUMN GRID (Details Left, Map Right) */}

@@ -1,8 +1,10 @@
 import React from 'react';
+import SEO from '../../components/SEO';
 
 const Privacy = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-12 font-sans">
+      <SEO title="Privacy Policy" description="How BillingZone collects and uses customer information on billingzone.in." />
       <h1 className="text-3xl font-bold mb-6 text-[#006699]">Privacy Policy</h1>
       <div className="space-y-6 text-gray-700 leading-relaxed text-sm">
         <p>Last updated: June 20, 2026</p>

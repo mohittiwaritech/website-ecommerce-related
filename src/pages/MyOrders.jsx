@@ -5,6 +5,7 @@ import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext';
 import { Package, Clock, CheckCircle, Truck, XCircle } from 'lucide-react';
 import { toast } from 'react-toastify';
+import SEO from '../components/SEO';
 
 const MyOrders = () => {
   const { currentUser } = useAuth();
@@ -114,6 +115,7 @@ const MyOrders = () => {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-12 font-sans min-h-[70vh]">
+      <SEO title="My orders" noindex />
       <h1 className="text-3xl font-bold text-gray-900 mb-8 flex items-center gap-3">
         <Package className="w-8 h-8 text-[#006699]" />
         My Orders

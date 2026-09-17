@@ -7,6 +7,7 @@ import { getProductUrl } from '../utils/slugify';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SEO from '../components/SEO';
+import { breadcrumbSchema, productSchema } from '../utils/structuredData';
 
 const ProductDetails = () => {
   const navigate = useNavigate();
@@ -212,6 +213,7 @@ const ProductDetails = () => {
   if (!product)
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-gray-50">
+        <SEO title="Product not found" description="This product is no longer listed on BillingZone." noindex />
         <h2 className="text-2xl font-bold mb-4">Product Not Found</h2>
         <Link
           to="/products"
@@ -224,11 +226,20 @@ const ProductDetails = () => {
 
   return (
     <div className="bg-white min-h-screen">
-      <SEO 
-        title={product.title} 
-        description={product.shortDesc ? product.shortDesc.join(', ') : 'Buy this high-quality product from BillingZone.'} 
+      <SEO
+        title={product.title}
+        description={product.shortDesc ? product.shortDesc.join(', ') : (product.longDescription || product.title)}
         image={mainImage}
         type="product"
+        path={getProductUrl(product)}
+        jsonLd={[
+          productSchema(product, getProductUrl(product)),
+          breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Products', path: '/products' },
+            { name: product.title, path: getProductUrl(product) },
+          ]),
+        ]}
       />
       <div className="max-w-7xl mx-auto px-4 py-10">
         {/* BREADCRUMB */}

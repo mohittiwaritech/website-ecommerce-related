@@ -9,6 +9,7 @@ import {
 } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
+import SEO from '../components/SEO';
 
 const getPasswordStrength = (pass) => {
   if (!pass) return null;
@@ -106,6 +107,7 @@ const CustomerLogin = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-12 font-sans min-h-[70vh]">
+      <SEO title="Login" noindex />
       <h1 className="text-3xl font-bold text-center text-gray-900 mb-12 uppercase tracking-wide">
         MY ACCOUNT
       </h1>
