@@ -91,9 +91,17 @@ const Footer = () => {
             <p className="text-[#666] text-[11px] font-medium uppercase tracking-[0.15em]">
               © 2017 - 2026 <span className="text-white">BillingZone.in</span> | All Rights Reserved.
             </p>
-            {/* <p className="text-[#555] text-[10px] font-medium tracking-[0.1em]">
-              Designed & Developed by <a href="https://github.com/02Raj" target="_blank" rel="noopener noreferrer" className="text-[#0073B7] hover:text-white transition-colors">Divyansh Raj</a>
-            </p> */}
+            <p className="text-[#555] text-[10px] font-medium tracking-[0.12em] uppercase">
+              Powered by{' '}
+              <a
+                href="https://www.slantco.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#0073B7] hover:text-white transition-colors"
+              >
+                Slantco
+              </a>
+            </p>
           </div>
 
           {/* Payment Badges */}
