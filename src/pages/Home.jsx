@@ -4,7 +4,7 @@ import HeroSlider from '../components/HeroSlider';
 import Categories from '../components/Categories';
 import FeaturedProducts from '../components/FeaturedProducts';
 import Features from '../components/Features';
-import { localBusinessSchema, organizationSchema } from '../utils/structuredData';
+import { homePageSchemas } from '../utils/structuredData';
 import { PAGE_KEYWORDS } from '../config/site';
 
 const Home = () => {
@@ -14,7 +14,7 @@ const Home = () => {
         title="POS Machine, Thermal Printer & Billing Software in Noida | BillingZone"
         description="Buy POS billing machines, 58mm and 80mm thermal printers, barcode scanners, label printers, cash drawers and GST billing software for shops and restaurants. ATPOS dealer in Noida, shipping across India."
         keywords={PAGE_KEYWORDS.home}
-        jsonLd={[organizationSchema(), localBusinessSchema()]}
+        jsonLd={homePageSchemas()}
       />
       <HeroSlider />
       <section className="max-w-7xl mx-auto px-4 pt-10 pb-2">

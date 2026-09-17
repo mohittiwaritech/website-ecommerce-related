@@ -1,21 +1,44 @@
-import { SITE_EMAIL, SITE_NAME, SITE_PHONE, SITE_URL, SITE_ADDRESS, DEFAULT_KEYWORDS, toAbsoluteUrl } from '../config/site';
+import {
+  SITE_EMAIL,
+  SITE_NAME,
+  SITE_PHONE,
+  SITE_URL,
+  SITE_ADDRESS,
+  DEFAULT_KEYWORDS,
+  toAbsoluteUrl,
+} from '../config/site';
+import { getProductUrl } from './slugify';
+
+const postalAddress = () => ({
+  '@type': 'PostalAddress',
+  streetAddress: 'C-56/22 Sector 62',
+  addressLocality: 'Noida',
+  addressRegion: 'Uttar Pradesh',
+  postalCode: '201309',
+  addressCountry: 'IN',
+});
 
 export const organizationSchema = () => ({
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': `${SITE_URL}/#organization`,
   name: SITE_NAME,
   url: SITE_URL,
   email: SITE_EMAIL,
   telephone: SITE_PHONE,
   logo: toAbsoluteUrl('/favicon.svg'),
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: 'C-56/22 Sector 62',
-    addressLocality: 'Noida',
-    addressRegion: 'Uttar Pradesh',
-    postalCode: '201309',
-    addressCountry: 'IN',
-  },
+  image: toAbsoluteUrl('/pwa-512.png'),
+  address: postalAddress(),
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      telephone: SITE_PHONE,
+      contactType: 'sales',
+      email: SITE_EMAIL,
+      areaServed: 'IN',
+      availableLanguage: ['English', 'Hindi'],
+    },
+  ],
   sameAs: [
     'https://www.youtube.com/@billingzone',
     'https://www.instagram.com/billingzone/',
@@ -23,14 +46,26 @@ export const organizationSchema = () => ({
   ],
 });
 
+export const websiteSchema = () => ({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE_URL}/#website`,
+  name: SITE_NAME,
+  url: SITE_URL,
+  publisher: { '@id': `${SITE_URL}/#organization` },
+  inLanguage: 'en-IN',
+});
+
 export const localBusinessSchema = () => ({
   '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
+  '@type': 'ComputerStore',
+  '@id': `${SITE_URL}/#store`,
   name: SITE_NAME,
   url: SITE_URL,
   email: SITE_EMAIL,
   telephone: SITE_PHONE,
-  image: toAbsoluteUrl('/favicon.svg'),
+  image: toAbsoluteUrl('/pwa-512.png'),
+  logo: toAbsoluteUrl('/favicon.svg'),
   address: {
     '@type': 'PostalAddress',
     streetAddress: SITE_ADDRESS,
@@ -39,6 +74,11 @@ export const localBusinessSchema = () => ({
     postalCode: '201309',
     addressCountry: 'IN',
   },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 28.6271,
+    longitude: 77.3726,
+  },
   openingHoursSpecification: {
     '@type': 'OpeningHoursSpecification',
     dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
@@ -46,22 +86,59 @@ export const localBusinessSchema = () => ({
     closes: '19:00',
   },
   priceRange: '₹₹',
-  areaServed: ['Noida', 'Delhi NCR', 'Uttar Pradesh', 'India'],
+  areaServed: [
+    { '@type': 'City', name: 'Noida' },
+    { '@type': 'AdministrativeArea', name: 'Delhi NCR' },
+    { '@type': 'Country', name: 'India' },
+  ],
   knowsAbout: DEFAULT_KEYWORDS,
+  parentOrganization: { '@id': `${SITE_URL}/#organization` },
 });
+
+export const webPageSchema = ({ name, description, path }) => ({
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name,
+  description,
+  url: toAbsoluteUrl(path),
+  isPartOf: { '@id': `${SITE_URL}/#website` },
+  about: { '@id': `${SITE_URL}/#store` },
+  inLanguage: 'en-IN',
+});
+
+export const itemListSchema = (products, listName = 'Products') => {
+  if (!products?.length) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: listName,
+    numberOfItems: products.length,
+    itemListElement: products.slice(0, 24).map((product, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: product.title,
+      url: toAbsoluteUrl(getProductUrl(product)),
+    })),
+  };
+};
 
 export const productSchema = (product, canonicalPath) => {
   if (!product) return null;
 
-  const availability = product.inStock === false
-    ? 'https://schema.org/OutOfStock'
-    : 'https://schema.org/InStock';
+  const availability =
+    product.inStock === false
+      ? 'https://schema.org/OutOfStock'
+      : 'https://schema.org/InStock';
+
+  const priceValidUntil = new Date();
+  priceValidUntil.setFullYear(priceValidUntil.getFullYear() + 1);
 
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.title,
     sku: product.sku || String(product.id),
+    mpn: product.sku || String(product.id),
     brand: {
       '@type': 'Brand',
       name: product.brand || SITE_NAME,
@@ -71,7 +148,6 @@ export const productSchema = (product, canonicalPath) => {
       ? product.shortDesc.join('. ')
       : product.longDescription || product.title,
     category: product.category,
-    keywords: [product.brand, product.category, product.sku, product.title].filter(Boolean).join(', '),
     url: toAbsoluteUrl(canonicalPath),
     offers: {
       '@type': 'Offer',
@@ -80,9 +156,17 @@ export const productSchema = (product, canonicalPath) => {
       price: String(product.price ?? ''),
       availability,
       itemCondition: 'https://schema.org/NewCondition',
+      priceValidUntil: priceValidUntil.toISOString().slice(0, 10),
       seller: {
         '@type': 'Organization',
         name: SITE_NAME,
+        url: SITE_URL,
+      },
+      hasMerchantReturnPolicy: {
+        '@type': 'MerchantReturnPolicy',
+        applicableCountry: 'IN',
+        returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+        merchantReturnLink: `${SITE_URL}/refund`,
       },
     },
   };
@@ -98,3 +182,15 @@ export const breadcrumbSchema = (crumbs) => ({
     item: toAbsoluteUrl(crumb.path),
   })),
 });
+
+export const homePageSchemas = () => [
+  websiteSchema(),
+  organizationSchema(),
+  localBusinessSchema(),
+  webPageSchema({
+    name: 'POS Machine, Thermal Printer & Billing Software',
+    description:
+      'BillingZone — ATPOS POS hardware and GST billing software dealer in Noida, India.',
+    path: '/',
+  }),
+];

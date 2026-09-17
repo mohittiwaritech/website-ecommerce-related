@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
 import SEO from '../components/SEO';
 import { PAGE_KEYWORDS } from '../config/site';
+import { breadcrumbSchema, webPageSchema } from '../utils/structuredData';
 
 const Contact = () => {
   const [name, setName] = useState('');
@@ -47,6 +48,17 @@ const Contact = () => {
         title="POS Dealer in Noida | Contact BillingZone"
         description="Visit BillingZone, C-56/22 Sector 62 Noida for POS machines, thermal printers and billing software. Call +91 9289024863 or email sales@billingzone.in. Mon–Sat 10am–7pm."
         keywords={PAGE_KEYWORDS.contact}
+        jsonLd={[
+          breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Contact', path: '/contact' },
+          ]),
+          webPageSchema({
+            name: 'Contact BillingZone Noida',
+            description: 'POS dealer in Sector 62 Noida — phone, email and showroom address.',
+            path: '/contact',
+          }),
+        ]}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         

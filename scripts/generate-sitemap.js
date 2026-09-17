@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import { productsData } from '../src/data/productsData.js';
 import { getProductUrl } from '../src/utils/slugify.js';
 import { SITE_URL } from '../src/config/site.js';
+import { SITEMAP_CATEGORIES, SITEMAP_FILTERS } from '../src/config/seo.js';
 
 const lastmod = new Date().toISOString().slice(0, 10);
 
@@ -17,8 +18,22 @@ const staticRoutes = [
   { loc: '/shipping', changefreq: 'yearly', priority: '0.3' },
 ];
 
+const categoryRoutes = SITEMAP_CATEGORIES.map((category) => ({
+  loc: `/products?category=${encodeURIComponent(category)}`,
+  changefreq: 'weekly',
+  priority: '0.85',
+}));
+
+const filterRoutes = SITEMAP_FILTERS.map(({ type }) => ({
+  loc: `/products?type=${encodeURIComponent(type)}`,
+  changefreq: 'weekly',
+  priority: '0.85',
+}));
+
 const urls = [
   ...staticRoutes,
+  ...categoryRoutes,
+  ...filterRoutes,
   ...productsData.map((product) => ({
     loc: getProductUrl(product),
     changefreq: 'weekly',

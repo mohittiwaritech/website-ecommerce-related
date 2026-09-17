@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getDrivers } from '../services/dbService';
 import SEO from '../components/SEO';
 import { PAGE_KEYWORDS } from '../config/site';
+import { breadcrumbSchema, webPageSchema } from '../utils/structuredData';
 
 // Local backup of drivers data to display if Firestore is blocked/fails
 const fallbackDrivers = [
@@ -68,6 +69,18 @@ const Drivers = () => {
         title="ATPOS Printer Drivers — H58, HL450, E58, AT-602"
         description="Download Windows, Linux, Mac and Android drivers for ATPOS H58, HL450, M80, E58, AT-602 and 80mm thermal receipt printers. SDK and label software included."
         keywords={PAGE_KEYWORDS.drivers}
+        jsonLd={[
+          breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Printer drivers', path: '/drivers' },
+          ]),
+          webPageSchema({
+            name: 'ATPOS printer drivers',
+            description:
+              'Windows, Linux and Android drivers for ATPOS thermal receipt and label printers.',
+            path: '/drivers',
+          }),
+        ]}
       />
       <div className="py-8 text-center border-b border-gray-100">
         <h1 className="text-2xl font-bold uppercase tracking-[0.2em] text-slate-800">Printer Drivers</h1>

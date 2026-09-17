@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { toast } from 'react-toastify';
@@ -6,7 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { getProducts, getCategories } from '../services/dbService';
 import { getProductUrl } from '../utils/slugify';
 import SEO from '../components/SEO';
-import { PAGE_KEYWORDS } from '../config/site';
+import { getProductsPageSeo } from '../config/seo';
+import { breadcrumbSchema, itemListSchema, webPageSchema } from '../utils/structuredData';
 
 
 function Products() {
@@ -170,12 +171,37 @@ function Products() {
     products.length / itemsPerPage
   );
 
+  const pageSeo = useMemo(
+    () => getProductsPageSeo(location.search),
+    [location.search]
+  );
+
+  const productsJsonLd = useMemo(() => {
+    const pagePath = `/products${location.search || ''}`;
+    return [
+      breadcrumbSchema([
+        { name: 'Home', path: '/' },
+        { name: 'Products', path: '/products' },
+      ]),
+      webPageSchema({
+        name: pageSeo.title,
+        description: pageSeo.description,
+        path: pagePath,
+      }),
+      itemListSchema(
+        products.map((p) => ({ id: p.id, title: p.title })),
+        pageSeo.listName
+      ),
+    ].filter(Boolean);
+  }, [products, pageSeo, location.search]);
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl font-sans text-slate-900">
       <SEO
-        title="Buy POS Machine, Thermal Printer, Scanner & Billing Software"
-        description="Shop ATPOS POS systems, 58mm/80mm thermal receipt printers, barcode label printers, 2D scanners, cash drawers and GST billing software. Prices in India, GST invoice from Noida."
-        keywords={PAGE_KEYWORDS.products}
+        title={pageSeo.title}
+        description={pageSeo.description}
+        keywords={pageSeo.keywords}
+        jsonLd={productsJsonLd}
       />
 
       <h1 className="text-2xl font-bold text-slate-900 mb-2">

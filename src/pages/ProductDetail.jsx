@@ -232,6 +232,8 @@ const ProductDetails = () => {
         description={`Buy ${product.title}${product.brand ? ` by ${product.brand}` : ''} — ${product.category || 'POS hardware'} with GST invoice from BillingZone Noida. ${Array.isArray(product.shortDesc) ? product.shortDesc.join('. ') : (product.longDescription || '')}`.slice(0, 165)}
         image={mainImage}
         type="product"
+        price={product.price}
+        imageAlt={product.title}
         path={getProductUrl(product)}
         keywords={productKeywords(product)}
         jsonLd={[
