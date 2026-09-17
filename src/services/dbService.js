@@ -180,12 +180,16 @@ export const deleteDriver = async (id) => {
 
 
 
-export const getOrders = async () => {
+export const isOrderDeleted = (order) => order?.deleted === true || order?.isDeleted === true;
+
+export const getOrders = async ({ includeDeleted = false } = {}) => {
   try {
     const ordersCol = collection(db, 'orders');
     const q = query(ordersCol, orderBy('createdAt', 'desc'));
     const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const all = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
+    if (includeDeleted) return all;
+    return all.filter((order) => !isOrderDeleted(order));
   } catch (error) {
     console.error("Error fetching orders:", error);
     throw error;
@@ -198,6 +202,47 @@ export const updateOrderStatus = async (orderId, status) => {
     await updateDoc(docRef, { status, updatedAt: new Date().toISOString() });
   } catch (error) {
     console.error(`Error updating order ${orderId}:`, error);
+    throw error;
+  }
+};
+
+/** Soft delete — hidden from admin list; recoverable from Trash */
+export const softDeleteOrder = async (orderId) => {
+  try {
+    const docRef = doc(db, 'orders', orderId);
+    await updateDoc(docRef, {
+      deleted: true,
+      deletedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error(`Error soft-deleting order ${orderId}:`, error);
+    throw error;
+  }
+};
+
+export const restoreOrder = async (orderId) => {
+  try {
+    const docRef = doc(db, 'orders', orderId);
+    await updateDoc(docRef, {
+      deleted: false,
+      deletedAt: null,
+      restoredAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error(`Error restoring order ${orderId}:`, error);
+    throw error;
+  }
+};
+
+/** Permanent delete — only use from Trash after soft delete */
+export const permanentlyDeleteOrder = async (orderId) => {
+  try {
+    const docRef = doc(db, 'orders', orderId);
+    await deleteDoc(docRef);
+  } catch (error) {
+    console.error(`Error permanently deleting order ${orderId}:`, error);
     throw error;
   }
 };

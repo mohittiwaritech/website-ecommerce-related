@@ -35,6 +35,8 @@ const WhatsAppButton = () => {
       message = "Hi BillingZone, I'm on your Contact page and would like to get in touch.";
     } else if (pathname === '/drivers') {
       message = "Hi BillingZone, I need help downloading or installing the drivers for my billing machine.";
+    } else if (pathname === '/blog' || pathname.startsWith('/blog/')) {
+      message = "Hi BillingZone, I read your POS/printer guide and have a question. Can you help me choose the right hardware?";
     }
 
     return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;

@@ -51,6 +51,8 @@ const MyOrders = () => {
           });
         }
 
+        userOrders = userOrders.filter((o) => o.deleted !== true && o.isDeleted !== true);
+
         // Sort by date descending
         userOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 

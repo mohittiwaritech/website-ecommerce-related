@@ -45,6 +45,9 @@ const Navbar = () => {
           <NavLink to="/drivers" className={({ isActive }) => isActive ? 'text-blue-600' : 'hover:text-blue-600'}>
             Drivers
           </NavLink>
+          <NavLink to="/blog" className={({ isActive }) => isActive ? 'text-blue-600' : 'hover:text-blue-600'}>
+            Blog
+          </NavLink>
           <NavLink to="/contact" className={({ isActive }) => isActive ? 'text-blue-600' : 'hover:text-blue-600'}>
             Contact
           </NavLink>
@@ -211,6 +214,7 @@ const Navbar = () => {
           <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-blue-600 block border-b border-gray-50 pb-2">Home</Link>
           <Link to="/products" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-blue-600 block border-b border-gray-50 pb-2">Products</Link>
           <Link to="/drivers" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-blue-600 block border-b border-gray-50 pb-2">Drivers</Link>
+          <Link to="/blog" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-blue-600 block border-b border-gray-50 pb-2">Blog</Link>
           <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-blue-600 block border-b border-gray-50 pb-2">Contact</Link>
         </div>
       </div>

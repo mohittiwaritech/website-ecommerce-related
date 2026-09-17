@@ -4,6 +4,7 @@ import { productsData } from '../src/data/productsData.js';
 import { getProductUrl } from '../src/utils/slugify.js';
 import { SITE_URL } from '../src/config/site.js';
 import { SITEMAP_CATEGORIES, SITEMAP_FILTERS } from '../src/config/seo.js';
+import { blogPosts } from '../src/data/blogPosts.js';
 
 const lastmod = new Date().toISOString().slice(0, 10);
 
@@ -11,6 +12,7 @@ const staticRoutes = [
   { loc: '/', changefreq: 'daily', priority: '1.0' },
   { loc: '/products', changefreq: 'daily', priority: '0.9' },
   { loc: '/drivers', changefreq: 'weekly', priority: '0.8' },
+  { loc: '/blog', changefreq: 'weekly', priority: '0.85' },
   { loc: '/contact', changefreq: 'monthly', priority: '0.7' },
   { loc: '/terms', changefreq: 'yearly', priority: '0.3' },
   { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
@@ -30,10 +32,18 @@ const filterRoutes = SITEMAP_FILTERS.map(({ type }) => ({
   priority: '0.85',
 }));
 
+const blogRoutes = blogPosts.map((post) => ({
+  loc: `/blog/${post.slug}`,
+  changefreq: 'monthly',
+  priority: '0.75',
+  lastmod: post.updatedAt || post.publishedAt,
+}));
+
 const urls = [
   ...staticRoutes,
   ...categoryRoutes,
   ...filterRoutes,
+  ...blogRoutes,
   ...productsData.map((product) => ({
     loc: getProductUrl(product),
     changefreq: 'weekly',
@@ -45,9 +55,9 @@ const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls
   .map(
-    ({ loc, changefreq, priority }) => `  <url>
+    ({ loc, changefreq, priority, lastmod: itemLastmod }) => `  <url>
     <loc>${SITE_URL}${loc}</loc>
-    <lastmod>${lastmod}</lastmod>
+    <lastmod>${itemLastmod || lastmod}</lastmod>
     <changefreq>${changefreq}</changefreq>
     <priority>${priority}</priority>
   </url>`

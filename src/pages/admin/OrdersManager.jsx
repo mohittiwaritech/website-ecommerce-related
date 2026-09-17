@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { getOrders, updateOrderStatus } from '../../services/dbService';
+import {
+  getOrders,
+  updateOrderStatus,
+  softDeleteOrder,
+  restoreOrder,
+  permanentlyDeleteOrder,
+  isOrderDeleted,
+} from '../../services/dbService';
 import { toast } from 'react-toastify';
 import { 
   Search, 
@@ -11,7 +18,9 @@ import {
   Mail, 
   Calendar,
   CreditCard,
-  FolderOpen
+  FolderOpen,
+  Trash2,
+  RotateCcw
 } from 'lucide-react';
 
 const OrdersManager = () => {
@@ -22,11 +31,13 @@ const OrdersManager = () => {
   
   // Selected Order for Detail Modal
   const [activeOrder, setActiveOrder] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
+  const [listView, setListView] = useState('active'); // active | trash
 
   const loadOrders = async () => {
     try {
       setLoading(true);
-      const data = await getOrders();
+      const data = await getOrders({ includeDeleted: true });
       setOrders(data);
     } catch (error) {
       console.error("Error loading orders:", error);
@@ -39,6 +50,97 @@ const OrdersManager = () => {
   useEffect(() => {
     loadOrders();
   }, []);
+
+  const handleSoftDeleteOrder = async (order) => {
+    const customer = `${order.customerDetails?.firstName || ''} ${order.customerDetails?.lastName || ''}`.trim() || 'Guest';
+    const confirmText = [
+      'Move this order to Trash?',
+      '',
+      `Order ID: ${order.id}`,
+      `Customer: ${customer}`,
+      `Total: ₹${order.total?.toLocaleString('en-IN') || 0}`,
+      '',
+      'It will disappear from this list. You can restore it from Trash anytime.',
+    ].join('\n');
+
+    if (!window.confirm(confirmText)) return;
+
+    try {
+      setDeletingId(order.id);
+      await softDeleteOrder(order.id);
+      toast.success('Order moved to Trash');
+      if (activeOrder?.id === order.id) setActiveOrder(null);
+      await loadOrders();
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to move order to Trash');
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const handleRestoreOrder = async (order) => {
+    if (!window.confirm(`Restore order ${order.id} to the active orders list?`)) return;
+    try {
+      setDeletingId(order.id);
+      await restoreOrder(order.id);
+      toast.success('Order restored');
+      if (activeOrder?.id === order.id) setActiveOrder(null);
+      setListView('active');
+      await loadOrders();
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to restore order');
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const handlePermanentDelete = async (order) => {
+    const confirmText = [
+      'PERMANENTLY delete this order from the database?',
+      '',
+      `Order ID: ${order.id}`,
+      'This cannot be recovered. Only use if you are sure.',
+    ].join('\n');
+    if (!window.confirm(confirmText)) return;
+    if (!window.confirm('Final confirmation: delete forever?')) return;
+
+    try {
+      setDeletingId(order.id);
+      await permanentlyDeleteOrder(order.id);
+      toast.success('Order permanently deleted');
+      if (activeOrder?.id === order.id) setActiveOrder(null);
+      await loadOrders();
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to delete permanently');
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const handleSoftDeleteFiltered = async () => {
+    if (listView !== 'active' || filteredOrders.length === 0) return;
+    const confirmText = `Move ${filteredOrders.length} orders shown here to Trash?\n\nYou can restore them later from the Trash tab.`;
+    if (!window.confirm(confirmText)) return;
+
+    try {
+      setLoading(true);
+      for (const order of filteredOrders) {
+        await softDeleteOrder(order.id);
+      }
+      toast.success(`Moved ${filteredOrders.length} orders to Trash`);
+      setActiveOrder(null);
+      await loadOrders();
+    } catch (error) {
+      console.error(error);
+      toast.error('Some orders may not have been moved. Refresh and retry.');
+      await loadOrders();
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleUpdateStatus = async (orderId, newStatus) => {
     try {
@@ -54,7 +156,10 @@ const OrdersManager = () => {
     }
   };
 
-  const filteredOrders = orders.filter(o => {
+  const activeOrders = orders.filter((o) => !isOrderDeleted(o));
+  const trashedOrders = orders.filter((o) => isOrderDeleted(o));
+
+  const filteredOrders = (listView === 'trash' ? trashedOrders : activeOrders).filter((o) => {
     const customerName = `${o.customerDetails?.firstName} ${o.customerDetails?.lastName}`.toLowerCase();
     const matchesSearch = customerName.includes(search.toLowerCase()) || o.id?.toLowerCase().includes(search.toLowerCase()) || o.customerDetails?.phone?.includes(search);
     const matchesStatus = selectedStatus ? o.status === selectedStatus : true;
@@ -65,7 +170,34 @@ const OrdersManager = () => {
     <div className="space-y-6">
       
       {/* FILTER BAR */}
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-900 border border-slate-800 p-4 rounded-2xl">
+      <div className="flex flex-col gap-4 bg-slate-900 border border-slate-800 p-4 rounded-2xl">
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => { setListView('active'); setActiveOrder(null); }}
+            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wide border transition ${
+              listView === 'active'
+                ? 'bg-blue-600 border-blue-500 text-white'
+                : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
+            }`}
+          >
+            Active orders ({activeOrders.length})
+          </button>
+          <button
+            type="button"
+            onClick={() => { setListView('trash'); setActiveOrder(null); }}
+            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wide border transition flex items-center gap-2 ${
+              listView === 'trash'
+                ? 'bg-red-600/90 border-red-500 text-white'
+                : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
+            }`}
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            Trash ({trashedOrders.length})
+          </button>
+        </div>
+
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
         <div className="flex flex-col sm:flex-row gap-3 w-full">
           {/* SEARCH */}
           <div className="relative flex-grow sm:flex-grow-0">
@@ -91,6 +223,19 @@ const OrdersManager = () => {
             <option value="Shipped">Shipped</option>
             <option value="Cancelled">Cancelled</option>
           </select>
+        </div>
+
+        {listView === 'active' && filteredOrders.length > 0 && (
+          <button
+            type="button"
+            onClick={handleSoftDeleteFiltered}
+            disabled={loading || deletingId}
+            className="shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wide border border-red-500/30 text-red-400 hover:bg-red-500/10 transition disabled:opacity-50"
+          >
+            <Trash2 className="w-4 h-4" />
+            Move shown to Trash ({filteredOrders.length})
+          </button>
+        )}
         </div>
       </div>
 
@@ -128,7 +273,7 @@ const OrdersManager = () => {
       ) : filteredOrders.length === 0 ? (
         <div className="bg-slate-900 border border-slate-800 p-12 text-center rounded-2xl text-slate-500">
           <FolderOpen className="w-12 h-12 mx-auto mb-3 text-slate-600" />
-          No orders found matching filters.
+          {listView === 'trash' ? 'Trash is empty.' : 'No orders found matching filters.'}
         </div>
       ) : (
         <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden font-sans">
@@ -142,7 +287,7 @@ const OrdersManager = () => {
                   <th className="p-4">Payment Method</th>
                   <th className="p-4">Total Amount</th>
                   <th className="p-4 w-28 text-center">Status</th>
-                  <th className="p-4 w-24 text-right">Actions</th>
+                  <th className="p-4 w-32 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-850">
@@ -183,12 +328,48 @@ const OrdersManager = () => {
                       </span>
                     </td>
                     <td className="p-4 text-right">
-                      <button
-                        onClick={() => setActiveOrder(o)}
-                        className="p-2 bg-slate-950 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white rounded-lg transition"
-                      >
-                        <Eye className="w-4 h-4" />
-                      </button>
+                      <div className="flex items-center justify-end gap-1">
+                        <button
+                          type="button"
+                          onClick={() => setActiveOrder(o)}
+                          className="p-2 bg-slate-950 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white rounded-lg transition"
+                          title="View order"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                        {listView === 'active' ? (
+                          <button
+                            type="button"
+                            onClick={() => handleSoftDeleteOrder(o)}
+                            disabled={deletingId === o.id}
+                            className="p-2 bg-slate-950 border border-red-500/30 hover:bg-red-500/10 text-red-400 hover:text-red-300 rounded-lg transition disabled:opacity-50"
+                            title="Move to Trash"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        ) : (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => handleRestoreOrder(o)}
+                              disabled={deletingId === o.id}
+                              className="p-2 bg-slate-950 border border-emerald-500/30 hover:bg-emerald-500/10 text-emerald-400 rounded-lg transition disabled:opacity-50"
+                              title="Restore order"
+                            >
+                              <RotateCcw className="w-4 h-4" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handlePermanentDelete(o)}
+                              disabled={deletingId === o.id}
+                              className="p-2 bg-slate-950 border border-red-500/30 hover:bg-red-500/10 text-red-400 rounded-lg transition disabled:opacity-50"
+                              title="Delete forever"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -333,12 +514,47 @@ const OrdersManager = () => {
             </div>
 
             {/* MODAL FOOTER */}
-            <div className="p-6 border-t border-slate-800 flex items-center justify-end bg-slate-955 bg-slate-950/40">
+            <div className="p-6 border-t border-slate-800 flex items-center justify-between gap-3 bg-slate-950/40">
+              <div className="flex flex-wrap gap-2">
+                {!isOrderDeleted(activeOrder) ? (
+                  <button
+                    type="button"
+                    onClick={() => handleSoftDeleteOrder(activeOrder)}
+                    disabled={deletingId === activeOrder.id}
+                    className="px-4 py-2.5 border border-red-500/40 text-red-400 hover:bg-red-500/10 font-bold rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-2 disabled:opacity-50"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                    Move to Trash
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => handleRestoreOrder(activeOrder)}
+                      disabled={deletingId === activeOrder.id}
+                      className="px-4 py-2.5 border border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/10 font-bold rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-2 disabled:opacity-50"
+                    >
+                      <RotateCcw className="w-4 h-4" />
+                      Restore
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handlePermanentDelete(activeOrder)}
+                      disabled={deletingId === activeOrder.id}
+                      className="px-4 py-2.5 border border-red-500/40 text-red-400 hover:bg-red-500/10 font-bold rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-2 disabled:opacity-50"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      Delete forever
+                    </button>
+                  </>
+                )}
+              </div>
               <button
+                type="button"
                 onClick={() => setActiveOrder(null)}
                 className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs uppercase tracking-wider transition-all"
               >
-                Close Order view
+                Close
               </button>
             </div>
 

@@ -25,6 +25,8 @@ const SEO = ({
   keywords,
   price,
   priceCurrency = 'INR',
+  articlePublishedTime,
+  articleModifiedTime,
 }) => {
   const location = useLocation();
   const pathname = path || location.pathname;
@@ -44,6 +46,7 @@ const SEO = ({
   const hideFromIndex = noindex ?? isNoIndexPath(pathname);
   const keywordList = joinKeywords(DEFAULT_KEYWORDS, keywords || []);
   const isProduct = type === 'product';
+  const isArticle = type === 'article';
 
   const schemas = Array.isArray(jsonLd) ? jsonLd.filter(Boolean) : jsonLd ? [jsonLd] : [];
 
@@ -77,7 +80,7 @@ const SEO = ({
       <meta name="geo.position" content="28.6271;77.3726" />
       <meta name="ICBM" content="28.6271, 77.3726" />
 
-      <meta property="og:type" content={isProduct ? 'product' : 'website'} />
+      <meta property="og:type" content={isProduct ? 'product' : isArticle ? 'article' : 'website'} />
       <meta property="og:site_name" content={SITE_NAME} />
       <meta property="og:locale" content="en_IN" />
       <meta property="og:url" content={canonical} />
@@ -88,6 +91,16 @@ const SEO = ({
       <meta property="og:image:width" content={String(OG_IMAGE.width)} />
       <meta property="og:image:height" content={String(OG_IMAGE.height)} />
       <meta property="og:image:alt" content={ogImageAlt} />
+
+      {isArticle && articlePublishedTime && (
+        <meta property="article:published_time" content={articlePublishedTime} />
+      )}
+      {isArticle && articleModifiedTime && (
+        <meta property="article:modified_time" content={articleModifiedTime} />
+      )}
+      {isArticle && (
+        <meta property="article:author" content={SITE_NAME} />
+      )}
 
       {isProduct && price != null && price !== '' && (
         <>

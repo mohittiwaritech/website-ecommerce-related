@@ -183,6 +183,54 @@ export const breadcrumbSchema = (crumbs) => ({
   })),
 });
 
+export const blogListSchema = (posts) => {
+  if (!posts?.length) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'BillingZone POS guides',
+    itemListElement: posts.map((post, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: toAbsoluteUrl(`/blog/${post.slug}`),
+      name: post.title,
+    })),
+  };
+};
+
+export const articleSchema = (post) => {
+  if (!post) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.metaDescription,
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt || post.publishedAt,
+    author: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      logo: {
+        '@type': 'ImageObject',
+        url: toAbsoluteUrl('/favicon.svg'),
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': toAbsoluteUrl(`/blog/${post.slug}`),
+    },
+    image: toAbsoluteUrl('/pwa-512.png'),
+    keywords: Array.isArray(post.keywords) ? post.keywords.join(', ') : post.keywords,
+    articleSection: post.category,
+    inLanguage: 'en-IN',
+  };
+};
+
 export const homePageSchemas = () => [
   websiteSchema(),
   organizationSchema(),

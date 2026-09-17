@@ -42,7 +42,7 @@ const Dashboard = ({ setActiveTab }) => {
       ]);
 
       // Calculate Revenue (orders that are placed/completed, not cancelled)
-      const validOrders = orders.filter(o => o.status !== 'Cancelled');
+      const validOrders = orders.filter((o) => o.status !== 'Cancelled');
       const totalRevenue = validOrders.reduce((sum, order) => sum + (Number(order.total) || 0), 0);
 
       // Low Stock Alerts (products marked inStock: false)
