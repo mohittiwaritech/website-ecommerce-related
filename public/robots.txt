@@ -8,4 +8,4 @@ Disallow: /login
 Disallow: /my-orders
 Disallow: /order-complete
 
-Sitemap: https://billingzone.in/sitemap.xml
+Sitemap: https://www.billingzone.in/sitemap.xml

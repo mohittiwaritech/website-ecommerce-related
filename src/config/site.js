@@ -1,4 +1,4 @@
-export const SITE_URL = 'https://billingzone.in';
+export const SITE_URL = 'https://www.billingzone.in';
 export const SITE_NAME = 'BillingZone';
 export const SITE_PHONE = '+91 9289024863';
 export const SITE_EMAIL = 'sales@billingzone.in';
