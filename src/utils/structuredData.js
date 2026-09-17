@@ -1,4 +1,4 @@
-import { SITE_EMAIL, SITE_NAME, SITE_PHONE, SITE_URL, SITE_ADDRESS, toAbsoluteUrl } from '../config/site';
+import { SITE_EMAIL, SITE_NAME, SITE_PHONE, SITE_URL, SITE_ADDRESS, DEFAULT_KEYWORDS, toAbsoluteUrl } from '../config/site';
 
 export const organizationSchema = () => ({
   '@context': 'https://schema.org',
@@ -46,6 +46,8 @@ export const localBusinessSchema = () => ({
     closes: '19:00',
   },
   priceRange: '₹₹',
+  areaServed: ['Noida', 'Delhi NCR', 'Uttar Pradesh', 'India'],
+  knowsAbout: DEFAULT_KEYWORDS,
 });
 
 export const productSchema = (product, canonicalPath) => {
@@ -68,6 +70,8 @@ export const productSchema = (product, canonicalPath) => {
     description: Array.isArray(product.shortDesc)
       ? product.shortDesc.join('. ')
       : product.longDescription || product.title,
+    category: product.category,
+    keywords: [product.brand, product.category, product.sku, product.title].filter(Boolean).join(', '),
     url: toAbsoluteUrl(canonicalPath),
     offers: {
       '@type': 'Offer',

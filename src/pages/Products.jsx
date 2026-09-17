@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { getProducts, getCategories } from '../services/dbService';
 import { getProductUrl } from '../utils/slugify';
 import SEO from '../components/SEO';
+import { PAGE_KEYWORDS } from '../config/site';
 
 
 function Products() {
@@ -172,9 +173,17 @@ function Products() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl font-sans text-slate-900">
       <SEO
-        title="Shop POS Hardware"
-        description="Buy thermal receipt printers, barcode label printers, scanners, cash drawers and billing software from BillingZone."
+        title="Buy POS Machine, Thermal Printer, Scanner & Billing Software"
+        description="Shop ATPOS POS systems, 58mm/80mm thermal receipt printers, barcode label printers, 2D scanners, cash drawers and GST billing software. Prices in India, GST invoice from Noida."
+        keywords={PAGE_KEYWORDS.products}
       />
+
+      <h1 className="text-2xl font-bold text-slate-900 mb-2">
+        POS hardware and billing software
+      </h1>
+      <p className="text-sm text-gray-600 mb-6 max-w-3xl">
+        Thermal printers, barcode scanners, cash drawers, Android POS and shop billing software — filter by category and add to cart.
+      </p>
 
       {/* HEADER */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 border-b pb-4">

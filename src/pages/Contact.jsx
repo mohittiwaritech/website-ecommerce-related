@@ -4,6 +4,7 @@ import { collection, addDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
 import SEO from '../components/SEO';
+import { PAGE_KEYWORDS } from '../config/site';
 
 const Contact = () => {
   const [name, setName] = useState('');
@@ -43,8 +44,9 @@ const Contact = () => {
   return (
     <div className="bg-white min-h-screen py-12 md:py-20 font-sans">
       <SEO
-        title="Contact"
-        description="Talk to BillingZone in Noida for POS machines, printers and billing software. Call +91 9289024863 or email sales@billingzone.in."
+        title="POS Dealer in Noida | Contact BillingZone"
+        description="Visit BillingZone, C-56/22 Sector 62 Noida for POS machines, thermal printers and billing software. Call +91 9289024863 or email sales@billingzone.in. Mon–Sat 10am–7pm."
+        keywords={PAGE_KEYWORDS.contact}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         

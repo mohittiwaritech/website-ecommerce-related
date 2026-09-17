@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SEO from '../components/SEO';
 import { breadcrumbSchema, productSchema } from '../utils/structuredData';
+import { productKeywords } from '../config/site';
 
 const ProductDetails = () => {
   const navigate = useNavigate();
@@ -227,11 +228,12 @@ const ProductDetails = () => {
   return (
     <div className="bg-white min-h-screen">
       <SEO
-        title={product.title}
-        description={product.shortDesc ? product.shortDesc.join(', ') : (product.longDescription || product.title)}
+        title={`${product.title} | ${product.category || 'POS'} Price India`}
+        description={`Buy ${product.title}${product.brand ? ` by ${product.brand}` : ''} — ${product.category || 'POS hardware'} with GST invoice from BillingZone Noida. ${Array.isArray(product.shortDesc) ? product.shortDesc.join('. ') : (product.longDescription || '')}`.slice(0, 165)}
         image={mainImage}
         type="product"
         path={getProductUrl(product)}
+        keywords={productKeywords(product)}
         jsonLd={[
           productSchema(product, getProductUrl(product)),
           breadcrumbSchema([

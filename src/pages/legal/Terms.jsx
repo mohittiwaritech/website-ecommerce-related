@@ -4,7 +4,11 @@ import SEO from '../../components/SEO';
 const Terms = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-12 font-sans">
-      <SEO title="Terms and Conditions" description="Terms that apply when you buy POS hardware or billing software from BillingZone." />
+      <SEO
+        title="Terms — POS Hardware & Billing Software"
+        description="Terms for buying POS machines, thermal printers and billing software from BillingZone."
+        keywords={['POS terms', 'billing software terms']}
+      />
       <h1 className="text-3xl font-bold mb-6 text-[#006699]">Terms and Conditions</h1>
       <div className="space-y-6 text-gray-700 leading-relaxed text-sm">
         <p>Last updated: June 20, 2026</p>

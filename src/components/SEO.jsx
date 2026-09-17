@@ -3,14 +3,16 @@ import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 import {
   DEFAULT_DESCRIPTION,
+  DEFAULT_KEYWORDS,
   DEFAULT_TITLE,
   SITE_NAME,
   SITE_URL,
   isNoIndexPath,
+  joinKeywords,
   toAbsoluteUrl,
 } from '../config/site';
 
-const SEO = ({ title, description, type, image, jsonLd, noindex, path }) => {
+const SEO = ({ title, description, type, image, jsonLd, noindex, path, keywords }) => {
   const location = useLocation();
   const pathname = path || location.pathname;
   const canonical = `${SITE_URL}${pathname === '/' ? '/' : pathname.replace(/\/+$/, '')}`;
@@ -22,20 +24,26 @@ const SEO = ({ title, description, type, image, jsonLd, noindex, path }) => {
       : `${title} | ${SITE_NAME}`;
   const ogImage = image ? toAbsoluteUrl(image) : `${SITE_URL}/pwa-512.png`;
   const hideFromIndex = noindex ?? isNoIndexPath(pathname);
+  const keywordList = joinKeywords(DEFAULT_KEYWORDS, keywords || []);
 
   const schemas = Array.isArray(jsonLd) ? jsonLd.filter(Boolean) : jsonLd ? [jsonLd] : [];
 
   return (
     <Helmet>
-      <html lang="en" />
+      <html lang="en-IN" />
       <title>{fullTitle}</title>
       <meta name="description" content={pageDescription} />
+      <meta name="keywords" content={keywordList} />
       <link rel="canonical" href={canonical} />
       <meta
         name="robots"
         content={hideFromIndex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'}
       />
       <meta name="theme-color" content="#0088cc" />
+      <meta name="geo.region" content="IN-UP" />
+      <meta name="geo.placename" content="Noida" />
+      <meta name="geo.position" content="28.6271;77.3726" />
+      <meta name="ICBM" content="28.6271, 77.3726" />
 
       <meta property="og:type" content={type === 'product' ? 'product' : 'website'} />
       <meta property="og:site_name" content={SITE_NAME} />

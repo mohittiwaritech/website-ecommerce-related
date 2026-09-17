@@ -4,7 +4,7 @@ import SEO from '../../components/SEO';
 const Shipping = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-12 font-sans">
-      <SEO title="Shipping Policy" description="Delivery timelines and shipping coverage for BillingZone orders in India." />
+      <SEO title="POS Hardware Shipping in India" description="Delivery time for POS machines, thermal printers and scanners from Noida to metro and non-metro India. Software delivered by email." keywords={['POS shipping India', 'thermal printer delivery Noida']} />
       <h1 className="text-3xl font-bold mb-6 text-[#006699]">Shipping and Delivery Policy</h1>
       <div className="space-y-6 text-gray-700 leading-relaxed text-sm">
         <p>Last updated: June 20, 2026</p>
