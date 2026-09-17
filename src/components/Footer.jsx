@@ -89,7 +89,7 @@ const Footer = () => {
           {/* Copyright & Developer Credit */}
           <div className="text-center md:text-left space-y-1">
             <p className="text-[#666] text-[11px] font-medium uppercase tracking-[0.15em]">
-              © 2017 - 2026 <span className="text-white">BillingZone.in</span> | All Rights Reserved.
+              © 2024 - 2026 <span className="text-white">BillingZone.in</span> | All Rights Reserved.
             </p>
             <p className="text-[#555] text-[10px] font-medium tracking-[0.12em] uppercase">
               Powered by{' '}
