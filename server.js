@@ -295,8 +295,11 @@ const generateEmailTemplate = (name, items = [], customerDetails = {}, orderDeta
                   <p style="margin: 0 0 10px 0; font-family: sans-serif; font-size: 13px; color: #a0aec0; line-height: 1.5;">
                     If you have any questions, please contact our support team at <a href="mailto:support@billingzone.in" style="color: #63b3ed; text-decoration: none;">support@billingzone.in</a> or visit our website.
                   </p>
-                  <p style="margin: 0; font-family: sans-serif; font-size: 12px; color: #718096;">
+                  <p style="margin: 0 0 8px 0; font-family: sans-serif; font-size: 12px; color: #718096;">
                     © 2017 - 2026 BillingZone.in | All Rights Reserved.
+                  </p>
+                  <p style="margin: 0; font-family: sans-serif; font-size: 12px; color: #a0aec0;">
+                    Powered by <a href="https://www.slantco.com/" target="_blank" rel="noopener noreferrer" style="color: #63b3ed; text-decoration: none; font-weight: 600;">Slantco</a>
                   </p>
                 </td>
               </tr>

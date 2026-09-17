@@ -87,17 +87,17 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
 
           {/* Copyright & Developer Credit */}
-          <div className="text-center md:text-left space-y-1">
+          <div className="text-center md:text-left space-y-2">
             <p className="text-[#666] text-[11px] font-medium uppercase tracking-[0.15em]">
               © 2017 - 2026 <span className="text-white">BillingZone.in</span> | All Rights Reserved.
             </p>
-            <p className="text-[#555] text-[10px] font-medium tracking-[0.12em] uppercase">
+            <p className="text-gray-400 text-xs font-medium tracking-wide">
               Powered by{' '}
               <a
                 href="https://www.slantco.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#0073B7] hover:text-white transition-colors"
+                className="text-blue-400 font-semibold hover:text-white transition-colors"
               >
                 Slantco
               </a>
